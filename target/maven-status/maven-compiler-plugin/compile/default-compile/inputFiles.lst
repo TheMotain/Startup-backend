@@ -1,0 +1,9 @@
+/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/config/WebSocketConfig.java
+/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/MessageEntity.java
+/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/MessageRepository.java
+/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/ListenerInitializer.java
+/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/WebsocketDemoApplication.java
+/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/WebSocketEventListener.java
+/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/Listener.java
+/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/model/ChatMessage.java
+/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/ChatController.java
