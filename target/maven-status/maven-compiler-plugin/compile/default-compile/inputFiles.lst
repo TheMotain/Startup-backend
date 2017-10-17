@@ -1,9 +1,9 @@
-/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/config/WebSocketConfig.java
-/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/MessageEntity.java
-/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/MessageRepository.java
-/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/ListenerInitializer.java
-/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/WebsocketDemoApplication.java
-/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/WebSocketEventListener.java
-/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/Listener.java
-/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/model/ChatMessage.java
-/home/m2iagl/meyer/Documents/startup/test spring 6/spring-boot-websocket-chat-demo/src/main/java/com/example/websocketdemo/controller/ChatController.java
+/home/m2iagl/meyer/Documents/startup/test_spring/Spring_boot_websocket_test/src/main/java/fr/iagl/gamification/controller/ChatController.java
+/home/m2iagl/meyer/Documents/startup/test_spring/Spring_boot_websocket_test/src/main/java/fr/iagl/gamification/controller/WebSocketEventListener.java
+/home/m2iagl/meyer/Documents/startup/test_spring/Spring_boot_websocket_test/src/main/java/fr/iagl/gamification/config/WebSocketConfig.java
+/home/m2iagl/meyer/Documents/startup/test_spring/Spring_boot_websocket_test/src/main/java/fr/iagl/gamification/WebsocketDemoApplication.java
+/home/m2iagl/meyer/Documents/startup/test_spring/Spring_boot_websocket_test/src/main/java/fr/iagl/gamification/controller/ListenerInitializer.java
+/home/m2iagl/meyer/Documents/startup/test_spring/Spring_boot_websocket_test/src/main/java/fr/iagl/gamification/controller/Listener.java
+/home/m2iagl/meyer/Documents/startup/test_spring/Spring_boot_websocket_test/src/main/java/fr/iagl/gamification/model/ChatMessage.java
+/home/m2iagl/meyer/Documents/startup/test_spring/Spring_boot_websocket_test/src/main/java/fr/iagl/gamification/controller/MessageEntity.java
+/home/m2iagl/meyer/Documents/startup/test_spring/Spring_boot_websocket_test/src/main/java/fr/iagl/gamification/controller/MessageRepository.java
