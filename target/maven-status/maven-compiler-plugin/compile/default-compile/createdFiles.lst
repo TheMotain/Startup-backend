@@ -1,0 +1,8 @@
+fr/iagl/gamification/listener/ListenerInitializer.class
+fr/iagl/gamification/controller/ChatController.class
+fr/iagl/gamification/WebsocketDemoApplication.class
+fr/iagl/gamification/websocket/event/WebSocketEventListener.class
+fr/iagl/gamification/data/repository/MessageRepository.class
+fr/iagl/gamification/listener/Listener.class
+fr/iagl/gamification/data/entity/MessageEntity.class
+fr/iagl/gamification/websocket/config/WebSocketConfig.class

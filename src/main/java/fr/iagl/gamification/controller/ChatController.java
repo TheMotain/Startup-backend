@@ -8,11 +8,10 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import fr.iagl.gamification.model.ChatMessage;
+import fr.iagl.gamification.data.entity.MessageEntity;
+import fr.iagl.gamification.data.repository.MessageRepository;
+import fr.iagl.gamification.model.MessageModel;
 
-/**
- * Created by rajeevkumarsingh on 24/07/17.
- */
 @Controller
 public class ChatController {
 
@@ -20,14 +19,14 @@ public class ChatController {
 	MessageRepository repository;
 
     @MessageMapping("/chat.sendMessage")
-    public void sendMessage(@Payload ChatMessage chatMessage) {
+    public void sendMessage(@Payload MessageModel chatMessage) {
         System.out.println("sendMessage");
         repository.save(new MessageEntity(chatMessage.getSender(), chatMessage.getContent()));
     }
 
     @MessageMapping("/chat.addUser")
     @SendTo("/channel/public")
-    public ChatMessage addUser(@Payload ChatMessage chatMessage,
+    public MessageModel addUser(@Payload MessageModel chatMessage,
                                SimpMessageHeaderAccessor headerAccessor) {
         // Add username in web socket session
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
