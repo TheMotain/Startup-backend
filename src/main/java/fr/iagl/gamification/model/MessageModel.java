@@ -1,7 +1,7 @@
 package fr.iagl.gamification.model;
 
 
-public class MessageModel implements ModelItf{
+public class MessageModel{
     private MessageType type;
     private String content;
     private String sender;

@@ -9,6 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Entité qui représente un message dans la base de donnée
+ * 
+ * @author Hélène Meyer
+ *
+ */
 @Entity
 @Table(name = "message")
 public class MessageEntity implements Serializable {
@@ -18,9 +24,15 @@ public class MessageEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
  
+	/**
+	 * Nom de celui qui a envoyé le message
+	 */
 	@Column(name = "sender")
 	private String sender;
  
+	/**
+	 * Contenu du message
+	 */
 	@Column(name = "content")
 	private String content;
  
