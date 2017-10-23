@@ -17,7 +17,6 @@
 /home/m2iagl/meyer/Documents/startup/back/Startup-backend/src/main/java/fr/iagl/gamification/services/RunnableHashMap.java
 /home/m2iagl/meyer/Documents/startup/back/Startup-backend/src/main/java/fr/iagl/gamification/controller/ChatController.java
 /home/m2iagl/meyer/Documents/startup/back/Startup-backend/src/main/java/fr/iagl/gamification/services/BusinessService.java
-/home/m2iagl/meyer/Documents/startup/back/Startup-backend/src/main/java/fr/iagl/gamification/listener/akka/AkkaConfig.java
 /home/m2iagl/meyer/Documents/startup/back/Startup-backend/src/main/java/fr/iagl/gamification/services/impl/ChatServiceImpl.java
 /home/m2iagl/meyer/Documents/startup/back/Startup-backend/src/main/java/fr/iagl/gamification/data/entity/MessageEntity.java
 /home/m2iagl/meyer/Documents/startup/back/Startup-backend/src/main/java/fr/iagl/gamification/listener/akka/Task.java

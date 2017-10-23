@@ -8,16 +8,11 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EnableAutoConfiguration
-@ComponentScan
+@ComponentScan({"fr.iagl.gamification.websocket.config", "fr.iagl.gamification.listener.akka"})
 public class WebsocketDemoApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(WebsocketDemoApplication.class, args);
 	}
-
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(WebsocketDemoApplication.class);
-	}
+	
 }

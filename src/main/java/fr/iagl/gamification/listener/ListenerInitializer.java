@@ -31,6 +31,7 @@ public class ListenerInitializer {
 	 */
 	@PostConstruct
 	public void initialize() throws ClassNotFoundException, SQLException, InterruptedException {
+		System.out.println("initialise");
 		new java.lang.Thread(listener).start();
 	}
 }

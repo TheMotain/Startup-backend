@@ -1,5 +1,6 @@
 package fr.iagl.gamification.listener.akka;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +8,7 @@ import akka.actor.Props;
 import akka.actor.UntypedAbstractActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import fr.iagl.gamification.services.impl.AkkaTaskServiceImpl;
 
 /**
  * Acteur akka
@@ -14,7 +16,7 @@ import akka.event.LoggingAdapter;
  * @author Hélène Meyer
  *
  */
-@Component
+@Component("taskActor")
 @Scope("prototype")
 public class TaskActor extends UntypedAbstractActor {
 
@@ -25,10 +27,16 @@ public class TaskActor extends UntypedAbstractActor {
         return Props.create(TaskActor.class, () -> new TaskActor());
     }
     
+    /**
+	 * service traitant les données akka
+	 */
+	@Autowired
+	private AkkaTaskServiceImpl service;
+    
     @Override
     public void onReceive(Object message) throws Exception {
     	Task mess = (Task) message;
-        mess.getService().treatTask((Task) message);
+        service.treatTask((Task) message);
         log.debug("Treat task {}", message.toString());
     }
 }

@@ -77,9 +77,7 @@ class Listener implements Runnable{
 		//ActorSystem system = ActorSystem.create("system");
         final LoggingAdapter log = Logging.getLogger(actorSystem, "system");
         log.info("Starting up");
-        this.supervisor = actorSystem.actorOf(springExtension.props("workerActor"), "worker-actor");
-
-        this.supervisor.tell(new WorkerActor.Request(), null);
+        this.supervisor = actorSystem.actorOf(springExtension.props("taskActor"), "worker-actor");
         
         //this.supervisor = system.actorOf(Supervisor.props());
         FiniteDuration duration = FiniteDuration.create(1, TimeUnit.SECONDS);
@@ -100,6 +98,7 @@ class Listener implements Runnable{
 	public void run() {
 		while (true) {
 			try {
+				System.out.println("enter in");
 				treatNotification();
 
 				// wait a while before checking again for new

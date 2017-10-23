@@ -10,10 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/hello-world")
 public class HomeController {
 	
-	private static final String template = "Hello, %s!";
+	private static final String TEMPLATE = "Hello, %s!";
    
     @RequestMapping(value = "/hello-world", method = RequestMethod.GET)
     public ModelAndView index(@RequestParam(value="name", required=false, defaultValue="Stranger") String name) {
-        return new ModelAndView(String.format(template, name));
+        return new ModelAndView(String.format(TEMPLATE, name));
     }
 }

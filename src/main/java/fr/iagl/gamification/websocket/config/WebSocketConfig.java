@@ -17,6 +17,13 @@ import fr.iagl.gamification.listener.akka.SpringExtension;
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
+    
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    private SpringExtension springExtension;
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
@@ -26,5 +33,18 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app");
         registry.enableSimpleBroker("/channel");
+    }
+
+    @Bean
+    public ActorSystem actorSystem() {
+    	System.out.println("\n\n here");
+        ActorSystem actorSystem = ActorSystem.create("actors", akkaConfiguration());
+        springExtension.initialize(applicationContext);
+        return actorSystem;
+    }
+
+    @Bean
+    public Config akkaConfiguration() {
+        return ConfigFactory.load();
     }
 }
