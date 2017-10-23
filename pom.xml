@@ -167,6 +167,9 @@
 				<version>0.7.2.201409121644</version>
 				<configuration>
 					<append>true</append>
+					<excludes>
+						<exclude>pom.xml</exclude>
+					</excludes>
 				</configuration>
 				<executions>
 					<execution>
