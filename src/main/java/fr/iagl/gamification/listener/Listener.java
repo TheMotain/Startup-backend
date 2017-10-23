@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,9 +18,15 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import fr.iagl.gamification.listener.akka.Supervisor;
+import akka.pattern.Patterns;
+import akka.util.Timeout;
+import fr.iagl.gamification.listener.akka.SpringExtension;
 import fr.iagl.gamification.listener.akka.Task;
+import fr.iagl.gamification.listener.akka.WorkerActor;
 import fr.iagl.gamification.services.impl.AkkaTaskServiceImpl;
+import scala.concurrent.Await;
+import scala.concurrent.Future;
+import scala.concurrent.duration.FiniteDuration;
 
 /**
  * Ecoute tous les changements de la base de données et fais les traitements
@@ -55,19 +62,30 @@ class Listener implements Runnable{
 	 * acteur akka qui gère l'ensemble de ses acteurs
 	 */
 	private ActorRef supervisor;
+	
+	@Autowired
+	private ActorSystem actorSystem;
+	
+	@Autowired
+	private SpringExtension springExtension;
 
 	/**
 	 * Initialisation d'un système d'acteurs et connexion avec la base de donnée
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * @throws Exception 
 	 */
-	Listener() throws SQLException, ClassNotFoundException {
-		ActorSystem system = ActorSystem.create("system");
-        final LoggingAdapter log = Logging.getLogger(system, "system");
+	Listener() throws Exception {
+		//ActorSystem system = ActorSystem.create("system");
+        final LoggingAdapter log = Logging.getLogger(actorSystem, "system");
         log.info("Starting up");
+        this.supervisor = actorSystem.actorOf(springExtension.props("workerActor"), "worker-actor");
+
+        this.supervisor.tell(new WorkerActor.Request(), null);
         
-        this.supervisor = system.actorOf(Supervisor.props());
+        //this.supervisor = system.actorOf(Supervisor.props());
+        FiniteDuration duration = FiniteDuration.create(1, TimeUnit.SECONDS);
+        Future<Object> awaitable = Patterns.ask(this.supervisor, new WorkerActor.Response(), Timeout.durationToTimeout(duration));
+
+        log.info("\n\nResponse: " + Await.result(awaitable, duration));
 		
 		Class.forName("org.postgresql.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:postgresql://172.28.2.225:5432/startup","startup","startup");

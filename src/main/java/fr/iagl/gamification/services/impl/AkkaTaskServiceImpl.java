@@ -53,7 +53,7 @@ public class AkkaTaskServiceImpl implements AkkaTaskService{
 		
 		//actions de la table message
 		Map<ActionDatabase, RunnableHashMap> mapActionsMessageTable = new HashMap<>();
-		mapActionsMessageTable.put(ActionDatabase.INSERT, new RunnableInsertMessage());
+		mapActionsMessageTable.put(ActionDatabase.INSERT, new RunnableInsertMessageServiceImpl());
 		
 		//insertion de toutes les actions des tables
 		this.map.put(TableDatabase.MESSAGE, mapActionsMessageTable);

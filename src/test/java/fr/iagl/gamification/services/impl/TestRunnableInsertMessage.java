@@ -33,7 +33,7 @@ public class TestRunnableInsertMessage {
 	public void testRunMethod() throws JSONException {
 		JSONObject json = mock(JSONObject.class);
 		doReturn("blabla").when(json).getString(anyString());
-		RunnableInsertMessage run = new RunnableInsertMessage();
+		RunnableInsertMessageServiceImpl run = new RunnableInsertMessageServiceImpl();
 		
 		run.runMethod(json, messagingTemplate);
 		verify(messagingTemplate).convertAndSend(anyString(), any(MessageModel.class));

@@ -17,7 +17,13 @@ import fr.iagl.gamification.services.RunnableHashMap;
  *
  */
 @Component
-public class RunnableInsertMessage implements RunnableHashMap{
+public class RunnableInsertMessageServiceImpl implements RunnableHashMap{
+	
+	/**
+	 * broadcast un message dans un cannal 
+	 */
+	@Autowired
+    public SimpMessageSendingOperations messagingTemplate;
 
 	@Override
 	public void runMethod(JSONObject json, SimpMessageSendingOperations simpMessageSendingOperations) throws JSONException {
