@@ -13,19 +13,19 @@ import org.mockito.MockitoAnnotations;
 import fr.iagl.gamification.model.MessageModel;
 import fr.iagl.gamification.services.ChatService;
 
-public class TestChatController {
+public class ChatControllerTest {
 
 	@InjectMocks
     private ChatController chatController;
-	
+
 	@Mock
 	private ChatService chatService;
- 
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
-	
+
 	@Test
 	public void testSendMessage() {
 		MessageModel mess = mock(MessageModel.class);

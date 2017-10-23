@@ -17,38 +17,38 @@ import org.springframework.web.socket.config.annotation.StompWebSocketEndpointRe
 import fr.iagl.gamification.controller.ChatController;
 import fr.iagl.gamification.services.ChatService;
 
-public class TestWebSocketConfig {
+public class WebSocketConfigTest {
 
     private WebSocketConfig webSocketConfig;
-	
+
 	@Mock
 	private StompEndpointRegistry stompEndPointRegistry;
-	
+
 	@Mock
 	private MessageBrokerRegistry registry;
-	
- 
+
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         this.webSocketConfig = new WebSocketConfig();
     }
-	
+
 	@Test
 	public void testRegisterStompEndpoints() {
 		StompWebSocketEndpointRegistration registration = mock(StompWebSocketEndpointRegistration.class);
 		doReturn(registration).when(this.stompEndPointRegistry).addEndpoint("/ws");
 		doReturn(registration).when(registration).setAllowedOrigins("*");
-		
+
 		this.webSocketConfig.registerStompEndpoints(this.stompEndPointRegistry);
-		
+
 		verify(registration).withSockJS();
 	}
-	
+
 	@Test
 	public void testConfigureMessageBroker() {
 		this.webSocketConfig.configureMessageBroker(this.registry);
-		
+
 		verify(registry).setApplicationDestinationPrefixes("/app");
 		verify(registry).enableSimpleBroker("/channel");
 	}
