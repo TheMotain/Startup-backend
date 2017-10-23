@@ -18,6 +18,6 @@ public class WebsocketDemoApplication extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(SpringBootWebApplication.class);
+		return application.sources(WebsocketDemoApplication.class);
 	}
 }
