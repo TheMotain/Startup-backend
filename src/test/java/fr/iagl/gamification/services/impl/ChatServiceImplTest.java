@@ -18,20 +18,20 @@ import fr.iagl.gamification.data.entity.MessageEntity;
 import fr.iagl.gamification.data.repository.MessageRepository;
 import fr.iagl.gamification.model.MessageModel;
 
-public class TestChatServiceImpl {
+public class ChatServiceImplTest {
 
 	@InjectMocks
     private ChatServiceImpl chat;
-	
+
 	@Mock
 	public MessageRepository repository;
-	
+
 	@Before
     public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
     }
-	
-	
+
+
 	@Test
 	public void test() {
 		MessageModel mess = mock(MessageModel.class);
@@ -39,7 +39,7 @@ public class TestChatServiceImpl {
 		doReturn("content").when(mess).getContent();
 		doReturn(null).when(repository).save(any(MessageEntity.class));
 		chat.saveMessage(mess);
-		
+
 		verify(repository).save(any(MessageEntity.class));
 	}
 
