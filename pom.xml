@@ -20,6 +20,7 @@
 	<scm>
 		<url>https://github.com/HeleneMyr/Startup-backend.git</url>
 		<connection>scm:git:https://github.com/HeleneMyr/Startup-backend.git</connection>
+		<developerConnection>scm:git:https://github.com/HeleneMyr/Startup-backend.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
