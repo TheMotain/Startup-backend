@@ -4,7 +4,7 @@
 
 	<groupId>fr.iagl</groupId>
 	<artifactId>gamification</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<packaging>jar</packaging>
 
 	<name>gamification</name>
@@ -20,7 +20,7 @@
 	<scm>
 		<url>https://github.com/HeleneMyr/Startup-backend.git</url>
 		<connection>scm:git:https://github.com/HeleneMyr/Startup-backend.git</connection>
-		<tag>HEAD</tag>
+		<tag>v0.0.3</tag>
 	</scm>
 
 	<properties>
