@@ -201,7 +201,6 @@
 					<tag>v${releaseVersion}</tag>
 					<tagNameFormat>v@{project.version}</tagNameFormat>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<goals>release</goals>
 				</configuration>
 				<dependencies>
 					<dependency>
