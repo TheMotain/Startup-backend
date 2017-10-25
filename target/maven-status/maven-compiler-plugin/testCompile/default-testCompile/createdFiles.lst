@@ -1,6 +1,0 @@
-fr/iagl/gamification/services/impl/TestRunnableInsertMessage.class
-fr/iagl/gamification/controller/TestHomeController.class
-fr/iagl/gamification/controller/TestChatController.class
-fr/iagl/gamification/websocket/config/TestWebSocketConfig.class
-fr/iagl/gamification/services/impl/TestChatServiceImpl.class
-fr/iagl/gamification/services/impl/TestAkkaTaskServiceImpl.class
