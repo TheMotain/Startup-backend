@@ -23,5 +23,9 @@ public class HelloWorldServiceImpl implements HelloWorldService{
 		return result.size() + "";
 	}
 
+	public void setRepository(HelloWorldRepository repository) {
+		this.repository = repository;
+	}
+
 	
 }

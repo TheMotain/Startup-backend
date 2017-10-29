@@ -11,10 +11,13 @@ public class HelloWorld {
 	
 	@Autowired
 	private HelloWorldService service;
-	
 
 	@RequestMapping("/hello")
 	public String hello() {
 		return service.hello();
+	}
+	
+	public void setService(HelloWorldService service) {
+		this.service = service;
 	}
 }
