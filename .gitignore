@@ -5,3 +5,4 @@
 */.settings/
 .springBeans
 *.prefs
+/bin/
