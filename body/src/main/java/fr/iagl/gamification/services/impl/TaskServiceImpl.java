@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import fr.iagl.gamification.listener.akka.Task;
+import fr.iagl.gamification.model.Task;
 import fr.iagl.gamification.services.RunnableHashMapService;
 import fr.iagl.gamification.services.TaskService;
 import fr.iagl.gamification.utils.ActionDatabase;

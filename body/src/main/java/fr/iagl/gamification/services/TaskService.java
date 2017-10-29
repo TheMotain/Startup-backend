@@ -2,7 +2,8 @@ package fr.iagl.gamification.services;
 
 import org.json.JSONException;
 
-import fr.iagl.gamification.listener.akka.Task;
+import fr.iagl.gamification.model.Task;
+
 
 /**
  * Interface du service pour les taches envoyées par Akka

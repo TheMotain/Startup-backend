@@ -1,23 +1,23 @@
-package fr.iagl.gamification.listener.akka;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-
-import akka.actor.ActorSystem;
-
-@Configuration
-@ComponentScan
-public class AkkaConfiguration {
-    @Autowired
-    private ApplicationContext applicationContext;
-
-    @Bean
-    public ActorSystem actorSystem() {
-        ActorSystem system = ActorSystem.create("akka-system");
-        SpringExtension.SPRING_EXTENSION_PROVIDER.get(system).initialize(applicationContext);
-        return system;
-}
-}
+//package fr.iagl.gamification.listener.akka;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.context.ApplicationContext;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.ComponentScan;
+//import org.springframework.context.annotation.Configuration;
+//
+//import akka.actor.ActorSystem;
+//
+//@Configuration
+//@ComponentScan
+//public class AkkaConfiguration {
+//    @Autowired
+//    private ApplicationContext applicationContext;
+//
+//    @Bean
+//    public ActorSystem actorSystem() {
+//        ActorSystem system = ActorSystem.create("akka-system");
+//        SpringExtension.SPRING_EXTENSION_PROVIDER.get(system).initialize(applicationContext);
+//        return system;
+//}
+//}

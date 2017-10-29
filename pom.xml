@@ -13,6 +13,7 @@
 	<modules>
 		<module>data</module>
 		<module>body</module>
+		<module>realtime</module>
 		<module>web</module>
 		<module>distribution</module>
 	</modules>
