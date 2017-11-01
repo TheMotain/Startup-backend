@@ -1,0 +1,16 @@
+<html>
+    <body>
+        <form action="/class" th:action="@{/class}" th:object="${classForm}" method="post">
+            <table>
+                <tr>
+                    <td>ClassName:</td>
+                    <td><input type="text" th:field="*{className}" /></td>
+                    <td th:if="${#fields.hasErrors('className')}" th:errors="*{className}">ClassName Error</td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Submit</button></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
