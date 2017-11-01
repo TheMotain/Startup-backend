@@ -11,7 +11,7 @@
 		<artifactId>startup-backend</artifactId>
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
-
+	
     <dependencies>
         <dependency>
             <groupId>fr.iagl.gamification</groupId>
@@ -56,12 +56,10 @@
 		<dependency>
 		    <groupId>com.typesafe.akka</groupId>
 		    <artifactId>akka-actor_2.11</artifactId>
-		    <version>${akka.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.typesafe.akka</groupId>
 		    <artifactId>akka-slf4j_2.11</artifactId>
-		    <version>${akka.version}</version>
 		</dependency>
 	</dependencies>
 	

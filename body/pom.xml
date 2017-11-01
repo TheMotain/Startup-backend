@@ -48,17 +48,7 @@
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
 		</dependency>
-		<dependency>
-		    <groupId>com.typesafe.akka</groupId>
-		    <artifactId>akka-actor_2.11</artifactId>
-		    <version>${akka.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.typesafe.akka</groupId>
-		    <artifactId>akka-slf4j_2.11</artifactId>
-		    <version>${akka.version}</version>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>net.sf.dozer</groupId>
 			<artifactId>dozer</artifactId>
@@ -70,12 +60,7 @@
             <artifactId>dozer-spring</artifactId>
             <version>5.5.1</version>
         </dependency>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-core</artifactId>
-			<version>1.18.1</version>
-		</dependency>
-    </dependencies>
+	</dependencies>
 	
 	
 </project>
