@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import fr.iagl.gamification.entity.ClassEntity;
+import fr.iagl.gamification.exceptions.ClassExistsException;
 import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.repository.ClassRepository;
 
@@ -29,7 +30,7 @@ public class ClassServiceImplTest{
 	}
 	
 	@Test
-	public void testClassNotExistAndCreated() {
+	public void testClassNotExistAndCreated() throws ClassExistsException {
 		ClassModel classe = Mockito.mock(ClassModel.class);
 		ClassEntity entity = Mockito.mock(ClassEntity.class);
 		Mockito.doReturn(false).when(repository).existsByName("name");
@@ -40,13 +41,12 @@ public class ClassServiceImplTest{
 		Mockito.verify(repository).save(entity);
 	}
 	
-	@Test
-	public void testClassExistAndNotCreated() {
+	@Test(expected=ClassExistsException.class)
+	public void testClassExistAndNotCreated() throws ClassExistsException {
 		ClassModel classe = Mockito.mock(ClassModel.class);
 		Mockito.doReturn("name").when(classe).getClassName();
 		Mockito.doReturn(true).when(repository).existsByName("name");
 		service.createClass(classe);
-		Mockito.verify(repository, Mockito.never()).save(Mockito.any(ClassEntity.class));
 	}
 
 }

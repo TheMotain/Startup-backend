@@ -1,5 +1,5 @@
 package fr.iagl.gamification.exceptions;
 
-public class ClassExistsException {
+public class ClassExistsException extends Exception{
 
 }
