@@ -12,6 +12,8 @@ import javax.validation.constraints.Size;
  */
 public class ClassForm {
 
+	private int id;
+
 	/**
 	 * Nom d'une classe 
 	 */
@@ -36,6 +38,15 @@ public class ClassForm {
 	 */
 	public void setClassName(String className) {
 		this.className = className;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

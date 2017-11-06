@@ -14,6 +14,8 @@ public interface ClassService {
 	 * Creer la classe
 	 * 
 	 * @param classe objet représentant la classe
+	 * @return 
+	 * @throws Exception 
 	 */
-	public void createClass(ClassModel classe);
+	public ClassModel createClass(ClassModel classe) throws Exception;
 }

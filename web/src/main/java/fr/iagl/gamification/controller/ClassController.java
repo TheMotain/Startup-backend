@@ -1,12 +1,19 @@
 package fr.iagl.gamification.controller;
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 import org.dozer.Mapper;
+import org.dozer.MappingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +30,7 @@ import fr.iagl.gamification.validator.ClassForm;
  * @author Hélène Meyer
  *
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class ClassController {
 	
@@ -55,19 +63,23 @@ public class ClassController {
 	 * 
 	 * @param classForm l'objet reçu par le formulaire
 	 * @param bindingResult pour valider le formulaire
-	 * @return "ok" si la classe a été ajoutée et sinon le message d'erreur
+	 * @return l'objet crée et statut OK s'il a été ajoute sinon le message d'erreur et le statut BAD_REQUEST
 	 */
 	@RequestMapping(value = MappingConstant.POST_FORM_CLASS, method = RequestMethod.POST)
-	public String submitClassForm(@Valid @ModelAttribute("classForm") ClassForm classForm, BindingResult bindingResult) {
-		// vérifie le contenu du formulaire
+	public ResponseEntity<ClassModel> submitClassForm(@Valid @RequestBody ClassForm classForm, BindingResult bindingResult) {
+		
 		if (bindingResult.hasErrors()) {
-			// retourne le premier message d'erreur
-			return bindingResult.getAllErrors().get(0).getDefaultMessage();
+			return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
 		}
-		// transforme l'objet formulaire en un autre objet du module data
-		ClassModel classe = mapper.map(classForm, ClassModel.class);
-		classService.createClass(classe);
-		return "ok";
+		
+		ClassModel createdClass;
+		try {
+			createdClass = classService.createClass(mapper.map(classForm, ClassModel.class));
+			return new ResponseEntity(createdClass, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Logger
+			return new ResponseEntity(Arrays.asList("CREATED"), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 }

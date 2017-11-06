@@ -8,6 +8,7 @@ package fr.iagl.gamification.model;
  */
 public class ClassModel {
 
+	private int id;
 	/**
 	 * Nom de la classe
 	 */
@@ -29,6 +30,14 @@ public class ClassModel {
 	 */
 	public void setClassName(String className) {
 		this.className = className;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

@@ -36,10 +36,12 @@ public class ClassServiceImpl implements ClassService {
 	 * @see fr.iagl.gamification.services.ClassService#createClass(fr.iagl.gamification.model.ClassModel)
 	 */
 	@Override
-	public void createClass(@QueryParam("classe") ClassModel classe) {
+	public ClassModel createClass(@QueryParam("classe") ClassModel classe) throws Exception {
 		if (! repository.existsByName(classe.getClassName())) {
-			repository.save(this.mapper.map(classe, ClassEntity.class));
+			ClassEntity entity = repository.save(this.mapper.map(classe, ClassEntity.class));
+			return mapper.map(entity, ClassModel.class);
 		}
+		throw new Exception();
 	}
 
 }

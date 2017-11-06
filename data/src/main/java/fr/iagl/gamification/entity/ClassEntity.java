@@ -56,6 +56,14 @@ public class ClassEntity {
 	public void setClassName(String className) {
 		this.name = className;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	
 }

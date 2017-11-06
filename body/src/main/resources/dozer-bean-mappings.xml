@@ -10,5 +10,9 @@
             <a>className</a>
             <b>name</b>
         </field>
+        <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
     </mapping>
 </mappings>
