@@ -1,12 +1,14 @@
 package fr.iagl.gamification.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -39,10 +41,23 @@ public class ClassEntity implements Serializable {
 	@Column(name = "name")
 	private String name;
 
+	/**
+	 * Récupération de la liste des élèves pour la classe
+	 */
+	@OneToMany(mappedBy = "classroom")
+	private List<StudentEntity> students;
+	
+	/**
+	 * Constructeur vide
+	 */
 	public ClassEntity() {
 		
 	}
 	
+	/**
+	 * Constructeur avec nom de la classe en paramètre
+	 * @param name Nom de la classe à créer
+	 */
 	public ClassEntity(String name) {
 		this.name = name;
 	}
