@@ -24,6 +24,7 @@ import fr.iagl.gamification.constants.MappingConstant;
 import fr.iagl.gamification.exceptions.ClassExistsException;
 import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.services.ClassService;
+import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.ClassForm;
 
 /**
@@ -62,9 +63,7 @@ public class ClassController {
 		List<String> errors;
 		
 		if (bindingResult.hasErrors()) {
-			errors = bindingResult.getAllErrors().stream()
-					.map(ObjectError::getDefaultMessage)
-					.collect(Collectors.toList());
+			errors = RequestTools.transformBindingErrors(bindingResult);
 		} else {
 			
 			try {
