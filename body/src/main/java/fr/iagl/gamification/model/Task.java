@@ -1,9 +1,6 @@
 package fr.iagl.gamification.model;
 
 import org.json.JSONObject;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
-
-import fr.iagl.gamification.services.impl.TaskServiceImpl;
 
 /**
  * Message envoyé aux acteurs
