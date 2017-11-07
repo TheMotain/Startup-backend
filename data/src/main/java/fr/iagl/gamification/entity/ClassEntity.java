@@ -57,10 +57,20 @@ public class ClassEntity {
 		this.name = className;
 	}
 
+	/**
+	 * Getter de l'id
+	 * 
+	 * @return l'id de la classe
+	 */
 	public long getId() {
 		return id;
 	}
 
+	/**
+	 * Setter de l'id
+	 * 
+	 * @param id de la classe
+	 */
 	public void setId(long id) {
 		this.id = id;
 	}

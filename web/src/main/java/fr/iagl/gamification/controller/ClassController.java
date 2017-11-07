@@ -1,18 +1,21 @@
 package fr.iagl.gamification.controller;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.dozer.Mapper;
-import org.dozer.MappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.iagl.gamification.MappingConstant;
+import fr.iagl.gamification.exceptions.ClassExistsException;
 import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.services.ClassService;
 import fr.iagl.gamification.validator.ClassForm;
@@ -34,6 +38,8 @@ import fr.iagl.gamification.validator.ClassForm;
 @RestController
 public class ClassController {
 	
+	public static Logger log = Logger.getLogger(ClassController.class);
+	
 	/**
 	 * Service pour la classe
 	 */
@@ -45,18 +51,6 @@ public class ClassController {
 	 */
 	@Autowired
 	private Mapper mapper;
-
-	/**
-	 * Visualisation de la vue du formulaire d'ajout d'une classe
-	 * TODO supprimer à la fin
-	 * 
-	 * @param classForm l'objet du formulaire
-	 * @return la vue
-	 */
-	@GetMapping(MappingConstant.POST_FORM_CLASS)
-    public ModelAndView showForm(ClassForm classForm) {
-        return new ModelAndView("form");
-    }
 	
 	/**
 	 * Traite le formulaire de création d'une classe
@@ -66,20 +60,25 @@ public class ClassController {
 	 * @return l'objet crée et statut OK s'il a été ajoute sinon le message d'erreur et le statut BAD_REQUEST
 	 */
 	@RequestMapping(value = MappingConstant.POST_FORM_CLASS, method = RequestMethod.POST)
-	public ResponseEntity<ClassModel> submitClassForm(@Valid @RequestBody ClassForm classForm, BindingResult bindingResult) {
+	public ResponseEntity submitClassForm(@Valid @RequestBody ClassForm classForm, BindingResult bindingResult) {
+		List<String> errors;
 		
 		if (bindingResult.hasErrors()) {
-			return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+			errors = bindingResult.getAllErrors().stream()
+					.map(ObjectError::getDefaultMessage)
+					.collect(Collectors.toList());
+		} else {
+			
+			try {
+				ClassModel createdClass = classService.createClass(mapper.map(classForm, ClassModel.class));
+				return new ResponseEntity(createdClass, HttpStatus.OK);
+			} catch (ClassExistsException e) {
+				log.info("Class already existed");
+				errors = Arrays.asList("CREATED");
+			}
+			
 		}
-		
-		ClassModel createdClass;
-		try {
-			createdClass = classService.createClass(mapper.map(classForm, ClassModel.class));
-			return new ResponseEntity(createdClass, HttpStatus.OK);
-		} catch (Exception e) {
-			// TODO Logger
-			return new ResponseEntity(Arrays.asList("CREATED"), HttpStatus.BAD_REQUEST);
-		}
+		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
 	}
 	
 }
