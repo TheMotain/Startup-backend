@@ -35,7 +35,7 @@ import fr.iagl.gamification.validator.ClassForm;
 @RestController
 public class ClassController {
 	
-	public static Logger log = Logger.getLogger(ClassController.class);
+	private static final Logger log = Logger.getLogger(ClassController.class);
 	
 	/**
 	 * Service pour la classe
