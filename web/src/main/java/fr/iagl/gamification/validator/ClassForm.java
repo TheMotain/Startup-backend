@@ -18,7 +18,7 @@ public class ClassForm extends AbstractForm{
 	 * Nom d'une classe 
 	 */
 	@Size(min = 2, max = 30, message = CodeError.ERROR_SIZE_2_30_CLASSNAME)
-	@Pattern(regexp="^[-_a-zA-Z0-9]*$", message= CodeError.ERROR_PATTERN_CLASSNAME)
+	@Pattern(regexp="^[a-zA-Z0-9- _']*$", message= CodeError.ERROR_PATTERN_CLASSNAME)
 	@NotNull(message = CodeError.ERROR_NULL_CLASSNAME)
 	private String className;
 

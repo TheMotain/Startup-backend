@@ -21,6 +21,13 @@ public class ClassFormTest extends AbstractFormTest{
 	}
 	
 	@Test
+	public void alphanumericOK3() {
+		ClassForm classForm = new ClassForm();
+		classForm.setClassName("CP 2'-OK_");
+		validateSuccess(classForm);
+	}
+	
+	@Test
 	public void sizeOK() {
 		ClassForm classForm = new ClassForm();
 		classForm.setClassName("class");
