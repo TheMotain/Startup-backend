@@ -1,4 +1,4 @@
-package fr.iagl.gamification;
+package fr.iagl.gamification.constants;
 
 /**
  * Constantes
@@ -6,8 +6,11 @@ package fr.iagl.gamification;
  * @author Hélène Meyer
  *
  */
-public interface MappingConstant {
+public class MappingConstant {
 
 	public static final String POST_FORM_CLASS = "/class";
 	
+	private MappingConstant(){
+		
+	}
 }

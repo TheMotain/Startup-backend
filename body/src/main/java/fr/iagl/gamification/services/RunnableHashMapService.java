@@ -2,7 +2,6 @@ package fr.iagl.gamification.services;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 
 /**
  * Interface pour la méthode de traitement à executer lors de la reception d'un message akka

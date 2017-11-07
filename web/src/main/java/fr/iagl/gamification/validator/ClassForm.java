@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import fr.iagl.gamification.constants.CodeError;
+
 /**
  * Objet représentant le formulaire de la création d'une classe
  * 
@@ -15,9 +17,9 @@ public class ClassForm extends AbstractForm{
 	/**
 	 * Nom d'une classe 
 	 */
-	@Size(min = 2, max = 30, message = "Le nom de la classe doit avoir entre {min} et {max} caractères.")
-	@Pattern(regexp="^[-_a-zA-Z0-9]*$", message= "Le nom de la classe ne doit contenir que des caractères alphanumériques et - et _.")
-	@NotNull(message = "Entrez un nom de classe")
+	@Size(min = 2, max = 30, message = CodeError.ERROR_SIZE_2_30_CLASSNAME)
+	@Pattern(regexp="^[-_a-zA-Z0-9]*$", message= CodeError.ERROR_PATTERN_CLASSNAME)
+	@NotNull(message = CodeError.ERROR_NULL_CLASSNAME)
 	private String className;
 
 	/**

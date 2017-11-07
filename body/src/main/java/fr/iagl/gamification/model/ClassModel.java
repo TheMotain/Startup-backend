@@ -8,6 +8,9 @@ package fr.iagl.gamification.model;
  */
 public class ClassModel {
 
+	/**
+	 * id de la classe
+	 */
 	private int id;
 	/**
 	 * Nom de la classe
@@ -32,10 +35,20 @@ public class ClassModel {
 		this.className = className;
 	}
 
+	/**
+	 * Getter de l'id de la classe
+	 * 
+	 * @return l'id de la classe
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Setter de l'id de la classe
+	 * 
+	 * @param id de la classe
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
