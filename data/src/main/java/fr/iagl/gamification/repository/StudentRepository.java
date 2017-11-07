@@ -2,6 +2,8 @@ package fr.iagl.gamification.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface StudentRepository extends CrudRepository<StudentRepository, Long> {
+import fr.iagl.gamification.entity.StudentEntity;
+
+public interface StudentRepository extends CrudRepository<StudentEntity, Long> {
 	
 }
