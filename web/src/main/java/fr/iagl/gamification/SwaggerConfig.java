@@ -20,12 +20,12 @@ public class SwaggerConfig {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("fr.iagl.gamification.controller"))
-				.paths(PathSelectors.ant("/*")).build().apiInfo(apiInfo());
+				.paths(PathSelectors.ant("/**")).build().apiInfo(apiInfo());
 	}
 
 	private ApiInfo apiInfo() {
 		ApiInfo apiInfo = new ApiInfo("Startup Back REST API", "Liste REST URL", "API TOS", "Terms of service",
-				new Contact(null, null, null), "License of API",
+				new Contact("", "", ""), "License of API",
 				"API license URL", Collections.emptyList());
 		return apiInfo;
 	}
