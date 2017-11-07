@@ -66,4 +66,16 @@ public class TaskServiceImpl implements TaskService{
 			map.get(TableDatabase.valueOf(table)).get(ActionDatabase.valueOf(action)).runMethod(data);
 		}
 	}
+	
+	@Override
+	public void setMap(Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> map) {
+		this.map = map;
+	}
+
+
+	@Override
+	public Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> getMap() {
+		return this.map;
+	}
+
 }
