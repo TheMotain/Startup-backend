@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.repository.StudentRepository;
@@ -15,6 +16,7 @@ import fr.iagl.gamification.services.StudentService;
  * @author ALEX
  *
  */
+@Service
 public class StudentServiceImpl implements StudentService {
 
 	/**
