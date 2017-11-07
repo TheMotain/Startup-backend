@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 import fr.iagl.gamification.SpringIntegrationTest;
+import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.exceptions.ClassExistsException;
 import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.services.ClassService;
@@ -79,7 +80,7 @@ public class ClassControllerTest extends SpringIntegrationTest{
 		
 		ResponseEntity output = controller.submitClassForm(classForm, bindingResult);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
-		assertEquals("[CREATED]", output.getBody().toString());
+		assertEquals("["+CodeError.ERROR_EXISTS_CLASS+"]", output.getBody().toString());
 	}
 
 }
