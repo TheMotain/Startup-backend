@@ -6,11 +6,7 @@ package fr.iagl.gamification;
  * @author Hélène Meyer
  *
  */
-public class MappingConstant {
-	
-	private MappingConstant() {
-		
-	}
+public interface MappingConstant {
 
 	public static final String POST_FORM_CLASS = "/class";
 	

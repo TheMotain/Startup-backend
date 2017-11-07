@@ -1,18 +1,50 @@
 package fr.iagl.gamification.validator;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
-import fr.iagl.gamification.SpringIntegrationTest;
+import fr.iagl.gamification.AbstractFormTest;
 
-public class ClassFormTest extends SpringIntegrationTest{
-
+public class ClassFormTest extends AbstractFormTest{
+	
 	@Test
-	public void testClassForm() {
+	public void alphanumericOK() {
 		ClassForm classForm = new ClassForm();
 		classForm.setClassName("class");
-		assertEquals("class", classForm.getClassName());
+		validateSuccess(classForm);
+	}
+	
+	@Test
+	public void alphanumericKO() {
+		ClassForm classForm = new ClassForm();
+		classForm.setClassName(";select#");
+		validateFailure(classForm);
+	}
+	
+	@Test
+	public void sizeOK() {
+		ClassForm classForm = new ClassForm();
+		classForm.setClassName("class");
+		validateSuccess(classForm);
+	}
+	
+	@Test
+	public void littleSize1KO() {
+		ClassForm classForm = new ClassForm();
+		classForm.setClassName("c");
+		validateFailure(classForm);
+	}
+	
+	@Test
+	public void bigSize31KO() {
+		ClassForm classForm = new ClassForm();
+		classForm.setClassName("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		validateFailure(classForm);
+	}
+	
+	@Test
+	public void nullKO() {
+		ClassForm classForm = new ClassForm();
+		validateFailure(classForm);
 	}
 
 }
