@@ -59,8 +59,9 @@ public class StudentController {
 	 * @param bindingResult Contient les résultats de la validation du formulaire
 	 * @return L'élève qui a été créé
 	 */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> createStudent(@Valid @RequestBody StudentForm studentForm, BindingResult bindingResult){
+	public ResponseEntity createStudent(@Valid @RequestBody StudentForm studentForm, BindingResult bindingResult){
 		if(bindingResult.hasErrors()){
 			
 			return new ResponseEntity<List<String>>(RequestTools.transformBindingErrors(bindingResult), HttpStatus.BAD_REQUEST);

@@ -6,7 +6,7 @@ package fr.iagl.gamification.constants;
  * @author Hélène Meyer
  *
  */
-public interface MappingConstant {
+public class MappingConstant {
 
 	/**
 	 * Requete post pour la création d'une classe
