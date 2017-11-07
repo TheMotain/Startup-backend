@@ -38,6 +38,7 @@
 		<spring.boot.version>1.5.8.RELEASE</spring.boot.version>
 		<akka.version>2.5.5</akka.version>
 		<mockito.version>1.9.5</mockito.version>
+		<springfox-swagger.version>2.7.0</springfox-swagger.version>
 	</properties>
 
 	<dependencyManagement>
