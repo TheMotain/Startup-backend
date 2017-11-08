@@ -38,11 +38,7 @@
 		<spring.boot.version>1.5.8.RELEASE</spring.boot.version>
 		<akka.version>2.5.5</akka.version>
 		<mockito.version>1.9.5</mockito.version>
-		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-		<sonar.exclusions>**pom.xml</sonar.exclusions>
-		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-		<sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
-		<!--<sonar.language>java</sonar.language>-->
+		<springfox-swagger.version>2.7.0</springfox-swagger.version>
 	</properties>
 
 	<dependencyManagement>

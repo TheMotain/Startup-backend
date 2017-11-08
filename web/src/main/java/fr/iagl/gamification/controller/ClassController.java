@@ -2,8 +2,8 @@ package fr.iagl.gamification.controller;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,10 @@ import fr.iagl.gamification.constants.MappingConstant;
 import fr.iagl.gamification.exceptions.ClassExistsException;
 import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.services.ClassService;
+import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.ClassForm;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * Tous les actions concernant la classe
@@ -36,7 +38,10 @@ import fr.iagl.gamification.validator.ClassForm;
 @RestController
 public class ClassController {
 	
-	private static final Logger log = Logger.getLogger(ClassController.class);
+	/**
+	 * Logger
+	 */
+	private static final Logger LOG = Logger.getLogger(ClassController.class);
 	
 	/**
 	 * Service pour la classe
@@ -58,20 +63,20 @@ public class ClassController {
 	 * @return l'objet crée et statut OK s'il a été ajoute sinon le message d'erreur et le statut BAD_REQUEST
 	 */
 	@RequestMapping(value = MappingConstant.POST_FORM_CLASS, method = RequestMethod.POST)
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassModel.class, message = "La classe créée"),
+			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs au niveau du formulaire / La classe existe déjà")})
 	public ResponseEntity submitClassForm(@Valid @RequestBody ClassForm classForm, BindingResult bindingResult) {
 		List<String> errors;
 		
 		if (bindingResult.hasErrors()) {
-			errors = bindingResult.getAllErrors().stream()
-					.map(ObjectError::getDefaultMessage)
-					.collect(Collectors.toList());
+			errors = RequestTools.transformBindingErrors(bindingResult);
 		} else {
 			
 			try {
 				ClassModel createdClass = classService.createClass(mapper.map(classForm, ClassModel.class));
 				return new ResponseEntity(createdClass, HttpStatus.OK);
 			} catch (ClassExistsException e) {
-				log.info("Class already existed");
+				LOG.info("Class already existed");
 				errors = Arrays.asList(CodeError.ERROR_EXISTS_CLASS);
 			}
 			
