@@ -56,8 +56,8 @@ class ListenerRunnable{
 
 		
 		Class.forName("org.postgresql.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:postgresql://172.28.2.225:5432/startup", "startup",
-				"startup");
+		Connection conn = DriverManager.getConnection("${spring.datasource.url}", "${spring.datasource.username}",
+				"${spring.datasource.password}");
 		this.conn = conn;
 		this.pgconn = (org.postgresql.PGConnection) conn;
 		Statement stmt = conn.createStatement();
