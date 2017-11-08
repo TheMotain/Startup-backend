@@ -18,20 +18,20 @@ public class StudentForm implements AbstractForm {
 	 * Nom
 	 */
 	@Pattern(regexp = "^[A-Z].*", message = CodeError.ERROR_FIRST_NAME_NOT_START_WITH_MAJ)
-	@NotNull(message = "Le prenom ne peut pas être null")
+	@NotNull(message = CodeError.ERROR_NULL_FIRST_NAME)
 	private String firstName;
 	
 	/**
 	 * Prénom
 	 */
 	@Pattern(regexp = "^[A-Z].*", message = CodeError.ERROR_LAST_NAME_NOT_START_WITH_MAJ)
-	@NotNull(message = "Le nom ne peut pas être null")
+	@NotNull(message = CodeError.ERROR_NULL_LAST_NAME)
 	private String lastName;
 	
 	/**
 	 * Date de naissance
 	 */
-	@NotNull(message = "La date de naissance ne peut pas être null")
+	@NotNull(message = CodeError.ERROR_NULL_BORN_DATE)
 	private Date born;
 
 	/**
