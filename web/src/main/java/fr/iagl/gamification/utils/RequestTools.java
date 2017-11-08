@@ -22,4 +22,9 @@ public class RequestTools {
 				.map(ObjectError::getDefaultMessage)
 				.collect(Collectors.toList());
 	}
+	
+	/**
+	 * Constructeur privé. La classe de Tools ne peut pas être instanciée
+	 */
+	private RequestTools() {}
 }

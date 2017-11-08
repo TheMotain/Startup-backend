@@ -17,4 +17,8 @@ public class MappingConstant {
 	 */
 	public static final String STUDENT_PATH_ROOT = "/student";
 	
+	/**
+	 * Le mapping Constant ne peut pas être instancié
+	 */
+	private MappingConstant() {}
 }
