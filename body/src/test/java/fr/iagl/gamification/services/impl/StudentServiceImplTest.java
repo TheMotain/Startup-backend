@@ -8,6 +8,7 @@ import org.dozer.Mapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -57,5 +58,30 @@ public class StudentServiceImplTest {
 		Assert.assertTrue(result.contains(stm1));
 		Assert.assertTrue(result.contains(stm2));
 		Assert.assertTrue(result.contains(stm3));
+	}
+	
+	@Test
+	public void testCreateStudentCallCreateRepositoryMethod() {
+		service.createStudent(Mockito.mock(StudentModel.class));
+		Mockito.verify(studentRepository, Mockito.times(1)).save((StudentEntity)Mockito.any());
+	}
+	
+	@Test
+	public void testCreateStudentReturnCreatedStudentByRepository() {
+		StudentModel model = Mockito.mock(StudentModel.class);
+		Mockito.when(mapper.map((StudentEntity)Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(model);
+		Assert.assertEquals(model, service.createStudent(Mockito.mock(StudentModel.class)));
+	}
+	
+	@Test
+	public void testCreateStudentUseStudentModelInParamToPersistIt() {
+		StudentModel in = Mockito.mock(StudentModel.class);
+		StudentEntity entity = Mockito.mock(StudentEntity.class);
+		ArgumentCaptor<StudentEntity> captor = ArgumentCaptor.forClass(StudentEntity.class);
+		
+		Mockito.when(mapper.map((StudentModel)Mockito.any(), Mockito.eq(StudentEntity.class))).thenReturn(entity);
+		service.createStudent(in);
+		Mockito.verify(studentRepository, Mockito.times(1)).save(captor.capture());
+		Assert.assertEquals(entity, captor.getValue());
 	}
 }
