@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import fr.iagl.gamification.constants.CodeError;
+
 /**
  * Formulaire d'entrée pour la création d'un élève
  * @author ALEX
@@ -15,14 +17,14 @@ public class StudentForm implements AbstractForm {
 	/**
 	 * Nom
 	 */
-	@Pattern(regexp = "^[A-Z].*", message = "Le prénom doit commencer par une majuscule")
+	@Pattern(regexp = "^[A-Z].*", message = CodeError.ERROR_FIRST_NAME_NOT_START_WITH_MAJ)
 	@NotNull(message = "Le prenom ne peut pas être null")
 	private String firstName;
 	
 	/**
 	 * Prénom
 	 */
-	@Pattern(regexp = "^[A-Z].*", message = "Le nom doit commencer par une majuscule")
+	@Pattern(regexp = "^[A-Z].*", message = CodeError.ERROR_LAST_NAME_NOT_START_WITH_MAJ)
 	@NotNull(message = "Le nom ne peut pas être null")
 	private String lastName;
 	
