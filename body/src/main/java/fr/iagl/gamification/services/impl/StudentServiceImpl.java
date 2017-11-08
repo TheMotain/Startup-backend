@@ -3,6 +3,7 @@ package fr.iagl.gamification.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import fr.iagl.gamification.services.StudentService;
  */
 @Service
 public class StudentServiceImpl implements StudentService {
-
+	
 	/**
 	 * Repository pour la manipulation des élèves en base
 	 */
@@ -44,7 +45,8 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public StudentModel createStudent(StudentModel model) {
-		return mapper.map(studentRepository.save(mapper.map(model, StudentEntity.class)), StudentModel.class);
+		StudentEntity entity = mapper.map(model, StudentEntity.class);
+		return mapper.map(studentRepository.save(entity), StudentModel.class);
 	}
 
 }

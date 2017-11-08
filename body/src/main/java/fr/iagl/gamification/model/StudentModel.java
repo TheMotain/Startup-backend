@@ -22,7 +22,7 @@ public class StudentModel {
 	/**
 	 * Nom
 	 */
-	private String lastDame;
+	private String lastName;
 	
 	/**
 	 * Date de naissance
@@ -60,21 +60,21 @@ public class StudentModel {
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
+	
 	/**
-	 * Getter de l'attribut {@link StudentModel#lastDame}
-	 * @return lastDame
+	 * Getter de l'attribut {@link StudentModel#lastName}
+	 * @return lastName
 	 */
-	public String getLastDame() {
-		return lastDame;
+	public String getLastName() {
+		return lastName;
 	}
 
 	/**
-	 * Setter de l'attribut {@link StudentModel#lastDame}
-	 * @param lastDame l'attribut {@link StudentModel#lastDame} à setter
+	 * Setter de l'attribut {@link StudentModel#lastName}
+	 * @param lastName l'attribut {@link StudentModel#lastName} à setter
 	 */
-	public void setLastDame(String lastDame) {
-		this.lastDame = lastDame;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	/**

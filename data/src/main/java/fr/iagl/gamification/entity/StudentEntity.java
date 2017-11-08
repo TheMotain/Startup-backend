@@ -31,13 +31,13 @@ public class StudentEntity implements Serializable {
 	 */
 	@Id
 	@Column(name = "id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	/**
 	 * Prénom
 	 */
-	@Column(name = "firsname", nullable = false, columnDefinition = "text")
+	@Column(name = "firstname", nullable = false, columnDefinition = "text")
 	private String firstName;
 	
 	/**
@@ -50,7 +50,7 @@ public class StudentEntity implements Serializable {
 	 * date de naissance
 	 */
 	@Column(name = "borndate", nullable = false, columnDefinition = "date")
-	private Date bornDate;
+	private Date born;
 	
 	@ManyToOne
 	@JoinColumn(name = "classroom", nullable = true)
@@ -105,22 +105,6 @@ public class StudentEntity implements Serializable {
 	}
 
 	/**
-	 * Getter de l'attribut {@link StudentEntity#bornDate}
-	 * @return bornDate
-	 */
-	public Date getBornDate() {
-		return bornDate;
-	}
-
-	/**
-	 * Setter de l'attribut {@link StudentEntity#bornDate}
-	 * @param bornDate l'attribut {@link StudentEntity#bornDate} à setter
-	 */
-	public void setBornDate(Date bornDate) {
-		this.bornDate = bornDate;
-	}
-
-	/**
 	 * Getter de l'attribut {@link StudentEntity#classroom}
 	 * @return classroom
 	 */
@@ -134,5 +118,21 @@ public class StudentEntity implements Serializable {
 	 */
 	public void setClassroom(ClassEntity classroom) {
 		this.classroom = classroom;
+	}
+
+	/**
+	 * Getter de l'attribut {@link StudentEntity#born}
+	 * @return born
+	 */
+	public Date getBorn() {
+		return born;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentEntity#born}
+	 * @param born l'attribut {@link StudentEntity#born} à setter
+	 */
+	public void setBorn(Date born) {
+		this.born = born;
 	}
 }
