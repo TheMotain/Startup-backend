@@ -49,7 +49,7 @@ public class StudentEntity implements Serializable {
 	/**
 	 * date de naissance
 	 */
-	@Column(name = "bornedate", nullable = false, columnDefinition = "date")
+	@Column(name = "borndate", nullable = false, columnDefinition = "date")
 	private Date bornDate;
 	
 	@ManyToOne
