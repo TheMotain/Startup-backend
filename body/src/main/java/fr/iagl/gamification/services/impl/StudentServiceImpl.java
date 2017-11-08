@@ -3,7 +3,6 @@ package fr.iagl.gamification.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,9 +36,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public List<StudentModel> getAllStudent() {
 		List<StudentModel> output = new ArrayList<>();
-		studentRepository.findAll().iterator().forEachRemaining(x -> {
-			output.add(mapper.map(x, StudentModel.class));
-		});
+		studentRepository.findAll().iterator().forEachRemaining(x -> output.add(mapper.map(x, StudentModel.class)));
 		return output;
 	}
 

@@ -12,7 +12,7 @@ import fr.iagl.gamification.constants.CodeError;
  * @author Hélène Meyer
  *
  */
-public class ClassForm extends AbstractForm{
+public class ClassForm implements AbstractForm{
 
 	/**
 	 * Nom d'une classe 

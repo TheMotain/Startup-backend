@@ -60,7 +60,7 @@ public class StudentController{
 	public ResponseEntity<List<StudentModel>> getAllStudent() {
 		LOG.info("Récupération de la liste des élèves");
 		List<StudentModel> result = studentService.getAllStudent();
-		return new ResponseEntity<List<StudentModel>>(result, HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	/**

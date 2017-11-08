@@ -10,7 +10,7 @@ import javax.validation.constraints.Pattern;
  * @author ALEX
  *
  */
-public class StudentForm extends AbstractForm {
+public class StudentForm implements AbstractForm {
 	
 	/**
 	 * Nom
