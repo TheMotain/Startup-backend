@@ -11,7 +11,7 @@ public class ClassModel {
 	/**
 	 * id de la classe
 	 */
-	private int id;
+	private Long id;
 	/**
 	 * Nom de la classe
 	 */
@@ -40,7 +40,7 @@ public class ClassModel {
 	 * 
 	 * @return l'id de la classe
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -49,7 +49,7 @@ public class ClassModel {
 	 * 
 	 * @param id de la classe
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	

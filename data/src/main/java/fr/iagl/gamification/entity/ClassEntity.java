@@ -1,10 +1,14 @@
 package fr.iagl.gamification.entity;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -15,14 +19,20 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "classroom")
-public class ClassEntity {
+public class ClassEntity implements Serializable {
+
+	/**
+	 * Generated Serial version UID
+	 */
+	private static final long serialVersionUID = -3650567266024965280L;
+
 
 	/**
 	 * id de la classe
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
  
 	
 	/**
@@ -31,10 +41,23 @@ public class ClassEntity {
 	@Column(name = "name")
 	private String name;
 
+	/**
+	 * Récupération de la liste des élèves pour la classe
+	 */
+	@OneToMany(mappedBy = "classroom")
+	private List<StudentEntity> students;
+	
+	/**
+	 * Constructeur vide
+	 */
 	public ClassEntity() {
 		
 	}
 	
+	/**
+	 * Constructeur avec nom de la classe en paramètre
+	 * @param name Nom de la classe à créer
+	 */
 	public ClassEntity(String name) {
 		this.name = name;
 	}
@@ -62,7 +85,7 @@ public class ClassEntity {
 	 * 
 	 * @return l'id de la classe
 	 */
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -71,9 +94,7 @@ public class ClassEntity {
 	 * 
 	 * @param id de la classe
 	 */
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	
 }

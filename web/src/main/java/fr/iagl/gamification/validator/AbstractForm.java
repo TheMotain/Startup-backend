@@ -5,6 +5,6 @@ package fr.iagl.gamification.validator;
  * @author ALEX
  *
  */
-public abstract class AbstractForm {
+public interface AbstractForm {
 
 }
