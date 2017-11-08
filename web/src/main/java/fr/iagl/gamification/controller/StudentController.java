@@ -5,6 +5,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,11 @@ import io.swagger.annotations.ApiResponses;
 public class StudentController{
 
 	/**
+	 * Logger
+	 */
+	private static final Logger LOG = Logger.getLogger(StudentController.class);
+	
+	/**
 	 * Service de gestion des élèves
 	 */
 	@Autowired
@@ -52,6 +58,7 @@ public class StudentController{
 	@RequestMapping(method = RequestMethod.GET)
 	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, responseContainer = "list", message = "Liste des élève")
 	public ResponseEntity<List<StudentModel>> getAllStudent() {
+		LOG.info("Récupération de la liste des élèves");
 		List<StudentModel> result = studentService.getAllStudent();
 		return new ResponseEntity<List<StudentModel>>(result, HttpStatus.OK);
 	}
@@ -70,13 +77,15 @@ public class StudentController{
 	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_CREATED, response = StudentModel.class, message = "Elève créé"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs à la validation du formulaire") })
 	public ResponseEntity createStudent(@Valid @RequestBody StudentForm studentForm, BindingResult bindingResult) {
+		
 		if (bindingResult.hasErrors()) {
-
 			return new ResponseEntity<List<String>>(RequestTools.transformBindingErrors(bindingResult),
 					HttpStatus.BAD_REQUEST);
 		}
-
+		
+		LOG.info("Call createStudent from service");
 		StudentModel studentCreated = studentService.createStudent(mapper.map(studentForm, StudentModel.class));
+		LOG.info("Return createStudent from service");
 		return new ResponseEntity<StudentModel>(studentCreated, HttpStatus.CREATED);
 	}
 }

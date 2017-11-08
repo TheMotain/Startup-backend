@@ -80,7 +80,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		Mockito.when(mapper.map((StudentModel)Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(in);
 		Mockito.when(studentService.createStudent(in)).thenReturn(out);
 		ResponseEntity<StudentModel> response = (ResponseEntity<StudentModel>) controller.createStudent(Mockito.mock(StudentForm.class), Mockito.mock(BindingResult.class));
-		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+		Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		Assert.assertEquals(out, response.getBody());
 	}
 	
