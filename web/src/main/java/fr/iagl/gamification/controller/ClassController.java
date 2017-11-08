@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
@@ -29,7 +31,9 @@ import fr.iagl.gamification.validator.ClassForm;
  * @author Hélène Meyer
  *
  */
-public class ClassController extends AbstractController {
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
+public class ClassController {
 	
 	private static final Logger log = Logger.getLogger(ClassController.class);
 	
