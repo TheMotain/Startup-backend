@@ -1,10 +1,13 @@
 package fr.iagl.gamification.constants;
 
+import org.springframework.context.annotation.PropertySource;
+
 /**
  * Contient les messages d'erreurs
  * @author dalencourt
  *
  */
+@PropertySource("classpath:config/bundle/messages.properties")
 public class CodeError {
 
 	public static final String ERROR_EXISTS_CLASS = "La classe existe déjà.";
