@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -36,7 +37,7 @@ import io.swagger.annotations.ApiResponses;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-public class ClassController {
+public class ClassController extends AbstractController {
 	
 	/**
 	 * Logger

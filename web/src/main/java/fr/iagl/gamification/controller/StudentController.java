@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT)
-public class StudentController{
+public class StudentController extends AbstractController {
 
 	/**
 	 * Logger
