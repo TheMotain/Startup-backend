@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>web</artifactId>
 	<name>web</name>
@@ -28,7 +29,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -39,33 +40,83 @@
 			<artifactId>dozer</artifactId>
 			<version>5.5.1</version>
 		</dependency>
-		
+
 		<dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer-spring</artifactId>
-            <version>5.5.1</version>
-        </dependency>
-		
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer-spring</artifactId>
+			<version>5.5.1</version>
+		</dependency>
+
 		<!-- Swagger -->
 		<dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-swagger.version}</version>
-        </dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox-swagger.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox-swagger.version}</version>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox-swagger.version}</version>
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<build.filename>dev</build.filename>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<build.filename>prod</build.filename>
+			</properties>
+<!-- 			<build> -->
+<!-- 				<plugins> -->
+<!-- 					<plugin> -->
+<!-- 						<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 						<artifactId>maven-antrun-plugin</artifactId> -->
+<!-- 						<version>1.8</version> -->
+<!-- 						<executions> -->
+<!-- 							<execution> -->
+<!-- 								<phase>package</phase> -->
+<!-- 								<goals> -->
+<!-- 									<goal>run</goal> -->
+<!-- 								</goals> -->
+<!-- 								<configuration> -->
+<!-- 									<tasks> -->
+<!-- 										<delete -->
+<!-- 											file="${project.build.outputDirectory}/application.properties" /> -->
+<!-- 										<copy -->
+<!-- 											file="distribution/src/resources/spring-conf/prod/application.properties" -->
+<!-- 											tofile="${project.build.outputDirectory}/application.properties" /> -->
+<!-- 									</tasks> -->
+<!-- 								</configuration> -->
+<!-- 							</execution> -->
+<!-- 						</executions> -->
+<!-- 					</plugin> -->
+<!-- 				</plugins> -->
+<!-- 			</build> -->
+		</profile>
+	</profiles>
+
 	<build>
-		<finalName>sp</finalName>
+		<finalName>${build.filename}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<profiles>
+						<profile>dev</profile>
+						<profile>prod</profile>
+					</profiles>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
