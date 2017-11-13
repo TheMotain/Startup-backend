@@ -1,6 +1,5 @@
 package fr.iagl.gamification.services;
 
-import java.util.EnumMap;
 import java.util.Map;
 
 import org.json.JSONException;

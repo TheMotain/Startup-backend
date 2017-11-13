@@ -2,7 +2,6 @@ package fr.iagl.gamification.services.impl;
 
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
