@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +43,15 @@ class ListenerRunnable{
 
 	private ActorRef actor;
 	
+	@Value("${spring.datasource.url}")
+	private String datasourceUrl;
+	
+	@Value("${spring.datasource.username}")
+	private String datasourceUsername;
+	
+	@Value("${spring.datasource.password}")
+	private String datasourcePassword;
+	
 
 	/**
 	 * Initialisation d'un système d'acteurs et connexion avec la base de donnée
@@ -56,8 +66,8 @@ class ListenerRunnable{
 
 		
 		Class.forName("org.postgresql.Driver");
-		Connection conn = DriverManager.getConnection("${spring.datasource.url}", "${spring.datasource.username}",
-				"${spring.datasource.password}");
+		Connection conn = DriverManager.getConnection(datasourceUrl, datasourceUsername,
+				datasourcePassword);
 		this.conn = conn;
 		this.pgconn = (org.postgresql.PGConnection) conn;
 		Statement stmt = conn.createStatement();
