@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ import fr.iagl.gamification.model.Task;
 @Component
 class ListenerRunnable{
 
+	/**
+	 * Logger
+	 */
+	private static final Logger LOG = Logger.getLogger(ListenerRunnable.class);
+	
 	/**
 	 * Connexion avec la base de donnée
 	 */
@@ -55,33 +61,45 @@ class ListenerRunnable{
 
 	/**
 	 * Initialisation d'un système d'acteurs et connexion avec la base de donnée
-	 * 
-	 * @throws Exception
+	 * @throws SQLException 
 	 */
 	@PostConstruct
-	public void init() throws Exception {
+	public void init() throws SQLException {
 		 actor = system.actorOf(SpringExtension.SPRING_EXTENSION_PROVIDER.get(system).props("taskActor"), "task");
 
+		 Statement stmt = null;
+		 
+		 try {
+			Class.forName("org.postgresql.Driver");
+			this.conn = DriverManager.getConnection(datasourceUrl, datasourceUsername,
+					datasourcePassword);
 
-
+			this.pgconn = (org.postgresql.PGConnection) conn;
+			
+			stmt = conn.createStatement();
+			stmt.execute("LISTEN table_update");
+		} catch (SQLException e) {
+			LOG.warn("Erreur d'accès à la base de donnée");
+		} catch (ClassNotFoundException e) {
+			LOG.warn("Driver Postgres non trouvé");
+		} finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
 		
-		Class.forName("org.postgresql.Driver");
-		Connection conn = DriverManager.getConnection(datasourceUrl, datasourceUsername,
-				datasourcePassword);
-		this.conn = conn;
-		this.pgconn = (org.postgresql.PGConnection) conn;
-		Statement stmt = conn.createStatement();
-		stmt.execute("LISTEN table_update");
-		stmt.close();
+		
 	}
 
 	@Scheduled(cron = "${cron.scheduler.listener.runnable}")
-	public void run() throws Exception {
+	public void run() {
 		try {
 			treatNotification();
 
 		} catch (JSONException json) {
-			json.printStackTrace();
+			LOG.warn("jsonException");
+		} catch (SQLException e) {
+			LOG.warn("Erreur de connexion base de donnée");
 		}
 	}
 
@@ -89,24 +107,31 @@ class ListenerRunnable{
 	 * Reception de la notification et envoie du message aux acteurs akka
 	 * 
 	 * @throws SQLException
-	 * @throws JSONException
 	 */
-	public void treatNotification() throws SQLException, JSONException {
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT 1");
-		rs.close();
-		stmt.close();
+	public void treatNotification() throws SQLException {
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT 1");
+			rs.close();
+			stmt.close();
 
-		org.postgresql.PGNotification notifications[] = pgconn.getNotifications();
-		if (notifications != null) {
-			for (int i = 0; i < notifications.length; i++) {
-				System.out.println("Got notification: " + notifications[i].getParameter());
-				Task task = new Task(new JSONObject(notifications[i].getParameter()));
-				actor.tell(task, null);
+			org.postgresql.PGNotification[] notifications = pgconn.getNotifications();
+			if (notifications != null) {
+				for (int i = 0; i < notifications.length; i++) {
+					System.out.println("Got notification: " + notifications[i].getParameter());
+					Task task = new Task(new JSONObject(notifications[i].getParameter()));
+					actor.tell(task, null);
+				}
+			}
+
+		} catch (Exception e) {
+			LOG.warn("Erreur dans le traitement de la notification");
+		} finally {
+			if (stmt != null) {
+				stmt.close();
 			}
 		}
-
-		stmt.close();
 	}
 
 	public void setPgConn(org.postgresql.PGConnection pgconn) {
