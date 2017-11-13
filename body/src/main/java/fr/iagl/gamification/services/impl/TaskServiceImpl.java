@@ -1,6 +1,7 @@
 package fr.iagl.gamification.services.impl;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,10 +39,10 @@ public class TaskServiceImpl implements TaskService{
 
 	@PostConstruct
 	public void init() {
-		map = new HashMap<>();
+		map = new EnumMap(TableDatabase.class);
 		
 		//actions de la table message
-		Map<ActionDatabase, RunnableHashMapService> mapActionsMessageTable = new HashMap<>();
+		Map<ActionDatabase, RunnableHashMapService> mapActionsMessageTable = new EnumMap(ActionDatabase.class);
 		mapActionsMessageTable.put(ActionDatabase.INSERT, runnableInsertMessageServiceImpl);
 		
 		//insertion de toutes les actions des tables
