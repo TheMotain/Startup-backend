@@ -119,7 +119,7 @@ class ListenerRunnable{
 			org.postgresql.PGNotification[] notifications = pgconn.getNotifications();
 			if (notifications != null) {
 				for (int i = 0; i < notifications.length; i++) {
-					System.out.println("Got notification: " + notifications[i].getParameter());
+					LOG.info("Got notification: " + notifications[i].getParameter());
 					Task task = new Task(new JSONObject(notifications[i].getParameter()));
 					actor.tell(task, null);
 				}
