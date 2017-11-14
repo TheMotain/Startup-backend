@@ -58,7 +58,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	@Test
 	public void testCreateStudentCallCreateFromService(){
 		controller.createStudent(Mockito.mock(StudentForm.class), Mockito.mock(BindingResult.class));
-		Mockito.verify(studentService, Mockito.times(1)).createStudent((StudentModel)Mockito.any());
+		Mockito.verify(studentService, Mockito.times(1)).createOrUpdateStudent((StudentModel)Mockito.any());
 	}
 	
 	@Test
@@ -69,7 +69,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 
 		controller.createStudent(Mockito.mock(StudentForm.class), Mockito.mock(BindingResult.class));
 		Mockito.verify(mapper, Mockito.times(1)).map((StudentForm)Mockito.any(), Mockito.eq(StudentModel.class));
-		Mockito.verify(studentService, Mockito.times(1)).createStudent(modelCaptor.capture());
+		Mockito.verify(studentService, Mockito.times(1)).createOrUpdateStudent(modelCaptor.capture());
 		Assert.assertEquals(model, modelCaptor.getValue());
 	}
 	
@@ -78,7 +78,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		StudentModel in = Mockito.mock(StudentModel.class);
 		StudentModel out = Mockito.mock(StudentModel.class);
 		Mockito.when(mapper.map((StudentModel)Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(in);
-		Mockito.when(studentService.createStudent(in)).thenReturn(out);
+		Mockito.when(studentService.createOrUpdateStudent(in)).thenReturn(out);
 		ResponseEntity<StudentModel> response = (ResponseEntity<StudentModel>) controller.createStudent(Mockito.mock(StudentForm.class), Mockito.mock(BindingResult.class));
 		Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		Assert.assertEquals(out, response.getBody());

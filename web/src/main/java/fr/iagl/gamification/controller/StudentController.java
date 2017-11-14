@@ -83,9 +83,9 @@ public class StudentController extends AbstractController {
 			return new ResponseEntity<List<String>>(RequestTools.transformBindingErrors(bindingResult),
 					HttpStatus.BAD_REQUEST);
 		}
-		LOG.info("Call createStudent from service");
-		StudentModel studentCreated = studentService.createStudent(mapper.map(studentForm, StudentModel.class));
-		LOG.info("Return createStudent from service");
+		LOG.info("Call createOrUpdateStudent from service");
+		StudentModel studentCreated = studentService.createOrUpdateStudent(mapper.map(studentForm, StudentModel.class));
+		LOG.info("Return createOrUpdateStudent from service");
 		return new ResponseEntity<StudentModel>(studentCreated, HttpStatus.CREATED);
 	}
 }

@@ -62,7 +62,7 @@ public class StudentServiceImplTest {
 	
 	@Test
 	public void testCreateStudentCallCreateRepositoryMethod() {
-		service.createStudent(Mockito.mock(StudentModel.class));
+		service.createOrUpdateStudent(Mockito.mock(StudentModel.class));
 		Mockito.verify(studentRepository, Mockito.times(1)).save((StudentEntity)Mockito.any());
 	}
 	
@@ -70,7 +70,7 @@ public class StudentServiceImplTest {
 	public void testCreateStudentReturnCreatedStudentByRepository() {
 		StudentModel model = Mockito.mock(StudentModel.class);
 		Mockito.when(mapper.map((StudentEntity)Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(model);
-		Assert.assertEquals(model, service.createStudent(Mockito.mock(StudentModel.class)));
+		Assert.assertEquals(model, service.createOrUpdateStudent(Mockito.mock(StudentModel.class)));
 	}
 	
 	@Test
@@ -80,7 +80,7 @@ public class StudentServiceImplTest {
 		ArgumentCaptor<StudentEntity> captor = ArgumentCaptor.forClass(StudentEntity.class);
 		
 		Mockito.when(mapper.map((StudentModel)Mockito.any(), Mockito.eq(StudentEntity.class))).thenReturn(entity);
-		service.createStudent(in);
+		service.createOrUpdateStudent(in);
 		Mockito.verify(studentRepository, Mockito.times(1)).save(captor.capture());
 		Assert.assertEquals(entity, captor.getValue());
 	}

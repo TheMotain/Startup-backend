@@ -18,9 +18,10 @@ public interface StudentService {
 	public List<StudentModel> getAllStudent();
 	
 	/**
-	 * Créer un élève
-	 * @param model élève à créer
-	 * @return élève créé
+	 * Créer ou Modifier un élève
+	 * @param model élève à créer ou à modifier
+	 * @return élève créé ou modifié
 	 */
-	public StudentModel createStudent(StudentModel model);
+	public StudentModel createOrUpdateStudent(StudentModel model);
+
 }

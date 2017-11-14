@@ -17,6 +17,8 @@ public class CodeError {
 	public static final String ERROR_NULL_LAST_NAME = "Le nom ne peut pas être null";
 	public static final String ERROR_NULL_BORN_DATE = "La date de naissance ne peut pas être null";
 	
+	public static final String ERROR_NULL = "Les valeurs ne sont pas correctes.";
+	
 	/**
 	 * La classe ne peut pas être instanciée
 	 */
