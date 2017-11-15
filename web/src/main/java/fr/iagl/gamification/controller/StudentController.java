@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiResponses;
  */
 @RestController
 @RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT)
-public class StudentController extends AbstractController {
+public class StudentController implements AbstractController {
 
 	/**
 	 * Logger
