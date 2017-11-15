@@ -1,6 +1,6 @@
 package fr.iagl.gamification.services;
 
-import fr.iagl.gamification.exceptions.ClassExistsException;
+import fr.iagl.gamification.exceptions.ClassroomExistsException;
 import fr.iagl.gamification.model.ClassModel;
 
 /**
@@ -16,7 +16,7 @@ public interface ClassService {
 	 * 
 	 * @param classe objet représentant la classe
 	 * @return la classe créée
-	 * @throws ClassExistsException si la classe existe déjà en base de données 
+	 * @throws ClassroomExistsException si la classe existe déjà en base de données 
 	 */
-	public ClassModel createClass(ClassModel classe) throws ClassExistsException;
+	public ClassModel createClass(ClassModel classe) throws ClassroomExistsException;
 }

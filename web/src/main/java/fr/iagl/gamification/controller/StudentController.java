@@ -84,7 +84,7 @@ public class StudentController extends AbstractController {
 					HttpStatus.BAD_REQUEST);
 		}
 		LOG.info("Call createOrUpdateStudent from service");
-		StudentModel studentCreated = studentService.createOrUpdateStudent(mapper.map(studentForm, StudentModel.class));
+		StudentModel studentCreated = studentService.saveStudent(mapper.map(studentForm, StudentModel.class));
 		LOG.info("Return createOrUpdateStudent from service");
 		return new ResponseEntity<StudentModel>(studentCreated, HttpStatus.CREATED);
 	}

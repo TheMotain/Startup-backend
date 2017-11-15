@@ -6,6 +6,6 @@ package fr.iagl.gamification.exceptions;
  * @author Hélène Meyer
  *
  */
-public class ClassExistsException extends Exception{
+public class ClassroomExistsException extends Exception{
 
 }

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
-import fr.iagl.gamification.exceptions.ClassExistsException;
+import fr.iagl.gamification.exceptions.ClassroomExistsException;
 import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.services.ClassService;
 import fr.iagl.gamification.utils.RequestTools;
@@ -73,7 +73,7 @@ public class ClassController extends AbstractController {
 			try {
 				ClassModel createdClass = classService.createClass(mapper.map(classForm, ClassModel.class));
 				return new ResponseEntity(createdClass, HttpStatus.OK);
-			} catch (ClassExistsException e) {
+			} catch (ClassroomExistsException e) {
 				LOG.info("Class already existed");
 				errors = Arrays.asList(CodeError.ERROR_EXISTS_CLASS);
 			}
