@@ -79,6 +79,12 @@ public class StudentServiceImpl implements StudentService {
 		return entityToModel(entity);
 	}
 	
+	/**
+	 * Map l'entité sous le format modèle
+	 * 
+	 * @param entity entité de l'étudiant
+	 * @return le model de l'étudiant
+	 */
 	private StudentModel entityToModel(StudentEntity entity) {
 		return mapper.map(studentRepository.save(entity), StudentModel.class);
 	}
