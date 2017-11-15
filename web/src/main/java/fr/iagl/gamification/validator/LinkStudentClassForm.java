@@ -16,20 +16,20 @@ public class LinkStudentClassForm implements AbstractForm {
 	 * id de la classe
 	 */
 	@NotNull(message = CodeError.ERROR_NULL)
-	private int idClass;
+	private long idClass;
 	
 	/**
 	 * id de l'élève
 	 */
 	@NotNull(message = CodeError.ERROR_NULL)
-	private int idStudent;
+	private long idStudent;
 
 	/**
 	 * getter de l'id de la classe
 	 * 
 	 * @return l'id de la classe
 	 */
-	public int getIdClass() {
+	public long getIdClass() {
 		return idClass;
 	}
 
@@ -38,7 +38,7 @@ public class LinkStudentClassForm implements AbstractForm {
 	 * 
 	 * @param idClass l'id de la classe
 	 */
-	public void setIdClass(int idClass) {
+	public void setIdClass(long idClass) {
 		this.idClass = idClass;
 	}
 
@@ -47,7 +47,7 @@ public class LinkStudentClassForm implements AbstractForm {
 	 * 
 	 * @return l'id de l'élève
 	 */
-	public int getIdStudent() {
+	public long getIdStudent() {
 		return idStudent;
 	}
 
@@ -56,7 +56,7 @@ public class LinkStudentClassForm implements AbstractForm {
 	 * 
 	 * @param idStudent id de l'élève
 	 */
-	public void setIdStudent(int idStudent) {
+	public void setIdStudent(long idStudent) {
 		this.idStudent = idStudent;
 	}
 	

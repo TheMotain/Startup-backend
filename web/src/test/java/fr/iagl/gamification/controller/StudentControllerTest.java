@@ -1,5 +1,7 @@
 package fr.iagl.gamification.controller;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,8 +22,13 @@ import org.springframework.validation.ObjectError;
 
 import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.exceptions.ClassroomExistsException;
+import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
+import fr.iagl.gamification.exceptions.StudentNotFoundException;
+import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.services.StudentService;
+import fr.iagl.gamification.validator.ClassForm;
+import fr.iagl.gamification.validator.LinkStudentClassForm;
 import fr.iagl.gamification.validator.StudentForm;
 
 public class StudentControllerTest extends SpringIntegrationTest {
@@ -47,10 +54,25 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	}
 	
 	@Test
+	public void testGetAllStudentCallGetAllWithoutClassFromService() throws ClassroomExistsException{
+		controller.getAllStudentWithoutClass();
+		Mockito.verify(studentService, Mockito.times(1)).getStudentsWithoutClass();
+	}
+	
+	@Test
 	public void testGetAllStudentReturnResponseEntityContainsServiceResult(){
 		List<StudentModel> mock = new ArrayList<>();
 		Mockito.when(studentService.getAllStudent()).thenReturn(mock);
 		ResponseEntity<List<StudentModel>> response = controller.getAllStudent();
+		Assert.assertEquals(mock, response.getBody());
+		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+	
+	@Test
+	public void testGetAllStudentWithoutClassReturnResponseEntityContainsServiceResult(){
+		List<StudentModel> mock = new ArrayList<>();
+		Mockito.when(studentService.getStudentsWithoutClass()).thenReturn(mock);
+		ResponseEntity<List<StudentModel>> response = controller.getAllStudentWithoutClass();
 		Assert.assertEquals(mock, response.getBody());
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
@@ -103,5 +125,61 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		Mockito.doReturn(Arrays.asList(errors)).when(bindingResult).getAllErrors();
 		ResponseEntity<List<String>> response = (ResponseEntity<List<String>>) controller.createStudent(form, bindingResult);
 		Assert.assertEquals("message", response.getBody().get(0));
+	}
+	
+	@Test
+	public void testLinkClassStudentFormOK() throws ClassroomExistsException, StudentNotFoundException, ClassroomNotFoundException{
+		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
+		StudentModel classModel = Mockito.mock(StudentModel.class);
+		BindingResult bindingResult = Mockito.mock(BindingResult.class);
+		Mockito.doReturn(false).when(bindingResult).hasErrors();
+		Mockito.doReturn(1L).when(linkForm).getIdStudent();
+		Mockito.doReturn(2L).when(linkForm).getIdClass();
+		Mockito.doReturn(classModel).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
+
+		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
+		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
+		assertEquals(HttpStatus.OK, output.getStatusCode());
+	}
+	
+	@Test
+	public void testLinkClassStudentFormKO() throws ClassroomExistsException, StudentNotFoundException, ClassroomNotFoundException{
+		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
+		BindingResult bindingResult = Mockito.mock(BindingResult.class);
+		Mockito.doReturn(true).when(bindingResult).hasErrors();
+		
+		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
+		Mockito.verify(studentService, Mockito.never()).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
+		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
+	}
+	
+	@Test
+	public void testLinkClassStudentFormKOStudentNotFound() throws ClassroomExistsException, StudentNotFoundException, ClassroomNotFoundException{
+		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
+		StudentModel classModel = Mockito.mock(StudentModel.class);
+		BindingResult bindingResult = Mockito.mock(BindingResult.class);
+		Mockito.doReturn(false).when(bindingResult).hasErrors();
+		Mockito.doReturn(1L).when(linkForm).getIdStudent();
+		Mockito.doReturn(2L).when(linkForm).getIdClass();
+		Mockito.doThrow(StudentNotFoundException.class).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
+		
+		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
+		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
+		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
+	}
+	
+	@Test
+	public void testLinkClassStudentFormKOClassroomNotFound() throws ClassroomExistsException, StudentNotFoundException, ClassroomNotFoundException{
+		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
+		StudentModel classModel = Mockito.mock(StudentModel.class);
+		BindingResult bindingResult = Mockito.mock(BindingResult.class);
+		Mockito.doReturn(false).when(bindingResult).hasErrors();
+		Mockito.doReturn(1L).when(linkForm).getIdStudent();
+		Mockito.doReturn(2L).when(linkForm).getIdClass();
+		Mockito.doThrow(ClassroomNotFoundException.class).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
+		
+		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
+		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
+		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
 	}
 }

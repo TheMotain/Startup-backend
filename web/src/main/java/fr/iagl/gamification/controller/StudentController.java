@@ -1,5 +1,6 @@
 package fr.iagl.gamification.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -16,10 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
+import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
+import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.services.StudentService;
 import fr.iagl.gamification.utils.RequestTools;
+import fr.iagl.gamification.validator.LinkStudentClassForm;
 import fr.iagl.gamification.validator.StudentForm;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -63,6 +68,19 @@ public class StudentController extends AbstractController {
 		List<StudentModel> result = studentService.getAllStudent();
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
+	/**
+	 * Récupère la liste de tous les élèves n'ayant pas de classe
+	 * 
+	 * @return Response contenant la liste des élèves sans classe
+	 */
+	@RequestMapping(value = MappingConstant.GET_STUDENTS_WITHOUT_CLASS , method = RequestMethod.GET)
+	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, responseContainer = "list", message = "Liste des élève n'ayant pas de classe")
+	public ResponseEntity<List<StudentModel>> getAllStudentWithoutClass() {
+		LOG.info("Récupération de la liste des élèves sans classe");
+		List<StudentModel> result = studentService.getStudentsWithoutClass();
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
 
 	/**
 	 * Permet de créer un nouvel élève
@@ -87,5 +105,38 @@ public class StudentController extends AbstractController {
 		StudentModel studentCreated = studentService.saveStudent(mapper.map(studentForm, StudentModel.class));
 		LOG.info("Return createOrUpdateStudent from service");
 		return new ResponseEntity<StudentModel>(studentCreated, HttpStatus.CREATED);
+	}
+	
+	/**
+	 * Ajouter une classe 
+	 * 
+	 * @param linkForm le formulaire contenant l'identifiant de l'élève et celui de la classe
+	 * @param bindingResult
+	 * @return l'objet modifié
+	 */
+	@RequestMapping(value=MappingConstant.POST_ADD_CLASS, method = RequestMethod.POST)
+	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, message = "Classe ajoutée à l'élève"),
+			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs") })
+	public ResponseEntity addClassToStudent(@Valid @RequestBody LinkStudentClassForm linkForm, BindingResult bindingResult) {
+		List<String> errors;
+		
+		if (bindingResult.hasErrors()) {
+			errors = RequestTools.transformBindingErrors(bindingResult);
+		} else {
+
+			StudentModel studentModified;
+			try {
+				studentModified = studentService.addClassToStudent(linkForm.getIdStudent(), linkForm.getIdClass());
+				return new ResponseEntity<StudentModel>(studentModified, HttpStatus.OK);
+			} catch (StudentNotFoundException e) {
+				errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT);
+				LOG.warn(CodeError.ERROR_NOT_EXISTS_STUDENT);
+			} catch (ClassroomNotFoundException e) {
+				errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASSROOM);
+				LOG.warn(CodeError.ERROR_NOT_EXISTS_CLASSROOM);
+			}
+		}
+		
+		return new ResponseEntity<List>(errors, HttpStatus.BAD_REQUEST);
 	}
 }

@@ -16,6 +16,14 @@ public class MappingConstant {
 	 * Chemin root pour la gestion d'un élève
 	 */
 	public static final String STUDENT_PATH_ROOT = "${url.student}";
+	/**
+	 * Chemin pour récupérer les élèves n'ayant pas de classe
+	 */
+	public static final String GET_STUDENTS_WITHOUT_CLASS = "withoutClass";
+	/**
+	 * Chemin pour l'ajout d'une classe à un élève
+	 */
+	public static final String POST_ADD_CLASS = "addClass";
 	
 	/**
 	 * Le mapping Constant ne peut pas être instancié

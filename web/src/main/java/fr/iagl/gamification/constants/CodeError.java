@@ -18,6 +18,8 @@ public class CodeError {
 	public static final String ERROR_NULL_BORN_DATE = "La date de naissance ne peut pas être null";
 	
 	public static final String ERROR_NULL = "Les valeurs ne sont pas correctes.";
+	public static final String ERROR_NOT_EXISTS_STUDENT = "L'élève n'existe pas";
+	public static final String ERROR_NOT_EXISTS_CLASSROOM = "La classe n'existe pas";
 	
 	/**
 	 * La classe ne peut pas être instanciée
