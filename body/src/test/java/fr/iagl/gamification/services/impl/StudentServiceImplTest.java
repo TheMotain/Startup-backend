@@ -61,20 +61,20 @@ public class StudentServiceImplTest {
 	}
 	
 	@Test
-	public void testCreateStudentCallCreateRepositoryMethod() {
+	public void testCreateOrUpdateStudentCallSaveRepositoryMethod() {
 		service.createOrUpdateStudent(Mockito.mock(StudentModel.class));
 		Mockito.verify(studentRepository, Mockito.times(1)).save((StudentEntity)Mockito.any());
 	}
 	
 	@Test
-	public void testCreateStudentReturnCreatedStudentByRepository() {
+	public void testCreateOrUpdateStudentReturnCreatedOrUpdatedStudentByRepository() {
 		StudentModel model = Mockito.mock(StudentModel.class);
 		Mockito.when(mapper.map((StudentEntity)Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(model);
 		Assert.assertEquals(model, service.createOrUpdateStudent(Mockito.mock(StudentModel.class)));
 	}
 	
 	@Test
-	public void testCreateStudentUseStudentModelInParamToPersistIt() {
+	public void testCreateOrUpdateStudentUseStudentModelInParamToPersistIt() {
 		StudentModel in = Mockito.mock(StudentModel.class);
 		StudentEntity entity = Mockito.mock(StudentEntity.class);
 		ArgumentCaptor<StudentEntity> captor = ArgumentCaptor.forClass(StudentEntity.class);
