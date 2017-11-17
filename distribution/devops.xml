@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="distribution" default="main">
+	<description>
+		Build devops pour la confifuration automatique des environnement recette et prod
+		Charge les propriété dans l'ordre suivant:
+		  - environnement
+		  - général
+		Enfin écrit le fichier dans le dossier target avant le package.
+		Fonctionne sur l'idée ""first set win"
+	</description>
+	
+	
+	<target name="init">
+		<echo message="DevOps env : ${environnement}"/>
+		
+		<loadproperties prefix="propsToErase.">
+			<file file="../distribution/src/resources/spring-conf/${environnement}/application.properties"/>
+		</loadproperties>
+
+		<loadproperties prefix="propsToErase.">
+			<file file="../web/target/classes/application.properties"/>
+		</loadproperties>
+		
+		<echoproperties destfile="../web/target/classes/application.properties">
+			<propertyset>
+				<propertyref prefix="propsToErase."/>
+				<mapper type="regexp" from="^propsToErase\.(.*)" to="\1"/>
+			</propertyset>
+		</echoproperties>
+	</target>
+</project>
