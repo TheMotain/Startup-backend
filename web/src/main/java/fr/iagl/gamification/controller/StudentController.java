@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 @RestController
-@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT)
+@RequestMapping
 public class StudentController implements AbstractController {
 
 	/**
@@ -61,7 +61,7 @@ public class StudentController implements AbstractController {
 	 * 
 	 * @return Response contenant la liste des élèves
 	 */
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT, method = RequestMethod.GET)
 	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, responseContainer = "list", message = "Liste des élève")
 	public ResponseEntity<List<StudentModel>> getAllStudent() {
 		LOG.info("Récupération de la liste des élèves");
@@ -92,7 +92,7 @@ public class StudentController implements AbstractController {
 	 * @return L'élève qui a été créé
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT, method = RequestMethod.POST)
 	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_CREATED, response = StudentModel.class, message = "Elève créé"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs à la validation du formulaire") })
 	public ResponseEntity createStudent(@Valid @RequestBody StudentForm studentForm, BindingResult bindingResult) {

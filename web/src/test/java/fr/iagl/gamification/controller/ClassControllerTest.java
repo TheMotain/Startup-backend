@@ -2,9 +2,12 @@ package fr.iagl.gamification.controller;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.dozer.Mapper;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -20,6 +23,7 @@ import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.exceptions.ClassroomExistsException;
 import fr.iagl.gamification.model.ClassModel;
+import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.services.ClassService;
 import fr.iagl.gamification.validator.ClassForm;
 
@@ -81,6 +85,21 @@ public class ClassControllerTest extends SpringIntegrationTest{
 		ResponseEntity output = controller.submitClassForm(classForm, bindingResult);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
 		assertEquals("["+CodeError.ERROR_EXISTS_CLASS+"]", output.getBody().toString());
+	}
+	
+	@Test
+	public void testGetAllClassroomCallGetAllFromService() throws ClassroomExistsException{
+		controller.getAllClassroom();
+		Mockito.verify(service, Mockito.times(1)).getAllClassroom();
+	}
+	
+	@Test
+	public void testGetAllClassroomReturnResponseEntityContainsServiceResult(){
+		List<ClassModel> mock = new ArrayList<>();
+		Mockito.when(service.getAllClassroom()).thenReturn(mock);
+		ResponseEntity<List<ClassModel>> response = controller.getAllClassroom();
+		Assert.assertEquals(mock, response.getBody());
+		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 
 }

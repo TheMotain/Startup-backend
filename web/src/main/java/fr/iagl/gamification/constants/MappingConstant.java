@@ -11,7 +11,7 @@ public class MappingConstant {
 	/**
 	 * Requete post pour la création d'une classe
 	 */
-	public static final String POST_FORM_CLASS = "${url.class}";
+	public static final String CLASS_PATH_ROOT = "${url.class}";
 	/**
 	 * Chemin root pour la gestion d'un élève
 	 */
@@ -19,7 +19,7 @@ public class MappingConstant {
 	/**
 	 * Chemin pour récupérer les élèves n'ayant pas de classe
 	 */
-	public static final String GET_STUDENTS_WITHOUT_CLASS = "withoutClass";
+	public static final String GET_STUDENTS_WITHOUT_CLASS = "${url.studentwithoutclass}";
 	/**
 	 * Chemin pour l'ajout d'une classe à un élève
 	 */

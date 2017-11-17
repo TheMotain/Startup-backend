@@ -1,5 +1,8 @@
 package fr.iagl.gamification.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.QueryParam;
 
 import org.dozer.Mapper;
@@ -43,6 +46,13 @@ public class ClassServiceImpl implements ClassService {
 			return mapper.map(entity, ClassModel.class);
 		}
 		throw new ClassroomExistsException();
+	}
+
+	@Override
+	public List<ClassModel> getAllClassroom() {
+		List<ClassModel> output = new ArrayList<>();
+		repository.findAll().iterator().forEachRemaining(x -> output.add(mapper.map(x, ClassModel.class)));
+		return output;
 	}
 
 }
