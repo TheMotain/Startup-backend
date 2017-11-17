@@ -81,6 +81,15 @@
 	</dependencies>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.8</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -90,10 +99,6 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.5.201505241946</version>
-<!-- 				<configuration> -->
-<!-- 					<destFile>${sonar.jacoco.reportPath}</destFile> -->
-<!-- 					<append>true</append> -->
-<!-- 				</configuration> -->
 				<executions>
 					<execution>
 						<id>agent</id>
