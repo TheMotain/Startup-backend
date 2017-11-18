@@ -45,7 +45,7 @@
 	</mapping>
 
 	<!-- ClassMapper -->
-	<mapping wildcard="false">
+	<mapping wildcard="true">
 		<class-a>fr.iagl.gamification.model.StudentModel</class-a>
 		<class-b>fr.iagl.gamification.entity.StudentEntity</class-b>
 		<field
