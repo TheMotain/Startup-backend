@@ -7,8 +7,11 @@ import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
+import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
+import fr.iagl.gamification.repository.ClassRepository;
 import fr.iagl.gamification.repository.StudentRepository;
 import fr.iagl.gamification.services.StudentService;
 
@@ -26,7 +29,14 @@ public class StudentServiceImpl implements StudentService {
 	 */
 	@Autowired
 	private StudentRepository studentRepository;
+	
+	/**
+	 * Repository pour la manipulation des classes
+	 */
+	@Autowired
+	private ClassRepository classRepository;
 
+	
 	/**
 	 * Mapper Model <-> Entité
 	 */
@@ -44,6 +54,19 @@ public class StudentServiceImpl implements StudentService {
 	public StudentModel createStudent(StudentModel model) {
 		StudentEntity entity = mapper.map(model, StudentEntity.class);
 		return mapper.map(studentRepository.save(entity), StudentModel.class);
+	}
+
+	@Override
+	public StudentModel deleteStudentFromClass(long idStudent) throws StudentNotFoundException{
+		StudentEntity studentEntity = studentRepository.findOne(idStudent);
+		
+		if(studentEntity == null) {
+			throw new StudentNotFoundException();
+		}
+
+		studentEntity.setClassroom(null);
+		
+		return mapper.map(studentRepository.save(studentEntity),StudentModel.class);
 	}
 
 }

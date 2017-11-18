@@ -2,6 +2,7 @@ package fr.iagl.gamification.services;
 
 import java.util.List;
 
+import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 
 /**
@@ -23,4 +24,13 @@ public interface StudentService {
 	 * @return élève créé
 	 */
 	public StudentModel createStudent(StudentModel model);
+	
+	
+	/**
+	 * Supprimer un élève d'une classe
+	 * @param idStudent identifiant de l'élève à supprimer
+	 * @return élève
+	 * @throws StudentNotFoundException 
+	 */
+	public StudentModel deleteStudentFromClass(long idStudent) throws StudentNotFoundException;
 }
