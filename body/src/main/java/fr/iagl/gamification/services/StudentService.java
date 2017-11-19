@@ -2,6 +2,7 @@ package fr.iagl.gamification.services;
 
 import java.util.List;
 
+import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
 import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
@@ -20,12 +21,6 @@ public interface StudentService {
 	public List<StudentModel> getAllStudent();
 	
 	/**
-	 * Récupère tous les élèves sans classe
-	 * @return Liste d'élève
-	 */
-	public List<StudentModel> getStudentsWithoutClass();
-	
-	/**
 	 * Créer ou Modifier un élève
 	 * @param model élève à créer ou à modifier
 	 * @return élève créé ou modifié
@@ -41,7 +36,8 @@ public interface StudentService {
 	 * 
 	 * @throws StudentNotFoundException 
 	 * @throws ClassroomNotFoundException 
+	 * @throws ClassroomAlreadyExistedException 
 	 */
-	public StudentModel addClassToStudent(long idStudent, long idClass) throws StudentNotFoundException, ClassroomNotFoundException;
+	public StudentModel addClassToStudent(long idStudent, long idClass) throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException;
 	
 }

@@ -20,6 +20,8 @@ public class CodeError {
 	public static final String ERROR_NULL = "Les valeurs ne sont pas correctes.";
 	public static final String ERROR_NOT_EXISTS_STUDENT = "L'élève n'existe pas";
 	public static final String ERROR_NOT_EXISTS_CLASSROOM = "La classe n'existe pas";
+	public static final String ERROR_CLASS_ALREADY_EXISTS = "L'élève est déjà rattaché à une classe";
+	public static final String SAVE_FAIL = "L'enregistrement n'a pas été effectué.";
 	
 	/**
 	 * La classe ne peut pas être instanciée

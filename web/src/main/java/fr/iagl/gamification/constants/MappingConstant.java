@@ -11,7 +11,7 @@ public class MappingConstant {
 	/**
 	 * Requete post pour la création d'une classe
 	 */
-	public static final String CLASS_PATH_ROOT = "/class";
+	public static final String CLASS_PATH_ROOT = "${url.class}";
 	/**
 	 * Chemin root pour la gestion d'un élève
 	 */
@@ -23,7 +23,7 @@ public class MappingConstant {
 	/**
 	 * Chemin pour l'ajout d'une classe à un élève
 	 */
-	public static final String POST_ADD_CLASS = "addClass";
+	public static final String POST_ADD_CLASS = "${url.class.addClass}";
 	
 	/**
 	 * Le mapping Constant ne peut pas être instancié

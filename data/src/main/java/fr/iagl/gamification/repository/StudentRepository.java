@@ -14,11 +14,4 @@ import fr.iagl.gamification.entity.StudentEntity;
  */
 public interface StudentRepository extends CrudRepository<StudentEntity, Long> {
 	
-	/**
-	 * retourne tous les élèves qui n'ont pas de classe
-	 * 
-	 * @return tous les élèves qui n'ont pas de classe
-	 */
-	List<StudentEntity> findByClassroomIsNull();
-	
 }

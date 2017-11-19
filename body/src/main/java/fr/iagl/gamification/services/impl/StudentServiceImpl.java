@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
+import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
 import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
@@ -46,14 +47,6 @@ public class StudentServiceImpl implements StudentService {
 		studentRepository.findAll().iterator().forEachRemaining(x -> output.add(mapper.map(x, StudentModel.class)));
 		return output;
 	}
-	
-
-	@Override
-	public List<StudentModel> getStudentsWithoutClass() {
-		List<StudentModel> output = new ArrayList<>();
-		studentRepository.findByClassroomIsNull().iterator().forEachRemaining(x -> output.add(mapper.map(x, StudentModel.class)));
-		return output;
-	}
 
 	@Override
 	public StudentModel saveStudent(StudentModel model) {
@@ -62,11 +55,14 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public StudentModel addClassToStudent(long idStudent, long idClass) throws StudentNotFoundException, ClassroomNotFoundException {
+	public StudentModel addClassToStudent(long idStudent, long idClass) throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
 		StudentEntity entity = studentRepository.findOne(idStudent);
 		
 		if (entity == null) {
 			throw new StudentNotFoundException();
+		}
+		if (entity.getClassroom() != null) {
+			throw new ClassroomAlreadyExistedException();
 		}
 		
 		ClassEntity classEntity = classRepository.findOne(idClass);

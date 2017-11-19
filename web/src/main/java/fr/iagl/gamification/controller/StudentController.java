@@ -1,7 +1,11 @@
 package fr.iagl.gamification.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.validation.Valid;
@@ -19,9 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
+import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
 import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
+import fr.iagl.gamification.object.ClassObject;
+import fr.iagl.gamification.object.StudentObject;
 import fr.iagl.gamification.services.StudentService;
 import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.LinkStudentClassForm;
@@ -62,23 +69,15 @@ public class StudentController implements AbstractController {
 	 */
 	@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT, method = RequestMethod.GET)
 	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, responseContainer = "list", message = "Liste des élève")
-	public ResponseEntity<List<StudentModel>> getAllStudent() {
+	public ResponseEntity<List<StudentObject>> getAllStudent() {
 		LOG.info("Récupération de la liste des élèves");
 		List<StudentModel> result = studentService.getAllStudent();
-		return new ResponseEntity<>(result, HttpStatus.OK);
-	}
-	
-	/**
-	 * Récupère la liste de tous les élèves n'ayant pas de classe
-	 * 
-	 * @return Response contenant la liste des élèves sans classe
-	 */
-	@RequestMapping(value = MappingConstant.GET_STUDENTS_WITHOUT_CLASS , method = RequestMethod.GET)
-	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, responseContainer = "list", message = "Liste des élève n'ayant pas de classe")
-	public ResponseEntity<List<StudentModel>> getAllStudentWithoutClass() {
-		LOG.info("Récupération de la liste des élèves sans classe");
-		List<StudentModel> result = studentService.getStudentsWithoutClass();
-		return new ResponseEntity<>(result, HttpStatus.OK);
+		List<StudentObject> students = new ArrayList<>();
+		Optional.ofNullable(result)
+					.orElseGet(Collections::emptyList)
+					.iterator()
+					.forEachRemaining(e -> students.add(mapper.map(e, StudentObject.class)));
+		return new ResponseEntity<>(students, HttpStatus.OK);
 	}
 
 	/**
@@ -95,15 +94,21 @@ public class StudentController implements AbstractController {
 	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_CREATED, response = StudentModel.class, message = "Elève créé"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs à la validation du formulaire") })
 	public ResponseEntity createStudent(@Valid @RequestBody StudentForm studentForm, BindingResult bindingResult) {
+		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
 		
 		if (bindingResult.hasErrors()) {
-			return new ResponseEntity<List<String>>(RequestTools.transformBindingErrors(bindingResult),
-					HttpStatus.BAD_REQUEST);
+			errors = RequestTools.transformBindingErrors(bindingResult);
+		} else {
+			LOG.info("Call createOrUpdateStudent from service");
+			StudentModel studentCreated = studentService.saveStudent(mapper.map(studentForm, StudentModel.class));
+			LOG.info("Return createOrUpdateStudent from service");
+			
+			if (studentCreated != null) {
+				return new ResponseEntity<StudentObject>(mapper.map(studentCreated, StudentObject.class), HttpStatus.CREATED);
+			}
 		}
-		LOG.info("Call createOrUpdateStudent from service");
-		StudentModel studentCreated = studentService.saveStudent(mapper.map(studentForm, StudentModel.class));
-		LOG.info("Return createOrUpdateStudent from service");
-		return new ResponseEntity<StudentModel>(studentCreated, HttpStatus.CREATED);
+		
+		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
 	}
 	
 	/**
@@ -116,8 +121,8 @@ public class StudentController implements AbstractController {
 	@RequestMapping(value=MappingConstant.POST_ADD_CLASS, method = RequestMethod.POST)
 	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, message = "Classe ajoutée à l'élève"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs") })
-	public ResponseEntity addClassToStudent(@Valid @RequestBody LinkStudentClassForm linkForm, BindingResult bindingResult) {
-		List<String> errors;
+	public ResponseEntity<StudentObject> addClassToStudent(@Valid @RequestBody LinkStudentClassForm linkForm, BindingResult bindingResult) {
+		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
 		
 		if (bindingResult.hasErrors()) {
 			errors = RequestTools.transformBindingErrors(bindingResult);
@@ -126,16 +131,21 @@ public class StudentController implements AbstractController {
 			StudentModel studentModified;
 			try {
 				studentModified = studentService.addClassToStudent(linkForm.getIdStudent(), linkForm.getIdClass());
-				return new ResponseEntity<StudentModel>(studentModified, HttpStatus.OK);
+				if (studentModified != null) {
+					return new ResponseEntity<>(mapper.map(studentModified, StudentObject.class), HttpStatus.OK);
+				}
 			} catch (StudentNotFoundException e) {
 				errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT);
 				LOG.warn(CodeError.ERROR_NOT_EXISTS_STUDENT);
 			} catch (ClassroomNotFoundException e) {
 				errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASSROOM);
 				LOG.warn(CodeError.ERROR_NOT_EXISTS_CLASSROOM);
+			} catch (ClassroomAlreadyExistedException e) {
+				errors = Arrays.asList(CodeError.ERROR_CLASS_ALREADY_EXISTS);
+				LOG.warn(CodeError.ERROR_CLASS_ALREADY_EXISTS);
 			}
 		}
 		
-		return new ResponseEntity<List>(errors, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
 	}
 }
