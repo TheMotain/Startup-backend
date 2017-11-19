@@ -36,7 +36,6 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 @RestController
-@RequestMapping
 public class StudentController implements AbstractController {
 
 	/**

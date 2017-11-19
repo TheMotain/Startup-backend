@@ -11,7 +11,7 @@ public class MappingConstant {
 	/**
 	 * Requete post pour la création d'une classe
 	 */
-	public static final String CLASS_PATH_ROOT = "${url.class}";
+	public static final String CLASS_PATH_ROOT = "/class";
 	/**
 	 * Chemin root pour la gestion d'un élève
 	 */

@@ -34,7 +34,6 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 @RestController
-@RequestMapping(value = MappingConstant.CLASS_PATH_ROOT)
 public class ClassController implements AbstractController {
 	
 	/**
@@ -59,7 +58,7 @@ public class ClassController implements AbstractController {
 	 * 
 	 * @return toutes les classes
 	 */
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = MappingConstant.CLASS_PATH_ROOT, method = RequestMethod.GET)
 	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassModel.class, responseContainer = "list", message = "Liste des classes")
 	public ResponseEntity<List<ClassModel>> getAllClassroom() {
 		LOG.info("Récupération de la liste des classes");
@@ -74,7 +73,7 @@ public class ClassController implements AbstractController {
 	 * @param bindingResult pour valider le formulaire
 	 * @return l'objet crée et statut OK s'il a été ajoute sinon le message d'erreur et le statut BAD_REQUEST
 	 */
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = MappingConstant.CLASS_PATH_ROOT, method = RequestMethod.POST)
 	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassModel.class, message = "La classe créée"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs au niveau du formulaire / La classe existe déjà")})
 	public ResponseEntity submitClassForm(@Valid @RequestBody ClassForm classForm, BindingResult bindingResult) {
