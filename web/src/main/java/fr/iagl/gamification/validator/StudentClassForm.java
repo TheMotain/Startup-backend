@@ -4,6 +4,11 @@ import javax.validation.constraints.NotNull;
 
 import fr.iagl.gamification.constants.CodeError;
 
+/**
+ * Objet représentant le formulaire de suppression d'un élève d'une classe
+ * @author Nadia
+ *
+ */
 public class StudentClassForm {
 
 	/**

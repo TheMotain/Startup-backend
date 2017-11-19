@@ -14,8 +14,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
+import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
+import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
+import fr.iagl.gamification.repository.ClassRepository;
 import fr.iagl.gamification.repository.StudentRepository;
 
 public class StudentServiceImplTest {
@@ -25,6 +29,9 @@ public class StudentServiceImplTest {
 	
 	@Mock
 	private StudentRepository studentRepository;
+	
+	@Mock
+	private ClassRepository classRepository;
 	
 	@Mock
 	private Mapper mapper;
@@ -83,5 +90,22 @@ public class StudentServiceImplTest {
 		service.createStudent(in);
 		Mockito.verify(studentRepository, Mockito.times(1)).save(captor.capture());
 		Assert.assertEquals(entity, captor.getValue());
+	}
+	
+	@Test
+	public void testDeleteStudentFromClass() throws StudentNotFoundException, ClassroomNotFoundException{
+		StudentEntity studentEntity = Mockito.mock(StudentEntity.class);
+		ClassEntity classEntity = Mockito.mock(ClassEntity.class);
+		StudentModel studentModel = Mockito.mock(StudentModel.class);
+		
+		Mockito.when(mapper.map(Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(studentModel);
+		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(studentEntity);
+		Mockito.when(classRepository.findOne(Mockito.any())).thenReturn(classEntity);
+		
+		StudentModel model = service.deleteStudentFromClass(1L, 2L);
+		Mockito.verify(studentEntity).setClassroom(null);
+		Mockito.verify(studentRepository, Mockito.times(1)).save(studentEntity);
+		
+		Assert.assertEquals(studentModel, model);
 	}
 }

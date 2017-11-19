@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
+import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.repository.ClassRepository;
@@ -57,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public StudentModel deleteStudentFromClass(long idStudent, long idClass) throws StudentNotFoundException, ClassNotFoundException{
+	public StudentModel deleteStudentFromClass(long idStudent, long idClass) throws StudentNotFoundException, ClassroomNotFoundException{
 		StudentEntity studentEntity = studentRepository.findOne(idStudent);
 		ClassEntity classEntity = classRepository.findOne(idClass);
 		
@@ -66,7 +67,7 @@ public class StudentServiceImpl implements StudentService {
 		}
 		
 		if(classEntity == null) {
-			throw new ClassCastException();
+			throw new ClassroomNotFoundException();
 		}
 
 		studentEntity.setClassroom(null);

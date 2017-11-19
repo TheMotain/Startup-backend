@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
+import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.services.StudentService;
@@ -93,6 +94,7 @@ public class StudentController extends AbstractController {
 		return new ResponseEntity<StudentModel>(studentCreated, HttpStatus.CREATED);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value=MappingConstant.POST_DELETE_STUDENT_CLASS, method = RequestMethod.POST)
 	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK,response = StudentModel.class, message = "élève supprimé de la classe"),
 				@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list" , message = "Liste des erreurs")})
@@ -108,7 +110,7 @@ public class StudentController extends AbstractController {
 					return new ResponseEntity<StudentModel>(studentUpdate,HttpStatus.OK);
 				} catch (StudentNotFoundException e) {
 					errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT);
-				}catch (ClassNotFoundException e) {
+				}catch (ClassroomNotFoundException e) {
 					errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASS);
 				}
 		}

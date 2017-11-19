@@ -5,6 +5,6 @@ package fr.iagl.gamification.exceptions;
  * @author Nadia
  *
  */
-public class ClassNotFoundException {
+public class ClassroomNotFoundException extends Exception{
 
 }
