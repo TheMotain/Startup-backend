@@ -94,6 +94,8 @@ public class StudentController extends AbstractController {
 	}
 	
 	@RequestMapping(value=MappingConstant.POST_DELETE_STUDENT_CLASS, method = RequestMethod.POST)
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK,response = StudentModel.class, message = "élève supprimé de la classe"),
+				@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list" , message = "Liste des erreurs")})
 	public ResponseEntity deleteStudentFromClass(@Valid @RequestBody StudentClassForm studentClassForm,BindingResult bindingResult){
 		
 		List<String> errors;
