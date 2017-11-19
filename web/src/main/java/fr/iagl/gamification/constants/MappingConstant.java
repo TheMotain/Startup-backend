@@ -18,6 +18,11 @@ public class MappingConstant {
 	public static final String STUDENT_PATH_ROOT = "${url.student}";
 	
 	/**
+	 * Shemin root pour la suppression d'un élève d'une classe
+	 */
+	public static final String POST_DELETE_STUDENT_CLASS = "deleteClass";
+	
+	/**
 	 * Le mapping Constant ne peut pas être instancié
 	 */
 	private MappingConstant() {}

@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.MappingConstant;
+import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.services.StudentService;
 import fr.iagl.gamification.utils.RequestTools;
+import fr.iagl.gamification.validator.StudentClassForm;
 import fr.iagl.gamification.validator.StudentForm;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -87,5 +89,24 @@ public class StudentController extends AbstractController {
 		StudentModel studentCreated = studentService.createStudent(mapper.map(studentForm, StudentModel.class));
 		LOG.info("Return createStudent from service");
 		return new ResponseEntity<StudentModel>(studentCreated, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value=MappingConstant.POST_DELETE_STUDENT_CLASS, method = RequestMethod.POST)
+	public ResponseEntity deleteStudentFromClass(@Valid @RequestBody StudentClassForm studentClassForm,BindingResult bingingResult){
+		
+		if(bingingResult.hasErrors()){
+			return new ResponseEntity<List<String>>(RequestTools.transformBindingErrors(bingingResult), HttpStatus.BAD_REQUEST);
+		}else{
+			StudentModel studentUpdate ;
+			try {
+				studentUpdate=studentService.deleteStudentFromClass(studentClassForm.getIdStudent());
+				return new ResponseEntity<StudentModel>(studentUpdate,HttpStatus.OK);
+			} catch (StudentNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;	
+	
 	}
 }
