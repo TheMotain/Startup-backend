@@ -1,5 +1,6 @@
 package fr.iagl.gamification.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
@@ -92,21 +94,24 @@ public class StudentController extends AbstractController {
 	}
 	
 	@RequestMapping(value=MappingConstant.POST_DELETE_STUDENT_CLASS, method = RequestMethod.POST)
-	public ResponseEntity deleteStudentFromClass(@Valid @RequestBody StudentClassForm studentClassForm,BindingResult bingingResult){
+	public ResponseEntity deleteStudentFromClass(@Valid @RequestBody StudentClassForm studentClassForm,BindingResult bindingResult){
 		
-		if(bingingResult.hasErrors()){
-			return new ResponseEntity<List<String>>(RequestTools.transformBindingErrors(bingingResult), HttpStatus.BAD_REQUEST);
-		}else{
-			StudentModel studentUpdate ;
-			try {
-				studentUpdate=studentService.deleteStudentFromClass(studentClassForm.getIdStudent());
-				return new ResponseEntity<StudentModel>(studentUpdate,HttpStatus.OK);
-			} catch (StudentNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		List<String> errors;
+		if(bindingResult.hasErrors()){
+			errors = RequestTools.transformBindingErrors(bindingResult);
+			}else{
+				StudentModel studentUpdate ;
+				try {
+					studentUpdate=studentService.deleteStudentFromClass(studentClassForm.getIdStudent(),studentClassForm.getIdClass());
+					return new ResponseEntity<StudentModel>(studentUpdate,HttpStatus.OK);
+				} catch (StudentNotFoundException e) {
+					errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT);
+				}catch (ClassNotFoundException e) {
+					errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASS);
+				}
 		}
-		return null;	
+		
+		return new ResponseEntity<List>(errors, HttpStatus.BAD_REQUEST);
 	
 	}
 }

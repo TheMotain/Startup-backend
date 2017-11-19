@@ -29,8 +29,10 @@ public interface StudentService {
 	/**
 	 * Supprimer un élève d'une classe
 	 * @param idStudent identifiant de l'élève à supprimer
+	 * @param idClass identifiant de la classe
 	 * @return élève
 	 * @throws StudentNotFoundException 
+	 * @throws ClassNotFoundException 
 	 */
-	public StudentModel deleteStudentFromClass(long idStudent) throws StudentNotFoundException;
+	public StudentModel deleteStudentFromClass(long idStudent, long idClass) throws StudentNotFoundException, ClassNotFoundException;
 }

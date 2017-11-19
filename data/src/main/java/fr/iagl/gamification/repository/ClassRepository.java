@@ -10,7 +10,7 @@ import fr.iagl.gamification.entity.ClassEntity;
  * @author Hélène Meyer
  *
  */
-public interface ClassRepository extends CrudRepository<ClassEntity, String>{
+public interface ClassRepository extends CrudRepository<ClassEntity, Long>{
 
 	/**
 	 * Retourne true si le nom de la classe est déjà enregistré en base de donnée, sinon retourne false

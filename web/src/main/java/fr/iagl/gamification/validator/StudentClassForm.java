@@ -13,6 +13,12 @@ public class StudentClassForm {
 	private long idStudent;
 	
 	/**
+	 * id de la classe
+	 */
+	@NotNull(message = CodeError.ERROR_NULL)
+	private long idClass;
+
+	/**
 	 * getter de l'id de l'élève
 	 * @return l'id de l'élève
 	 */
@@ -27,5 +33,23 @@ public class StudentClassForm {
 	public void setIdStudent(long idStudent) {
 		this.idStudent = idStudent;
 	}
+
+	/**
+	 * getter de l'id de la classe
+	 * @return id de la classe
+	 */
+	public long getIdClass() {
+		return idClass;
+	}
+
+	/**
+	 * Setter de l'id de la classe
+	 * @param idClass id de la classe
+	 */
+	public void setIdClass(long idClass) {
+		this.idClass = idClass;
+	}
+	
+	
 	
 }
