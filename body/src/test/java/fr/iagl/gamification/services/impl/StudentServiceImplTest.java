@@ -14,8 +14,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
+import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
+import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
+import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
+import fr.iagl.gamification.repository.ClassRepository;
 import fr.iagl.gamification.repository.StudentRepository;
 
 public class StudentServiceImplTest {
@@ -25,6 +30,9 @@ public class StudentServiceImplTest {
 	
 	@Mock
 	private StudentRepository studentRepository;
+	
+	@Mock
+	private ClassRepository classRepository;
 	
 	@Mock
 	private Mapper mapper;
@@ -61,27 +69,66 @@ public class StudentServiceImplTest {
 	}
 	
 	@Test
-	public void testCreateStudentCallCreateRepositoryMethod() {
-		service.createStudent(Mockito.mock(StudentModel.class));
+	public void testSaveStudentCallSaveRepositoryMethod() {
+		service.saveStudent(Mockito.mock(StudentModel.class));
 		Mockito.verify(studentRepository, Mockito.times(1)).save((StudentEntity)Mockito.any());
 	}
 	
 	@Test
-	public void testCreateStudentReturnCreatedStudentByRepository() {
+	public void testSaveStudentReturnCreatedOrUpdatedStudentByRepository() {
 		StudentModel model = Mockito.mock(StudentModel.class);
 		Mockito.when(mapper.map((StudentEntity)Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(model);
-		Assert.assertEquals(model, service.createStudent(Mockito.mock(StudentModel.class)));
+		Assert.assertEquals(model, service.saveStudent(Mockito.mock(StudentModel.class)));
 	}
 	
 	@Test
-	public void testCreateStudentUseStudentModelInParamToPersistIt() {
+	public void testSaveStudentUseStudentModelInParamToPersistIt() {
 		StudentModel in = Mockito.mock(StudentModel.class);
 		StudentEntity entity = Mockito.mock(StudentEntity.class);
 		ArgumentCaptor<StudentEntity> captor = ArgumentCaptor.forClass(StudentEntity.class);
 		
 		Mockito.when(mapper.map((StudentModel)Mockito.any(), Mockito.eq(StudentEntity.class))).thenReturn(entity);
-		service.createStudent(in);
+		service.saveStudent(in);
 		Mockito.verify(studentRepository, Mockito.times(1)).save(captor.capture());
 		Assert.assertEquals(entity, captor.getValue());
+	}
+	
+	@Test
+	public void testAddClassToStudent() throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
+		ClassEntity classe = Mockito.mock(ClassEntity.class);
+		StudentEntity entity = Mockito.mock(StudentEntity.class);
+		StudentModel model = Mockito.mock(StudentModel.class);
+		
+		Mockito.when(mapper.map(Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(model);
+		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(entity);
+		Mockito.when(classRepository.findOne(Mockito.any())).thenReturn(classe);
+		StudentModel output = service.addClassToStudent(1L, 2L);
+		Mockito.verify(entity).setClassroom(classe);
+		Mockito.verify(studentRepository, Mockito.times(1)).save(entity);
+		Assert.assertEquals(model, output);
+	}
+	
+
+	@Test(expected=StudentNotFoundException.class)
+	public void testAddClassToStudentWithBadIdStudentThrowException() throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
+		service.addClassToStudent(1L, 2L);
+	}
+	
+	@Test(expected=ClassroomNotFoundException.class)
+	public void testAddClassToStudentWithBadIdClassThrowException() throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
+		StudentEntity entity = Mockito.mock(StudentEntity.class);
+		
+		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(entity);
+		StudentModel output = service.addClassToStudent(1L, 2L);
+	}
+	
+	@Test(expected=ClassroomAlreadyExistedException.class)
+	public void testAddClassToStudentWithClassThrowException() throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
+		StudentEntity entity = Mockito.mock(StudentEntity.class);
+		ClassEntity classroom = Mockito.mock(ClassEntity.class); 
+		
+		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(entity);
+		Mockito.when(entity.getClassroom()).thenReturn(classroom);
+		StudentModel output = service.addClassToStudent(1L, 2L);
 	}
 }

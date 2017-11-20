@@ -28,6 +28,11 @@ public class StudentModel {
 	 * Date de naissance
 	 */
 	private Date born;
+	
+	/**
+	 * Classe
+	 */
+	private ClassModel classroom;
 
 	/**
 	 * Getter de l'attribut {@link StudentModel#id}
@@ -92,4 +97,22 @@ public class StudentModel {
 	public void setBorn(Date born) {
 		this.born = born;
 	}
+
+	/**
+	 * Getter de la classe
+	 * @return la classe
+	 */
+	public ClassModel getClassroom() {
+		return classroom;
+	}
+
+	/**
+	 * Setter de la classe
+	 * @param classroom la classe
+	 */
+	public void setClassroom(ClassModel classroom) {
+		this.classroom = classroom;
+	}
+	
+	
 }

@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @PropertySource("classpath:config/url.properties")
-public abstract class AbstractController {
+public interface AbstractController {
 
 }
