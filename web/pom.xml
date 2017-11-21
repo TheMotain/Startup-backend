@@ -85,7 +85,8 @@
 					<url>http://149.202.179.212:8080/manager/text</url>
 					<username>deployer</username>
 					<password>deployer</password>
-					<path>${build.filename}</path>
+					<path>/${build.filename}</path>
+					<update>true</update>
 				</configuration>
 			</plugin>
 		</plugins>
