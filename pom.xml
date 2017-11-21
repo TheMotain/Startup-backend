@@ -126,6 +126,49 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://149.202.179.212:8080/manager/text</url>
+					<username>deployer</username>
+					<password>deployer</password>
+					<path>/${build.filename}</path>
+					<update>true</update>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+	
+	
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<build.filename>${project.name}-${project.version}</build.filename>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<build.filename>dev</build.filename>
+			</properties>
+		</profile>
+		<profile>
+			<id>rct</id>
+			<properties>
+				<build.filename>rct</build.filename>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<build.filename>prod</build.filename>
+			</properties>
+		</profile>
+	</profiles>
 </project>
