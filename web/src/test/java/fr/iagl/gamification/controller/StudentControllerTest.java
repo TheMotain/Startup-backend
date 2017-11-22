@@ -21,17 +21,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 import fr.iagl.gamification.SpringIntegrationTest;
-import fr.iagl.gamification.exceptions.ClassExistsException;
-import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
 import fr.iagl.gamification.exceptions.ClassroomExistsException;
 import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
-import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.object.StudentObject;
 import fr.iagl.gamification.services.StudentService;
-import fr.iagl.gamification.validator.ClassForm;
 import fr.iagl.gamification.validator.LinkStudentClassForm;
 import fr.iagl.gamification.validator.StudentForm;
 

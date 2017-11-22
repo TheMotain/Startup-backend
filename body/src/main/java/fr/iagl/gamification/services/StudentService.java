@@ -2,11 +2,8 @@ package fr.iagl.gamification.services;
 
 import java.util.List;
 
-<<<<<<< HEAD
-=======
 import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
 import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
->>>>>>> origin/master
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 

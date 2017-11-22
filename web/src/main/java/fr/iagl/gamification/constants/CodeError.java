@@ -19,7 +19,7 @@ public class CodeError {
 	public static final String ERROR_NULL = "L'identifiant ne peut pas être nul";
 	public static final String ERROR_NOT_EXISTS_STUDENT = "l'élève est inexistant ";
 	public static final String ERROR_NOT_EXISTS_CLASS = "l'élève n'est attribué à aucune classe";
-	public static final String SAVE_FAIL = "L'enregistrement n'a pas été effectué.";;
+	public static final String SAVE_FAIL = "L'enregistrement n'a pas été effectué.";
 	
 	public static final String ERROR_NOT_EXISTS_CLASSROOM = "La classe n'existe pas";
 	public static final String ERROR_CLASS_ALREADY_EXISTS = "L'élève est déjà rattaché à une classe";

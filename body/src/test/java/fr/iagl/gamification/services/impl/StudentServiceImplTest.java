@@ -16,11 +16,8 @@ import org.mockito.MockitoAnnotations;
 
 import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
-<<<<<<< HEAD
-=======
 import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
 import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
->>>>>>> origin/master
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.repository.ClassRepository;
@@ -97,7 +94,6 @@ public class StudentServiceImplTest {
 	}
 	
 	@Test
-<<<<<<< HEAD
 	public void testDeleteStudentFromClass() throws StudentNotFoundException{
 		StudentEntity studentEntity = Mockito.mock(StudentEntity.class);
 		StudentModel studentModel = Mockito.mock(StudentModel.class);
@@ -110,7 +106,9 @@ public class StudentServiceImplTest {
 		Mockito.verify(studentRepository, Mockito.times(1)).save(studentEntity);
 		
 		Assert.assertEquals(studentModel, model);
-=======
+
+	}
+	@Test
 	public void testAddClassToStudent() throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
 		ClassEntity classe = Mockito.mock(ClassEntity.class);
 		StudentEntity entity = Mockito.mock(StudentEntity.class);
@@ -147,6 +145,5 @@ public class StudentServiceImplTest {
 		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(entity);
 		Mockito.when(entity.getClassroom()).thenReturn(classroom);
 		StudentModel output = service.addClassToStudent(1L, 2L);
->>>>>>> origin/master
 	}
 }
