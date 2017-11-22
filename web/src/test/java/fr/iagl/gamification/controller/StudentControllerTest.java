@@ -115,25 +115,23 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		controller.deleteStudentFromClass(1L, bindingResult);
 		Mockito.verify(studentService, Mockito.times(1)).deleteStudentFromClass(Mockito.anyLong());
 	}
-/*
+
 	@Test
 	public void testDeleteStudentFromClassOK() throws  StudentNotFoundException{
-						
+		StudentModel studentModel = Mockito.mock(StudentModel.class);				
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
+		Mockito.doReturn(studentModel).when(studentService).deleteStudentFromClass(Mockito.anyLong());
 		
 		ResponseEntity outputEntity = controller.deleteStudentFromClass(1L, bindingResult);
 		Mockito.verify(studentService, Mockito.times(1)).deleteStudentFromClass(1L);
 		assertEquals(HttpStatus.OK, outputEntity.getStatusCode());
 	}
-*/
 	
 	@Test
 	public void testDeleteStudentFromClassKO() throws  StudentNotFoundException{
-		
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(true).when(bindingResult).hasErrors();
-		
 		ResponseEntity outputEntity = controller.deleteStudentFromClass(1L, bindingResult);
 		
 		Mockito.verify(studentService, Mockito.never()).deleteStudentFromClass(1L);	
