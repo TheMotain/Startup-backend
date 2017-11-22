@@ -3,5 +3,25 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
  
+ 		<mapping>
+		<class-a>fr.iagl.gamification.model.StudentModel</class-a>
+		<class-b>fr.iagl.gamification.object.StudentObject</class-b>
+		<field>
+			<a>classroom.id</a>
+			<b>idClass</b>
+		</field>
+		<field>
+			<a>born</a>
+			<b>born</b>
+		</field>
+		<field>
+			<a>firstName</a>
+			<b>firstName</b>
+		</field>
+		<field>
+			<a>lastName</a>
+			<b>lastName</b>
+		</field>
+	</mapping>
 
 </mappings>

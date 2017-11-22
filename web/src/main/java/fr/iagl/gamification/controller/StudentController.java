@@ -21,6 +21,7 @@ import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
+import fr.iagl.gamification.object.StudentObject;
 import fr.iagl.gamification.services.StudentService;
 import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.StudentForm;
@@ -98,14 +99,16 @@ public class StudentController extends AbstractController {
 				@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list" , message = "Liste des erreurs")})
 	public ResponseEntity deleteStudentFromClass(@Valid @RequestBody Long idStudent,BindingResult bindingResult){
 		
-		List<String> errors;
+		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
 		if(bindingResult.hasErrors()){
 			errors = RequestTools.transformBindingErrors(bindingResult);
 			}else{
 				StudentModel studentUpdate ;
 				try {
 					studentUpdate=studentService.deleteStudentFromClass(idStudent);
-					return new ResponseEntity<StudentModel>(studentUpdate,HttpStatus.OK);
+					if (studentUpdate != null) {
+						return new ResponseEntity<>(mapper.map(studentUpdate, StudentObject.class), HttpStatus.OK);
+					}
 				} catch (StudentNotFoundException e) {
 					errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT);
 				}
