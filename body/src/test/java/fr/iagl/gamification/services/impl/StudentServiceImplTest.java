@@ -16,7 +16,6 @@ import org.mockito.MockitoAnnotations;
 
 import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
-import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.repository.ClassRepository;
@@ -93,7 +92,7 @@ public class StudentServiceImplTest {
 	}
 	
 	@Test
-	public void testDeleteStudentFromClass() throws StudentNotFoundException, ClassroomNotFoundException{
+	public void testDeleteStudentFromClass() throws StudentNotFoundException{
 		StudentEntity studentEntity = Mockito.mock(StudentEntity.class);
 		StudentModel studentModel = Mockito.mock(StudentModel.class);
 		

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
-import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.repository.ClassRepository;
