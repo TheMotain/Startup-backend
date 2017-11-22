@@ -22,11 +22,9 @@ import org.springframework.validation.ObjectError;
 
 import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.exceptions.ClassExistsException;
-import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.services.StudentService;
-import fr.iagl.gamification.validator.StudentClassForm;
 import fr.iagl.gamification.validator.StudentForm;
 
 public class StudentControllerTest extends SpringIntegrationTest {
@@ -145,7 +143,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	}
 	
 	@Test
-	public void testDeleteStudentFromClassKOStudentNotFound() throws StudentNotFoundException, ClassroomNotFoundException{
+	public void testDeleteStudentFromClassKOStudentNotFound() throws StudentNotFoundException{
 		
 		StudentModel studentModel = Mockito.mock(StudentModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
@@ -158,7 +156,6 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		Mockito.verify(studentService, Mockito.times(1)).deleteStudentFromClass(1L);
 		assertEquals(HttpStatus.BAD_REQUEST, outputEntity.getStatusCode());
 	}
-	
 	
 	
 }

@@ -19,12 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
-import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.services.StudentService;
 import fr.iagl.gamification.utils.RequestTools;
-import fr.iagl.gamification.validator.StudentClassForm;
 import fr.iagl.gamification.validator.StudentForm;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
