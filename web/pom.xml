@@ -157,5 +157,31 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>envdev</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<target>
+										<property name="environnement" value="envdev" />
+										<ant antfile="../distribution/devops.xml">
+											<target name="init" />
+										</ant>
+									</target>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 </project>
