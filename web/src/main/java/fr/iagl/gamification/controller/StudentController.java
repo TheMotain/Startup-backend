@@ -1,7 +1,11 @@
 package fr.iagl.gamification.controller;
 
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.validation.Valid;
@@ -19,11 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
+
+import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
+import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
 import fr.iagl.gamification.exceptions.StudentNotFoundException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.object.StudentObject;
 import fr.iagl.gamification.services.StudentService;
 import fr.iagl.gamification.utils.RequestTools;
+import fr.iagl.gamification.validator.LinkStudentClassForm;
 import fr.iagl.gamification.validator.StudentForm;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -35,8 +43,7 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 @RestController
-@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT)
-public class StudentController extends AbstractController {
+public class StudentController implements AbstractController {
 
 	/**
 	 * Logger
@@ -60,12 +67,17 @@ public class StudentController extends AbstractController {
 	 * 
 	 * @return Response contenant la liste des élèves
 	 */
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT, method = RequestMethod.GET)
 	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, responseContainer = "list", message = "Liste des élève")
-	public ResponseEntity<List<StudentModel>> getAllStudent() {
+	public ResponseEntity<List<StudentObject>> getAllStudent() {
 		LOG.info("Récupération de la liste des élèves");
 		List<StudentModel> result = studentService.getAllStudent();
-		return new ResponseEntity<>(result, HttpStatus.OK);
+		List<StudentObject> students = new ArrayList<>();
+		Optional.ofNullable(result)
+					.orElseGet(Collections::emptyList)
+					.iterator()
+					.forEachRemaining(e -> students.add(mapper.map(e, StudentObject.class)));
+		return new ResponseEntity<>(students, HttpStatus.OK);
 	}
 
 	/**
@@ -78,19 +90,63 @@ public class StudentController extends AbstractController {
 	 * @return L'élève qui a été créé
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT, method = RequestMethod.POST)
 	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_CREATED, response = StudentModel.class, message = "Elève créé"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs à la validation du formulaire") })
 	public ResponseEntity createStudent(@Valid @RequestBody StudentForm studentForm, BindingResult bindingResult) {
+		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
 		
 		if (bindingResult.hasErrors()) {
-			return new ResponseEntity<List<String>>(RequestTools.transformBindingErrors(bindingResult),
-					HttpStatus.BAD_REQUEST);
+			errors = RequestTools.transformBindingErrors(bindingResult);
+		} else {
+			LOG.info("Call createOrUpdateStudent from service");
+			StudentModel studentCreated = studentService.saveStudent(mapper.map(studentForm, StudentModel.class));
+			LOG.info("Return createOrUpdateStudent from service");
+			
+			if (studentCreated != null) {
+				return new ResponseEntity<StudentObject>(mapper.map(studentCreated, StudentObject.class), HttpStatus.CREATED);
+			}
 		}
-		LOG.info("Call createStudent from service");
-		StudentModel studentCreated = studentService.createStudent(mapper.map(studentForm, StudentModel.class));
-		LOG.info("Return createStudent from service");
-		return new ResponseEntity<StudentModel>(studentCreated, HttpStatus.CREATED);
+		
+		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
+	}
+	
+	/**
+	 * Ajouter une classe 
+	 * 
+	 * @param linkForm le formulaire contenant l'identifiant de l'élève et celui de la classe
+	 * @param bindingResult
+	 * @return l'objet modifié
+	 */
+	@RequestMapping(value=MappingConstant.POST_ADD_CLASS, method = RequestMethod.POST)
+	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, message = "Classe ajoutée à l'élève"),
+			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs") })
+	public ResponseEntity<StudentObject> addClassToStudent(@Valid @RequestBody LinkStudentClassForm linkForm, BindingResult bindingResult) {
+		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
+		
+		if (bindingResult.hasErrors()) {
+			errors = RequestTools.transformBindingErrors(bindingResult);
+		} else {
+
+			StudentModel studentModified;
+			try {
+				studentModified = studentService.addClassToStudent(linkForm.getIdStudent(), linkForm.getIdClass());
+				if (studentModified != null) {
+					return new ResponseEntity<>(mapper.map(studentModified, StudentObject.class), HttpStatus.OK);
+				}
+			} catch (StudentNotFoundException e) {
+				errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT);
+				LOG.warn(CodeError.ERROR_NOT_EXISTS_STUDENT);
+			} catch (ClassroomNotFoundException e) {
+				errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASSROOM);
+				LOG.warn(CodeError.ERROR_NOT_EXISTS_CLASSROOM);
+			} catch (ClassroomAlreadyExistedException e) {
+				errors = Arrays.asList(CodeError.ERROR_CLASS_ALREADY_EXISTS);
+				LOG.warn(CodeError.ERROR_CLASS_ALREADY_EXISTS);
+			}
+		}
+		
+		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
 	}
 	
 	@SuppressWarnings("rawtypes")

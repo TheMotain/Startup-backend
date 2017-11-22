@@ -124,6 +124,4 @@ public class StudentObject {
 	public void setIdClass(Long idClass) {
 		this.idClass = idClass;
 	}
-	
-	
 }
