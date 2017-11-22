@@ -98,7 +98,7 @@ public class StudentController extends AbstractController {
 	@RequestMapping(value=MappingConstant.POST_DELETE_STUDENT_CLASS, method = RequestMethod.POST)
 	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK,response = StudentModel.class, message = "élève supprimé de la classe"),
 				@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list" , message = "Liste des erreurs")})
-	public ResponseEntity deleteStudentFromClass(@Valid @RequestBody StudentClassForm studentClassForm,BindingResult bindingResult){
+	public ResponseEntity deleteStudentFromClass(@Valid @RequestBody Long idStudent,BindingResult bindingResult){
 		
 		List<String> errors;
 		if(bindingResult.hasErrors()){
@@ -106,12 +106,10 @@ public class StudentController extends AbstractController {
 			}else{
 				StudentModel studentUpdate ;
 				try {
-					studentUpdate=studentService.deleteStudentFromClass(studentClassForm.getIdStudent(),studentClassForm.getIdClass());
+					studentUpdate=studentService.deleteStudentFromClass(idStudent);
 					return new ResponseEntity<StudentModel>(studentUpdate,HttpStatus.OK);
 				} catch (StudentNotFoundException e) {
 					errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT);
-				}catch (ClassroomNotFoundException e) {
-					errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASS);
 				}
 		}
 		

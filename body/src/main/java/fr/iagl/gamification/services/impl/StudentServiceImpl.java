@@ -58,18 +58,12 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public StudentModel deleteStudentFromClass(long idStudent, long idClass) throws StudentNotFoundException, ClassroomNotFoundException{
+	public StudentModel deleteStudentFromClass(long idStudent) throws StudentNotFoundException{
 		StudentEntity studentEntity = studentRepository.findOne(idStudent);
-		ClassEntity classEntity = classRepository.findOne(idClass);
 		
 		if(studentEntity == null) {
 			throw new StudentNotFoundException();
 		}
-		
-		if(classEntity == null) {
-			throw new ClassroomNotFoundException();
-		}
-
 		studentEntity.setClassroom(null);
 		
 		return mapper.map(studentRepository.save(studentEntity),StudentModel.class);

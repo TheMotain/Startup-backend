@@ -111,69 +111,54 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	}
 	
 	@Test
-	public void testDeleteStudentFromClassOK() throws  StudentNotFoundException, ClassroomNotFoundException{
+	public void testDeleteStudentFromClassCallDeleteStudentFromClassService() throws StudentNotFoundException{
 		
-		StudentClassForm formDelStudent = Mockito.mock(StudentClassForm.class);
-		StudentModel studentModel = Mockito.mock(StudentModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
-		
+		controller.deleteStudentFromClass(1L, bindingResult);
+		Mockito.verify(studentService, Mockito.times(1)).deleteStudentFromClass(Mockito.anyLong());
+	}
+	
+	@Test
+	public void testDeleteStudentFromClassOK() throws  StudentNotFoundException{
+						
+		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
-		Mockito.doReturn(1L).when(formDelStudent).getIdStudent();
-		Mockito.doReturn(2L).when(formDelStudent).getIdClass();
-		Mockito.doReturn(studentModel).when(studentService).deleteStudentFromClass(Mockito.anyLong(), Mockito.anyLong());
-
-		ResponseEntity outputEntity = controller.deleteStudentFromClass(formDelStudent, bindingResult);
-		Mockito.verify(studentService, Mockito.times(1)).deleteStudentFromClass(1L, 2L);
+		
+		ResponseEntity outputEntity = controller.deleteStudentFromClass(1L, bindingResult);
+		
+		Mockito.verify(studentService, Mockito.times(1)).deleteStudentFromClass(1L);
+		
 		assertEquals(HttpStatus.OK, outputEntity.getStatusCode());
 	}
 	
 	
 	@Test
-	public void testDeleteStudentFromClassKO() throws  StudentNotFoundException, ClassroomNotFoundException{
+	public void testDeleteStudentFromClassKO() throws  StudentNotFoundException{
 		
-		StudentClassForm formDelStudent = Mockito.mock(StudentClassForm.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
-
 		Mockito.doReturn(true).when(bindingResult).hasErrors();
+		ResponseEntity outputEntity = controller.deleteStudentFromClass(1L, bindingResult);
 		
-		ResponseEntity outputEntity = controller.deleteStudentFromClass(formDelStudent, bindingResult);
-		Mockito.verify(studentService, Mockito.times(1)).deleteStudentFromClass(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.verify(studentService, Mockito.never()).deleteStudentFromClass(1L);
+		
 		assertEquals(HttpStatus.BAD_REQUEST, outputEntity.getStatusCode());
 	}
 	
 	@Test
 	public void testDeleteStudentFromClassKOStudentNotFound() throws StudentNotFoundException, ClassroomNotFoundException{
 		
-		StudentClassForm formDelStudent = Mockito.mock(StudentClassForm.class);
 		StudentModel studentModel = Mockito.mock(StudentModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
-		Mockito.doReturn(1L).when(formDelStudent).getIdStudent();
-		Mockito.doReturn(2L).when(formDelStudent).getIdClass();
-		Mockito.doReturn(studentModel).when(studentService).deleteStudentFromClass(Mockito.anyLong(), Mockito.anyLong());
-		Mockito.doThrow(StudentNotFoundException.class).when(studentService).deleteStudentFromClass(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.doReturn(studentModel).when(studentService).deleteStudentFromClass(Mockito.anyLong());
+		Mockito.doThrow(StudentNotFoundException.class).when(studentService).deleteStudentFromClass(Mockito.anyLong());
 		
-		ResponseEntity outputEntity = controller.deleteStudentFromClass(formDelStudent, bindingResult);
-		Mockito.verify(studentService, Mockito.times(1)).deleteStudentFromClass(1L, 2L);
+		ResponseEntity outputEntity = controller.deleteStudentFromClass(1L, bindingResult);
+		Mockito.verify(studentService, Mockito.times(1)).deleteStudentFromClass(1L);
 		assertEquals(HttpStatus.BAD_REQUEST, outputEntity.getStatusCode());
 	}
 	
-	@Test
-	public void testDeleteStudentFromClassKOClassroomNotFound() throws StudentNotFoundException, ClassroomNotFoundException{
-		
-		StudentClassForm formDelStudent = Mockito.mock(StudentClassForm.class);
-		StudentModel studentModel = Mockito.mock(StudentModel.class);
-		BindingResult bindingResult = Mockito.mock(BindingResult.class);
-		
-		Mockito.doReturn(false).when(bindingResult).hasErrors();
-		Mockito.doReturn(1L).when(formDelStudent).getIdStudent();
-		Mockito.doReturn(2L).when(formDelStudent).getIdClass();
-		Mockito.doReturn(studentModel).when(studentService).deleteStudentFromClass(Mockito.anyLong(), Mockito.anyLong());
-		Mockito.doThrow(ClassroomNotFoundException.class).when(studentService).deleteStudentFromClass(Mockito.anyLong(), Mockito.anyLong());
-		
-		ResponseEntity outputEntity = controller.deleteStudentFromClass(formDelStudent, bindingResult);
-		Mockito.verify(studentService, Mockito.times(1)).deleteStudentFromClass(1L, 2L);
-		assertEquals(HttpStatus.BAD_REQUEST, outputEntity.getStatusCode());
-	}
+	
+	
 }

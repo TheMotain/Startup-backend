@@ -95,14 +95,12 @@ public class StudentServiceImplTest {
 	@Test
 	public void testDeleteStudentFromClass() throws StudentNotFoundException, ClassroomNotFoundException{
 		StudentEntity studentEntity = Mockito.mock(StudentEntity.class);
-		ClassEntity classEntity = Mockito.mock(ClassEntity.class);
 		StudentModel studentModel = Mockito.mock(StudentModel.class);
 		
 		Mockito.when(mapper.map(Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(studentModel);
 		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(studentEntity);
-		Mockito.when(classRepository.findOne(Mockito.any())).thenReturn(classEntity);
 		
-		StudentModel model = service.deleteStudentFromClass(1L, 2L);
+		StudentModel model = service.deleteStudentFromClass(1L);
 		Mockito.verify(studentEntity).setClassroom(null);
 		Mockito.verify(studentRepository, Mockito.times(1)).save(studentEntity);
 		
