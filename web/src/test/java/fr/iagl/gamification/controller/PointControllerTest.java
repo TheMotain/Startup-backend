@@ -47,7 +47,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 	}
 	
 	@Test
-	public void testGetAllPointCallGetAllFromService() throws ClassroomExistsException{
+	public void testGetAllPointCallGetAllFromService(){
 		controller.getAllPoints();
 		Mockito.verify(service, Mockito.times(1)).getPoints();
 	}
@@ -92,24 +92,25 @@ public class PointControllerTest extends SpringIntegrationTest{
 		PointModel pointModel = Mockito.mock(PointModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
-
+		Mockito.doReturn(2L).when(pointForm).getIdStudent();
+		Mockito.doReturn(pointModel).when(mapper).map(pointForm, PointModel.class);
+		
 		ResponseEntity output = controller.submitPointForm(pointForm, bindingResult);
-		Mockito.verify(service, Mockito.times(1)).updatePoint(Mockito.any(), Mockito.any());
+		Mockito.verify(service, Mockito.times(1)).updatePoint(pointModel, 2L);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
 	}
 
 	@Test
-	public void testClassFormKO() throws ClassroomExistsException, StudentNotFoundException{
+	public void testClassFormKO() throws StudentNotFoundException{
 		PointForm pointForm = Mockito.mock(PointForm.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		ObjectError error = Mockito.mock(ObjectError.class);
-		PointModel point = Mockito.mock(PointModel.class);
 		Mockito.doReturn(true).when(bindingResult).hasErrors();
 		Mockito.doReturn(Arrays.asList(error)).when(bindingResult).getAllErrors();
 		Mockito.doReturn("error message").when(error).getDefaultMessage();
 		
 		ResponseEntity output = controller.submitPointForm(pointForm, bindingResult);
-		Mockito.verify(service, Mockito.never()).updatePoint(Mockito.any(), Mockito.any());
+		Mockito.verify(service, Mockito.never()).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
 	}
 	
@@ -122,10 +123,10 @@ public class PointControllerTest extends SpringIntegrationTest{
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
 		Mockito.doReturn("error message").when(error).getDefaultMessage();
 		Mockito.doReturn(point).when(mapper).map(pointForm, PointModel.class);
-		Mockito.doThrow(StudentNotFoundException.class).when(service).updatePoint(Mockito.any(), Mockito.any());
+		Mockito.doThrow(StudentNotFoundException.class).when(service).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
 		
 		ResponseEntity output = controller.submitPointForm(pointForm, bindingResult);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
-		assertEquals("["+CodeError.ERROR_EXISTS_CLASS+"]", output.getBody().toString());
+		assertEquals("["+CodeError.ERROR_NOT_EXISTS_STUDENT+"]", output.getBody().toString());
 	}
 }

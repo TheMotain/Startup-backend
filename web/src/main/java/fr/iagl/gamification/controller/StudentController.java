@@ -66,7 +66,7 @@ public class StudentController implements AbstractController {
 	 * @return Response contenant la liste des élèves
 	 */
 	@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT, method = RequestMethod.GET)
-	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, responseContainer = "list", message = "Liste des élève")
+	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentObject.class, responseContainer = "list", message = "Liste des élève")
 	public ResponseEntity<List<StudentObject>> getAllStudent() {
 		LOG.info("Récupération de la liste des élèves");
 		List<StudentModel> result = studentService.getAllStudent();
@@ -89,7 +89,7 @@ public class StudentController implements AbstractController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT, method = RequestMethod.POST)
-	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_CREATED, response = StudentModel.class, message = "Elève créé"),
+	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_CREATED, response = StudentObject.class, message = "Elève créé"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs à la validation du formulaire") })
 	public ResponseEntity createStudent(@Valid @RequestBody StudentForm studentForm, BindingResult bindingResult) {
 		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
@@ -117,7 +117,7 @@ public class StudentController implements AbstractController {
 	 * @return l'objet modifié
 	 */
 	@RequestMapping(value=MappingConstant.POST_ADD_CLASS, method = RequestMethod.POST)
-	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, message = "Classe ajoutée à l'élève"),
+	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentObject.class, message = "Classe ajoutée à l'élève"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs") })
 	public ResponseEntity<StudentObject> addClassToStudent(@Valid @RequestBody LinkStudentClassForm linkForm, BindingResult bindingResult) {
 		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);

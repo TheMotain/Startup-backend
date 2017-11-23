@@ -2,7 +2,24 @@
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-	<mapping>
+	<mapping wildcard="false">
+		<class-a>fr.iagl.gamification.model.PointModel</class-a>
+		<class-b>fr.iagl.gamification.object.PointObject</class-b>
+		<field>
+			<a>student.id</a>
+			<b>idStudent</b>
+		</field>
+		<field>
+			<a>malus</a>
+			<b>malus</b>
+		</field>
+		<field>
+			<a>bonus</a>
+			<b>bonus</b>
+		</field>
+	</mapping>
+	
+	<mapping wildcard="false">
 		<class-a>fr.iagl.gamification.model.StudentModel</class-a>
 		<class-b>fr.iagl.gamification.object.StudentObject</class-b>
 		<field>
