@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
-import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
-import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
-import fr.iagl.gamification.exceptions.StudentNotFoundException;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.object.StudentObject;
 import fr.iagl.gamification.services.StudentService;
@@ -132,16 +130,10 @@ public class StudentController implements AbstractController {
 				if (studentModified != null) {
 					return new ResponseEntity<>(mapper.map(studentModified, StudentObject.class), HttpStatus.OK);
 				}
-			} catch (StudentNotFoundException e) {
-				errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT);
-				LOG.warn(CodeError.ERROR_NOT_EXISTS_STUDENT);
-			} catch (ClassroomNotFoundException e) {
-				errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASSROOM);
-				LOG.warn(CodeError.ERROR_NOT_EXISTS_CLASSROOM);
-			} catch (ClassroomAlreadyExistedException e) {
-				errors = Arrays.asList(CodeError.ERROR_CLASS_ALREADY_EXISTS);
-				LOG.warn(CodeError.ERROR_CLASS_ALREADY_EXISTS);
-			}
+			} catch (GamificationServiceException e) {
+				errors = e.getErrors();
+				LOG.warn("Erreur lors de l'appel au service studentService.addClassToStudent");
+			} 
 		}
 		
 		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);

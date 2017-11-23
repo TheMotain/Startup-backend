@@ -1,17 +1,17 @@
 package fr.iagl.gamification.services.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
-import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
-import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
-import fr.iagl.gamification.exceptions.StudentNotFoundException;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.repository.ClassRepository;
 import fr.iagl.gamification.repository.StudentRepository;
@@ -58,20 +58,20 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public StudentModel addClassToStudent(long idStudent, long idClass) throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
+	public StudentModel addClassToStudent(long idStudent, long idClass) throws GamificationServiceException {
 		StudentEntity entity = studentRepository.findOne(idStudent);
 		
 		if (entity == null) {
-			throw new StudentNotFoundException();
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT));
 		}
 		if (entity.getClassroom() != null) {
-			throw new ClassroomAlreadyExistedException();
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_CLASS_ALREADY_EXISTS));
 		}
 		
 		ClassEntity classEntity = classRepository.findOne(idClass);
 		
 		if (classEntity == null) {
-			throw new ClassroomNotFoundException();
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASSROOM));
 		}
 		
 		entity.setClassroom(classEntity);

@@ -14,7 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import fr.iagl.gamification.entity.ClassEntity;
-import fr.iagl.gamification.exceptions.ClassroomExistsException;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.repository.ClassRepository;
 
@@ -35,7 +35,7 @@ public class ClassServiceImplTest{
 	}
 	
 	@Test
-	public void testClassNotExistAndCreated() throws ClassroomExistsException {
+	public void testClassNotExistAndCreated() throws GamificationServiceException {
 		ClassModel classe = Mockito.mock(ClassModel.class);
 		ClassEntity entity = Mockito.mock(ClassEntity.class);
 		Mockito.doReturn(false).when(repository).existsByName("name");
@@ -46,8 +46,8 @@ public class ClassServiceImplTest{
 		Mockito.verify(repository).save(entity);
 	}
 	
-	@Test(expected=ClassroomExistsException.class)
-	public void testClassExistAndNotCreated() throws ClassroomExistsException {
+	@Test(expected=GamificationServiceException.class)
+	public void testClassExistAndNotCreated() throws GamificationServiceException {
 		ClassModel classe = Mockito.mock(ClassModel.class);
 		Mockito.doReturn("name").when(classe).getClassName();
 		Mockito.doReturn(true).when(repository).existsByName("name");

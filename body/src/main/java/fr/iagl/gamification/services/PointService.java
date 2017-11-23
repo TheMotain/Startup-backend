@@ -2,7 +2,7 @@ package fr.iagl.gamification.services;
 
 import java.util.List;
 
-import fr.iagl.gamification.exceptions.StudentNotFoundException;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.PointModel;
 
 /**
@@ -19,9 +19,9 @@ public interface PointService {
 	 * @param pointToUpdate les points à modifier de l'élève
 	 * @param idStudent l'identifiant de l'élève 
 	 * @return l'ensemble des points de l'élève
-	 * @throws StudentNotFoundException quand l'élève n'existe pas
+	 * @throws GamificationServiceException 
 	 */
-	public PointModel updatePoint(PointModel pointToUpdate, long idStudent) throws StudentNotFoundException;
+	public PointModel updatePoint(PointModel pointToUpdate, long idStudent) throws GamificationServiceException;
 	
 	/**
 	 * Récupère tous les points bonus/malus de tous les élèves

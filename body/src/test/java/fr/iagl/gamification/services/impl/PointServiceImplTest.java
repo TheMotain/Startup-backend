@@ -13,13 +13,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import fr.iagl.gamification.entity.StudentEntity;
 import fr.iagl.gamification.entity.PointEntity;
+import fr.iagl.gamification.entity.StudentEntity;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.PointModel;
 import fr.iagl.gamification.repository.PointRepository;
 import fr.iagl.gamification.repository.StudentRepository;
-
-import fr.iagl.gamification.exceptions.StudentNotFoundException;
 
 
 public class PointServiceImplTest {
@@ -67,13 +66,13 @@ public class PointServiceImplTest {
 		Assert.assertTrue(result.contains(stm3));
 	}
 	
-	@Test(expected=StudentNotFoundException.class)
-	public void testAddPointWithBadStudentThrowException() throws StudentNotFoundException{
+	@Test(expected=GamificationServiceException.class)
+	public void testAddPointWithBadStudentThrowException() throws GamificationServiceException{
 		service.updatePoint(Mockito.any(), 0);
 	}
 	
 	@Test
-	public void testAddPointWithPointDoesntExists() throws StudentNotFoundException{
+	public void testAddPointWithPointDoesntExists() throws GamificationServiceException{
 		StudentEntity student = Mockito.mock(StudentEntity.class);
 		PointEntity points = Mockito.mock(PointEntity.class);
 		PointModel model = Mockito.mock(PointModel.class);
@@ -87,7 +86,7 @@ public class PointServiceImplTest {
 	}
 	
 	@Test
-	public void testUpdatePointWithPointExists() throws StudentNotFoundException{
+	public void testUpdatePointWithPointExists() throws GamificationServiceException{
 		StudentEntity student = Mockito.mock(StudentEntity.class);
 		PointEntity points = Mockito.mock(PointEntity.class);
 		PointModel ptUpdated = Mockito.mock(PointModel.class);
@@ -106,5 +105,53 @@ public class PointServiceImplTest {
 		Mockito.verify(points).setMalus(5L);
 		Mockito.verify(repository).save(Mockito.any(PointEntity.class));
 		
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testUpdatePointWithBadBonus() throws GamificationServiceException{
+		StudentEntity student = Mockito.mock(StudentEntity.class);
+		PointEntity points = Mockito.mock(PointEntity.class);
+		PointModel ptUpdated = Mockito.mock(PointModel.class);
+		Mockito.when(repository.findByStudent_Id(2L)).thenReturn(points);
+		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(student);
+		Mockito.when(mapper.map(ptUpdated, PointEntity.class)).thenReturn(points);
+		Mockito.when(points.getBonus()).thenReturn(1L);
+		Mockito.when(points.getMalus()).thenReturn(1L);
+		Mockito.when(ptUpdated.getBonus()).thenReturn(0L);
+		Mockito.when(ptUpdated.getMalus()).thenReturn(1L);
+		
+		service.updatePoint(ptUpdated, 2L);
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testUpdatePointWithBadMalus() throws GamificationServiceException{
+		StudentEntity student = Mockito.mock(StudentEntity.class);
+		PointEntity points = Mockito.mock(PointEntity.class);
+		PointModel ptUpdated = Mockito.mock(PointModel.class);
+		Mockito.when(repository.findByStudent_Id(2L)).thenReturn(points);
+		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(student);
+		Mockito.when(mapper.map(ptUpdated, PointEntity.class)).thenReturn(points);
+		Mockito.when(points.getBonus()).thenReturn(1L);
+		Mockito.when(points.getMalus()).thenReturn(1L);
+		Mockito.when(ptUpdated.getBonus()).thenReturn(1L);
+		Mockito.when(ptUpdated.getMalus()).thenReturn(0L);
+		
+		service.updatePoint(ptUpdated, 2L);
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testUpdatePointWithBadMalusBadBonus() throws GamificationServiceException{
+		StudentEntity student = Mockito.mock(StudentEntity.class);
+		PointEntity points = Mockito.mock(PointEntity.class);
+		PointModel ptUpdated = Mockito.mock(PointModel.class);
+		Mockito.when(repository.findByStudent_Id(2L)).thenReturn(points);
+		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(student);
+		Mockito.when(mapper.map(ptUpdated, PointEntity.class)).thenReturn(points);
+		Mockito.when(points.getBonus()).thenReturn(1L);
+		Mockito.when(points.getMalus()).thenReturn(1L);
+		Mockito.when(ptUpdated.getBonus()).thenReturn(0L);
+		Mockito.when(ptUpdated.getMalus()).thenReturn(0L);
+		
+		service.updatePoint(ptUpdated, 2L);
 	}
 }

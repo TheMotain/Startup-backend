@@ -21,13 +21,10 @@ import org.springframework.validation.ObjectError;
 
 import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.constants.CodeError;
-import fr.iagl.gamification.exceptions.ClassroomExistsException;
-import fr.iagl.gamification.exceptions.StudentNotFoundException;
-import fr.iagl.gamification.model.ClassModel;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.PointModel;
 import fr.iagl.gamification.object.PointObject;
 import fr.iagl.gamification.services.PointService;
-import fr.iagl.gamification.validator.ClassForm;
 import fr.iagl.gamification.validator.PointForm;
 
 public class PointControllerTest extends SpringIntegrationTest{
@@ -74,7 +71,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 	}
 	
 	@Test
-	public void testPointFormOK() throws StudentNotFoundException{
+	public void testPointFormOK() throws GamificationServiceException{
 		PointForm pointForm = Mockito.mock(PointForm.class);
 		PointModel classModel = Mockito.mock(PointModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
@@ -87,7 +84,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 	}
 	
 	@Test
-	public void testClassFormKOServiceReturnNull() throws StudentNotFoundException{
+	public void testClassFormKOServiceReturnNull() throws GamificationServiceException{
 		PointForm pointForm = Mockito.mock(PointForm.class);
 		PointModel pointModel = Mockito.mock(PointModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
@@ -101,7 +98,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 	}
 
 	@Test
-	public void testClassFormKO() throws StudentNotFoundException{
+	public void testClassFormKO() throws GamificationServiceException{
 		PointForm pointForm = Mockito.mock(PointForm.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		ObjectError error = Mockito.mock(ObjectError.class);
@@ -115,15 +112,17 @@ public class PointControllerTest extends SpringIntegrationTest{
 	}
 	
 	@Test
-	public void testClassFormKOStudentNotExisted() throws StudentNotFoundException{
+	public void testClassFormKOStudentNotExisted() throws GamificationServiceException{
 		PointForm pointForm = Mockito.mock(PointForm.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		ObjectError error = Mockito.mock(ObjectError.class);
 		PointModel point = Mockito.mock(PointModel.class);
+		GamificationServiceException exception = Mockito.mock(GamificationServiceException.class);
+		Mockito.doReturn(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT)).when(exception).getErrors();
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
 		Mockito.doReturn("error message").when(error).getDefaultMessage();
 		Mockito.doReturn(point).when(mapper).map(pointForm, PointModel.class);
-		Mockito.doThrow(StudentNotFoundException.class).when(service).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
+		Mockito.doThrow(exception).when(service).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
 		
 		ResponseEntity output = controller.submitPointForm(pointForm, bindingResult);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());

@@ -17,6 +17,10 @@
 			<a>bonus</a>
 			<b>bonus</b>
 		</field>
+		<field>
+			<a>id</a>
+			<b>id</b>
+		</field>
 	</mapping>
 	
 	<mapping wildcard="false">
@@ -37,6 +41,10 @@
 		<field>
 			<a>lastName</a>
 			<b>lastName</b>
+		</field>
+		<field>
+			<a>id</a>
+			<b>id</b>
 		</field>
 	</mapping>
 

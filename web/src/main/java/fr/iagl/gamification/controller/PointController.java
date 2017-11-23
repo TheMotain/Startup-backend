@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.PointModel;
 import fr.iagl.gamification.object.PointObject;
 import fr.iagl.gamification.services.PointService;
@@ -29,9 +30,14 @@ import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.PointForm;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import fr.iagl.gamification.exceptions.StudentNotFoundException;
 
 
+/**
+ * Gestion des points de l'élève
+ * 
+ * @author Hélène MEYER
+ *
+ */
 @RestController
 public class PointController implements AbstractController{
 
@@ -92,9 +98,9 @@ public class PointController implements AbstractController{
 				if (updatedPoint != null) {
 					return new ResponseEntity<>(mapper.map(updatedPoint, PointObject.class), HttpStatus.OK);
 				}
-			} catch (StudentNotFoundException e) {
-				LOG.info("L'élève n'existe pas");
-				errors = Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT);
+			} catch (GamificationServiceException e) {
+				LOG.info("Erreur lors de l'appel au service pointService.updatePoint");
+				errors = e.getErrors();
 			}
 			
 		}
