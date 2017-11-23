@@ -12,4 +12,5 @@ import fr.iagl.gamification.entity.PointEntity;
  */
 public interface PointRepository extends CrudRepository<PointEntity, Long>{
 
+	public PointEntity findByStudent_Id(Long id);
 }

@@ -32,6 +32,9 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	private StudentRepository studentRepository;
 	
+	/**
+	 * Repository pour la manipulation des classes en base
+	 */
 	@Autowired
 	private ClassRepository classRepository;
 

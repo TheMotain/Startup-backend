@@ -24,6 +24,7 @@ public class MappingConstant {
 	 * Chemin pour l'ajout d'une classe à un élève
 	 */
 	public static final String POST_ADD_CLASS = "${url.class.addClass}";
+	public static final String POINTS_PATH_ROOT = "${url.point}";
 	
 	/**
 	 * Le mapping Constant ne peut pas être instancié

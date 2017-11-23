@@ -37,13 +37,13 @@ public class PointEntity implements Serializable {
 	 * Bonus de l'élève
 	 */
 	@Column(name = "bonus")
-	private Long bonus;
+	private long bonus;
 	
 	/**
 	 * Malus de l'élève
 	 */
 	@Column(name = "malus")
-	private Long malus;
+	private long malus;
 	
 	/**
 	 * Elève
@@ -72,7 +72,7 @@ public class PointEntity implements Serializable {
 	 * Getter de l'attribut {@link PointEntity#bonus}
 	 * @return bonus
 	 */
-	public Long getBonus() {
+	public long getBonus() {
 		return bonus;
 	}
 
@@ -80,7 +80,7 @@ public class PointEntity implements Serializable {
 	 * Setter de l'attribut {@link PointEntity#bonus}
 	 * @param bonus l'attribut {@link PointEntity#bonus} à setter
 	 */
-	public void setBonus(Long bonus) {
+	public void setBonus(long bonus) {
 		this.bonus = bonus;
 	}
 
@@ -88,7 +88,7 @@ public class PointEntity implements Serializable {
 	 * Getter de l'attribut {@link PointEntity#malus}
 	 * @return malus
 	 */
-	public Long getMalus() {
+	public long getMalus() {
 		return malus;
 	}
 
@@ -96,7 +96,7 @@ public class PointEntity implements Serializable {
 	 * Setter de l'attribut {@link PointEntity#malus}
 	 * @param malus l'attribut {@link PointEntity#malus} à setter
 	 */
-	public void setMalus(Long malus) {
+	public void setMalus(long malus) {
 		this.malus = malus;
 	}
 

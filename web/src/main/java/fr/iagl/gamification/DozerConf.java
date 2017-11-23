@@ -21,7 +21,8 @@ public class DozerConf {
 	@Bean(name = "org.dozer.Mapper")
 	  public DozerBeanMapper dozerBean() {
 	    List<String> mappingFiles = Arrays.asList(
-	      "dozer-bean-mappings-object.xml"
+	      "dozer-bean-mappings-student-object.xml", 
+	      "dozer-bean-mappings-point-object.xml"
 	    );
 
 	    DozerBeanMapper dozerBean = new DozerBeanMapper();
