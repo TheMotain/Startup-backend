@@ -1,7 +1,7 @@
 create table qcm(
 	id serial primary key,
 	title text not null,
-	instruction text not null,
+	instruction text,
 	classroom integer,
 	constraint classroom_fk foreign key (classroom) references classroom(id)
 );

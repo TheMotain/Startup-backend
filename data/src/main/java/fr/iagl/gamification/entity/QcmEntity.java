@@ -1,5 +1,7 @@
 package fr.iagl.gamification.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -36,7 +39,7 @@ public class QcmEntity {
 	/**
 	 * Instruction du QCM
 	 */
-	@Column(name = "instruction", nullable = false, columnDefinition = "text")
+	@Column(name = "instruction", columnDefinition = "text")
 	private String instruction;
 	
 	/**
@@ -45,6 +48,12 @@ public class QcmEntity {
 	@ManyToOne
 	@JoinColumn(name = "classroom", nullable = true)
 	private ClassEntity classroom;
+	
+	/**
+	 * Récupération de la liste des questions pour le qcm
+	 */
+	@OneToMany(mappedBy = "qcm")
+	private List<QuestionEntity> questions;
 
 	/**
 	 * Getter de l'attribut {@link QcmEntity#id}
@@ -108,6 +117,22 @@ public class QcmEntity {
 	 */
 	public void setClassroom(ClassEntity classroom) {
 		this.classroom = classroom;
+	}
+
+	/**
+	 * Getter de l'attribut {@link QcmEntity#questions}
+	 * @return questions
+	 */
+	public List<QuestionEntity> getQuestions() {
+		return questions;
+	}
+
+	/**
+	 * Setter de l'attribut {@link QcmEntity#questions}
+	 * @param questions l'attribut {@link QcmEntity#questions} à setter
+	 */
+	public void setQuestions(List<QuestionEntity> questions) {
+		this.questions = questions;
 	}
 	
 	

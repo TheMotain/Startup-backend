@@ -1,5 +1,7 @@
 package fr.iagl.gamification.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -39,6 +42,12 @@ public class QuestionEntity {
 	@ManyToOne
 	@JoinColumn(name = "qcm", nullable = true)
 	private QcmEntity qcm;
+	
+	/**
+	 * Récupération de la liste des choix de réponse pour la question
+	 */
+	@OneToMany(mappedBy = "question")
+	private List<AnswerEntity> answers;
 
 	/**
 	 * Getter de l'attribut {@link QuestionEntity#id}
@@ -86,6 +95,22 @@ public class QuestionEntity {
 	 */
 	public void setQcm(QcmEntity qcm) {
 		this.qcm = qcm;
+	}
+
+	/**
+	 * Getter de l'attribut {@link QuestionEntity#answers}
+	 * @return answers
+	 */
+	public List<AnswerEntity> getAnswers() {
+		return answers;
+	}
+
+	/**
+	 * Setter de l'attribut {@link QuestionEntity#answers}
+	 * @param answers l'attribut {@link QuestionEntity#answers} à setter
+	 */
+	public void setAnswers(List<AnswerEntity> answers) {
+		this.answers = answers;
 	}
 	
 	
