@@ -11,12 +11,23 @@ public enum ActionDatabase {
 	UPDATE("UPDATE"), 
 	DELETE("DELETE");
 	
+	/**
+	 * Action réalisé en base de données
+	 */
 	private String action;
 	
-	ActionDatabase(String action) {
+	/**
+	 * Constructeur
+	 * @param action Valeur à setter
+	 */
+	private ActionDatabase(String action) {
 		this.action = action;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
 	@Override
 	public String toString() {
 		return this.action;

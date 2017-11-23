@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import fr.iagl.gamification.model.Task;
+import fr.iagl.gamification.model.TaskModel;
 import fr.iagl.gamification.services.RunnableHashMapService;
 import fr.iagl.gamification.services.TaskService;
 import fr.iagl.gamification.utils.ActionDatabase;
@@ -19,7 +19,7 @@ import junit.framework.Assert;
 
 public class TaskServiceImplTest {
 
-	private TaskService akkaTaskServiceImpl;
+	private TaskServiceImpl akkaTaskServiceImpl;
 	
 	@Before
 	public void init() {
@@ -33,7 +33,7 @@ public class TaskServiceImplTest {
 		JSONObject json = Mockito.mock(JSONObject.class);
 		Mockito.doReturn("message").when(json).getString("table");
 		Mockito.doReturn("INSERT").when(json).getString("type");
-		Task task = Mockito.mock(Task.class);
+		TaskModel task = Mockito.mock(TaskModel.class);
 		Mockito.doReturn(json).when(task).getNotification();
 		
 		Mockito.doReturn(map2).when(map).get(Mockito.any());
@@ -55,7 +55,7 @@ public class TaskServiceImplTest {
 		JSONObject json = Mockito.mock(JSONObject.class);
 		Mockito.doReturn("message").when(json).getString("table");
 		Mockito.doReturn("baaaad").when(json).getString("type");
-		Task task = Mockito.mock(Task.class);
+		TaskModel task = Mockito.mock(TaskModel.class);
 		Mockito.doReturn(json).when(task).getNotification();
 		
 		Mockito.doReturn(map2).when(map).get(Mockito.any());
@@ -75,7 +75,7 @@ public class TaskServiceImplTest {
 		JSONObject json = Mockito.mock(JSONObject.class);
 		Mockito.doReturn("baaaadd").when(json).getString("table");
 		Mockito.doReturn("INSERT").when(json).getString("type");
-		Task task = Mockito.mock(Task.class);
+		TaskModel task = Mockito.mock(TaskModel.class);
 		Mockito.doReturn(json).when(task).getNotification();
 		
 		Mockito.doReturn(map2).when(map).get(Mockito.any());
@@ -95,7 +95,7 @@ public class TaskServiceImplTest {
 		JSONObject json = Mockito.mock(JSONObject.class);
 		Mockito.doReturn("baaaaad").when(json).getString("table");
 		Mockito.doReturn("baaaad").when(json).getString("type");
-		Task task = Mockito.mock(Task.class);
+		TaskModel task = Mockito.mock(TaskModel.class);
 		Mockito.doReturn(json).when(task).getNotification();
 		
 		Mockito.doReturn(map2).when(map).get(Mockito.any());
@@ -115,7 +115,7 @@ public class TaskServiceImplTest {
 		JSONObject json = Mockito.mock(JSONObject.class);
 		Mockito.doReturn("message").when(json).getString("table");
 		Mockito.doReturn("INSERT").when(json).getString("type");
-		Task task = Mockito.mock(Task.class);
+		TaskModel task = Mockito.mock(TaskModel.class);
 		Mockito.doReturn(json).when(task).getNotification();
 		
 		Mockito.doReturn(map2).when(map).get(Mockito.any());
@@ -135,7 +135,7 @@ public class TaskServiceImplTest {
 		JSONObject json = Mockito.mock(JSONObject.class);
 		Mockito.doReturn("message").when(json).getString("table");
 		Mockito.doReturn("INSERT").when(json).getString("type");
-		Task task = Mockito.mock(Task.class);
+		TaskModel task = Mockito.mock(TaskModel.class);
 		Mockito.doReturn(json).when(task).getNotification();
 		
 		Mockito.doReturn(map2).when(map).get(Mockito.any());
@@ -156,7 +156,7 @@ public class TaskServiceImplTest {
 		JSONObject json = Mockito.mock(JSONObject.class);
 		Mockito.doReturn("message").when(json).getString("table");
 		Mockito.doReturn("INSERT").when(json).getString("type");
-		Task task = Mockito.mock(Task.class);
+		TaskModel task = Mockito.mock(TaskModel.class);
 		Mockito.doReturn(json).when(task).getNotification();
 		
 		Mockito.doReturn(map2).when(map).get(Mockito.any());

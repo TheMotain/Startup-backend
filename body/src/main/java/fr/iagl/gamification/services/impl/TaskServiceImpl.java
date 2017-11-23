@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import fr.iagl.gamification.model.Task;
+import fr.iagl.gamification.model.TaskModel;
 import fr.iagl.gamification.services.RunnableHashMapService;
 import fr.iagl.gamification.services.TaskService;
 import fr.iagl.gamification.utils.ActionDatabase;
@@ -36,6 +36,9 @@ public class TaskServiceImpl implements TaskService{
 	 */
 	private Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> map;
 
+	/**
+	 * Initialise la map des messages possibles
+	 */
 	@PostConstruct
 	public void init() {
 		map = new EnumMap(TableDatabase.class);
@@ -48,9 +51,12 @@ public class TaskServiceImpl implements TaskService{
 		map.put(TableDatabase.MESSAGE, mapActionsMessageTable);
 	}
 	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.iagl.gamification.services.TaskService#treatTask(fr.iagl.gamification.model.TaskModel)
+	 */
 	@Override
-	public void treatTask(Task task) throws JSONException {
+	public void treatTask(TaskModel task) throws JSONException {
 		JSONObject json = task.getNotification();
 		
 		String table = json.getString("table").toUpperCase();
@@ -67,13 +73,18 @@ public class TaskServiceImpl implements TaskService{
 		}
 	}
 	
-	@Override
+	/**
+	 * Setter de l'attribut {@link TaskServiceImpl#map}
+	 * @param map Map des messages à utiliser
+	 */
 	public void setMap(Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> map) {
 		this.map = map;
 	}
 
-
-	@Override
+	/**
+	 * Getter de l'attribut {@link TaskServiceImpl#map}
+	 * @return Map des messages à utiliser
+	 */
 	public Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> getMap() {
 		return this.map;
 	}
