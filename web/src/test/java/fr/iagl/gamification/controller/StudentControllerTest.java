@@ -21,15 +21,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 import fr.iagl.gamification.SpringIntegrationTest;
-import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
-import fr.iagl.gamification.exceptions.ClassroomExistsException;
-import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
-import fr.iagl.gamification.exceptions.StudentNotFoundException;
-import fr.iagl.gamification.model.ClassModel;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.object.StudentObject;
 import fr.iagl.gamification.services.StudentService;
-import fr.iagl.gamification.validator.ClassForm;
 import fr.iagl.gamification.validator.LinkStudentClassForm;
 import fr.iagl.gamification.validator.StudentForm;
 
@@ -50,7 +45,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	}
 	
 	@Test
-	public void testGetAllStudentCallGetAllFromService() throws ClassroomExistsException{
+	public void testGetAllStudentCallGetAllFromService() throws GamificationServiceException{
 		controller.getAllStudent();
 		Mockito.verify(studentService, Mockito.times(1)).getAllStudent();
 	}
@@ -128,7 +123,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	}
 	
 	@Test
-	public void testLinkClassStudentFormOK() throws ClassroomExistsException, StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException{
+	public void testLinkClassStudentFormOK() throws GamificationServiceException{
 		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
 		StudentModel classModel = Mockito.mock(StudentModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
@@ -143,7 +138,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	}
 	
 	@Test
-	public void testLinkClassStudentFormKOServiceReturnsNull() throws ClassroomExistsException, StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException{
+	public void testLinkClassStudentFormKOServiceReturnsNull() throws GamificationServiceException{
 		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
 		StudentModel classModel = Mockito.mock(StudentModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
@@ -157,7 +152,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	}
 	
 	@Test
-	public void testLinkClassStudentFormKO() throws ClassroomExistsException, StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException{
+	public void testLinkClassStudentFormKO() throws GamificationServiceException{
 		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(true).when(bindingResult).hasErrors();
@@ -168,14 +163,14 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	}
 	
 	@Test
-	public void testLinkClassStudentFormKOStudentNotFound() throws ClassroomExistsException, StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException{
+	public void testLinkClassStudentFormKOStudentNotFound() throws GamificationServiceException{
 		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
 		StudentModel classModel = Mockito.mock(StudentModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
 		Mockito.doReturn(1L).when(linkForm).getIdStudent();
 		Mockito.doReturn(2L).when(linkForm).getIdClass();
-		Mockito.doThrow(StudentNotFoundException.class).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.doThrow(GamificationServiceException.class).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
 		
 		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
 		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
@@ -183,14 +178,14 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	}
 	
 	@Test
-	public void testLinkClassStudentFormKOClassroomNotFound() throws ClassroomExistsException, StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException{
+	public void testLinkClassStudentFormKOClassroomNotFound() throws GamificationServiceException{
 		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
 		StudentModel classModel = Mockito.mock(StudentModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
 		Mockito.doReturn(1L).when(linkForm).getIdStudent();
 		Mockito.doReturn(2L).when(linkForm).getIdClass();
-		Mockito.doThrow(ClassroomNotFoundException.class).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.doThrow(GamificationServiceException.class).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
 		
 		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
 		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
@@ -198,14 +193,14 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	}
 	
 	@Test
-	public void testLinkClassStudentFormKOClassroomAlreadyExistedException() throws ClassroomExistsException, StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException{
+	public void testLinkClassStudentFormKOClassroomAlreadyExistedException() throws GamificationServiceException{
 		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
 		StudentModel classModel = Mockito.mock(StudentModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
 		Mockito.doReturn(1L).when(linkForm).getIdStudent();
 		Mockito.doReturn(2L).when(linkForm).getIdClass();
-		Mockito.doThrow(ClassroomAlreadyExistedException.class).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.doThrow(GamificationServiceException.class).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
 		
 		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
 		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
