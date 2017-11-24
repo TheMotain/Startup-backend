@@ -1,5 +1,6 @@
 package fr.iagl.gamification.model;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +30,11 @@ public class QcmModel {
 	 * classe
 	 */
 	private ClassModel classroom;
+
+	/**
+	 * date
+	 */
+	private Date dateIns;
 	
 	/**
 	 * Liste de toutes les questions
@@ -113,6 +119,22 @@ public class QcmModel {
 	 */
 	public void setQuestions(List<QuestionModel> questions) {
 		this.questions = questions;
+	}
+
+	/**
+	 * Getter de l'attribut {@link QcmModel#dateIns}
+	 * @return dateIns
+	 */
+	public Date getDateIns() {
+		return dateIns;
+	}
+
+	/**
+	 * Setter de l'attribut {@link QcmModel#dateIns}
+	 * @param dateIns l'attribut {@link QcmModel#dateIns} à setter
+	 */
+	public void setDateIns(Date dateIns) {
+		this.dateIns = dateIns;
 	}
 	
 	

@@ -2,6 +2,7 @@ package fr.iagl.gamification.services;
 
 import java.util.List;
 
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.QcmModel;
 
 /**
@@ -23,8 +24,8 @@ public interface QcmService {
 	 * Enregistre le QCM
 	 * 
 	 * @param model le qcm à sauvegarder
-	 * @param idClass l'identifiant de la classe
 	 * @return le qcm enregistré
+	 * @throws GamificationServiceException 
 	 */
-	public QcmModel saveQcm(QcmModel model, long idClass);
+	public QcmModel saveQcm(QcmModel model) throws GamificationServiceException;
 }

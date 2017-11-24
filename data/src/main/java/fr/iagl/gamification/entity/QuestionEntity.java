@@ -40,8 +40,14 @@ public class QuestionEntity {
 	 * QCM
 	 */
 	@ManyToOne
-	@JoinColumn(name = "qcm", nullable = true)
+	@JoinColumn(name = "qcm", nullable = false)
 	private QcmEntity qcm;
+	
+	/**
+	 * Nombre de points à gagner sur la question
+	 */
+	@Column(name = "nb_points", nullable = false)
+	private int nbPoints;
 	
 	/**
 	 * Récupération de la liste des choix de réponse pour la question
@@ -111,6 +117,22 @@ public class QuestionEntity {
 	 */
 	public void setAnswers(List<AnswerEntity> answers) {
 		this.answers = answers;
+	}
+
+	/**
+	 * Getter de l'attribut {@link QuestionEntity#nbPoints}
+	 * @return nbPoints
+	 */
+	public int getNbPoints() {
+		return nbPoints;
+	}
+
+	/**
+	 * Setter de l'attribut {@link QuestionEntity#nbPoints}
+	 * @param nbPoints l'attribut {@link QuestionEntity#nbPoints} à setter
+	 */
+	public void setNbPoints(int nbPoints) {
+		this.nbPoints = nbPoints;
 	}
 	
 	

@@ -29,6 +29,11 @@ public class QuestionModel {
 	 * liste de toutes les réponses possibles
 	 */
 	private List<AnswerModel> answers;
+	
+	/**
+	 * nombre de points à gagner
+	 */
+	private int nbPoints;
 
 	/**
 	 * Getter de l'attribut {@link QuestionModel#id}
@@ -93,5 +98,22 @@ public class QuestionModel {
 	public void setAnswers(List<AnswerModel> answers) {
 		this.answers = answers;
 	}
+
+	/**
+	 * Getter de l'attribut {@link QuestionModel#nbPoints}
+	 * @return nbPoints
+	 */
+	public int getNbPoints() {
+		return nbPoints;
+	}
+
+	/**
+	 * Setter de l'attribut {@link QuestionModel#nbPoints}
+	 * @param nbPoints l'attribut {@link QuestionModel#nbPoints} à setter
+	 */
+	public void setNbPoints(int nbPoints) {
+		this.nbPoints = nbPoints;
+	}
+	
 	
 }

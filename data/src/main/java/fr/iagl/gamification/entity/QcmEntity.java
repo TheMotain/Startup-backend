@@ -1,5 +1,6 @@
 package fr.iagl.gamification.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -48,6 +49,12 @@ public class QcmEntity {
 	@ManyToOne
 	@JoinColumn(name = "classroom", nullable = true)
 	private ClassEntity classroom;
+	
+	/**
+	 * date
+	 */
+	@JoinColumn(name = "date_ins")
+	private Date dateIns;
 	
 	/**
 	 * Récupération de la liste des questions pour le qcm
@@ -133,6 +140,22 @@ public class QcmEntity {
 	 */
 	public void setQuestions(List<QuestionEntity> questions) {
 		this.questions = questions;
+	}
+
+	/**
+	 * Getter de l'attribut {@link QcmEntity#dateIns}
+	 * @return dateIns
+	 */
+	public Date getDateIns() {
+		return dateIns;
+	}
+
+	/**
+	 * Setter de l'attribut {@link QcmEntity#dateIns}
+	 * @param dateIns l'attribut {@link QcmEntity#dateIns} à setter
+	 */
+	public void setDateIns(Date dateIns) {
+		this.dateIns = dateIns;
 	}
 	
 	

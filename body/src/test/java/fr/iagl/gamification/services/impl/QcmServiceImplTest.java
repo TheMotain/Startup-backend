@@ -13,8 +13,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.QcmEntity;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
+import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.model.QcmModel;
+import fr.iagl.gamification.repository.ClassRepository;
 import fr.iagl.gamification.repository.QcmRepository;
 
 public class QcmServiceImplTest {
@@ -24,6 +28,9 @@ public class QcmServiceImplTest {
 	
 	@Mock
 	private QcmRepository repository;
+	
+	@Mock
+	private ClassRepository classRepository;
 	
 	@Mock
 	private Mapper mapper;
@@ -57,5 +64,42 @@ public class QcmServiceImplTest {
 		Assert.assertTrue(result.contains(stm1));
 		Assert.assertTrue(result.contains(stm2));
 		Assert.assertTrue(result.contains(stm3));
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testSaveQcmClassroomDoesntExists() throws GamificationServiceException {
+		QcmModel model = Mockito.mock(QcmModel.class);
+		service.saveQcm(model);
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testSaveQcmClassroomIdDoesntExists() throws GamificationServiceException {
+		QcmModel model = Mockito.mock(QcmModel.class);
+		ClassModel classe = Mockito.mock(ClassModel.class);
+		Mockito.when(model.getClassroom()).thenReturn(classe);
+		service.saveQcm(model);
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testSaveQcmClassroomIsNull() throws GamificationServiceException {
+		QcmModel model = Mockito.mock(QcmModel.class);
+		ClassModel classe = Mockito.mock(ClassModel.class);
+		Mockito.when(model.getClassroom()).thenReturn(classe);
+		Mockito.when(classe.getId()).thenReturn(2L);
+		service.saveQcm(model);
+	}
+	
+	@Test
+	public void testSaveQcmOK() throws GamificationServiceException {
+		QcmModel model = Mockito.mock(QcmModel.class);
+		ClassModel classe = Mockito.mock(ClassModel.class);
+		ClassEntity classEntity = Mockito.mock(ClassEntity.class);
+		QcmEntity qcmEntity = Mockito.mock(QcmEntity.class);
+		Mockito.when(model.getClassroom()).thenReturn(classe);
+		Mockito.when(classe.getId()).thenReturn(2L);
+		Mockito.when(classRepository.findOne(Mockito.anyLong())).thenReturn(classEntity);
+		Mockito.when(mapper.map(model, QcmEntity.class)).thenReturn(qcmEntity);
+		service.saveQcm(model);
+		Mockito.verify(repository).save(Mockito.any(QcmEntity.class));
 	}
 }
