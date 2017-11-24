@@ -2,9 +2,7 @@ package fr.iagl.gamification.services;
 
 import java.util.List;
 
-import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
-import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
-import fr.iagl.gamification.exceptions.StudentNotFoundException;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.StudentModel;
 
 /**
@@ -34,10 +32,8 @@ public interface StudentService {
 	 * @param idClass identifiant de la classe
 	 * @return élève 
 	 * 
-	 * @throws StudentNotFoundException 
-	 * @throws ClassroomNotFoundException 
-	 * @throws ClassroomAlreadyExistedException 
+	 * @throws GamificationServiceException
 	 */
-	public StudentModel addClassToStudent(long idStudent, long idClass) throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException;
+	public StudentModel addClassToStudent(long idStudent, long idClass) throws GamificationServiceException;
 	
 }
