@@ -28,6 +28,7 @@ public class MappingConstant {
 	 * Chemin pour la modification des points d'un élève
 	 */
 	public static final String POINTS_PATH_ROOT = "${url.point}";
+	public static final String QCM_PATH_ROOT = "${url.qcm}";
 	
 	/**
 	 * Le mapping Constant ne peut pas être instancié

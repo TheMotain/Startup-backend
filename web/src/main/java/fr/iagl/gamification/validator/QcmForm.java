@@ -2,6 +2,12 @@ package fr.iagl.gamification.validator;
 
 import java.util.List;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import fr.iagl.gamification.constants.CodeError;
+
 /**
  * Qcm à envoyer/modifier
  *
@@ -23,16 +29,21 @@ public class QcmForm implements AbstractForm{
 	/**
 	 * titre du QCM
 	 */
+	@NotNull
+	@Pattern(regexp="^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'?!.+=*/;:]*$", message = CodeError.ERROR_STRING_PATTERN_QCM_TITRE)
 	private String titre;
 	
 	/**
 	 * instruction du QCM
 	 */
+	@NotNull
+	@Pattern(regexp="^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'?!/+*x?;:]*$", message = CodeError.ERROR_STRING_PATTERN_QCM_INSTRUCTION)
 	private String instruction;
 	
 	/**
 	 * Ensemble des questions du QCM
 	 */
+	@NotNull
 	private List<QuestionForm> questions;
 	
 	/**
@@ -129,9 +140,24 @@ public class QcmForm implements AbstractForm{
 		private Long id;
 		
 		/**
+		 * Question
+		 */
+		@NotNull
+		@Pattern(regexp="^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'/!?;:+*x=]*$", message = CodeError.ERROR_STRING_PATTERN_QCM_QUERY)
+		private String query;
+		
+		/**
 		 * liste des choix
 		 */
+		@NotNull
 		private List<ChoiceForm> choices;
+		
+		/**
+		 * nombre de points à gagner
+		 */
+		@NotNull
+		@Min(0)
+		private int nbPoints;
 
 		/**
 		 * Getter de l'attribut {@link QcmForm.QuestionForm#id}
@@ -164,6 +190,23 @@ public class QcmForm implements AbstractForm{
 		public void setChoices(List<ChoiceForm> choices) {
 			this.choices = choices;
 		}
+
+		/**
+		 * Getter de l'attribut {@link QcmForm.QuestionForm#nbPoints}
+		 * @return nbPoints
+		 */
+		public int getNbPoints() {
+			return nbPoints;
+		}
+
+		/**
+		 * Setter de l'attribut {@link QcmForm.QuestionForm#nbPoints}
+		 * @param nbPoints l'attribut {@link QcmForm.QuestionForm#nbPoints} à setter
+		 */
+		public void setNbPoints(int nbPoints) {
+			this.nbPoints = nbPoints;
+		}
+		
 		
 	}
 	
@@ -183,11 +226,14 @@ public class QcmForm implements AbstractForm{
 		/**
 		 * intitulé du choix
 		 */
+		@NotNull
+		@Pattern(regexp="^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'?!?;:=/+*x]*$", message = CodeError.ERROR_STRING_PATTERN_QCM_CHOICE)
 		private String choice;
 		
 		/**
 		 * true si c'est la bonne réponse
 		 */
+		@NotNull
 		private boolean good;
 
 		/**
