@@ -27,7 +27,7 @@ function connect(event) {
         var socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
 
-        stompClient.connect({}, onConnected, onError);
+        stompClient.connect({'usrID':username}, onConnected, onError);
     }
     event.preventDefault();
 }
@@ -35,7 +35,7 @@ function connect(event) {
 
 function onConnected() {
     // Subscribe to the Public Channel
-    stompClient.subscribe('/channel/public', onMessageReceived);
+    stompClient.subscribe('/user/channel/notification', onMessageReceived);
 
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
@@ -72,6 +72,7 @@ function sendMessage(event) {
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
+    console.log(message);
 
     var messageElement = document.createElement('li');
 

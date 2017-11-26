@@ -1,11 +1,13 @@
 package fr.iagl.gamification.services.impl;
 
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
+import fr.iagl.gamification.entity.Singleton;
 import fr.iagl.gamification.model.MessageModel;
 import fr.iagl.gamification.model.MessageModel.MessageType;
 import fr.iagl.gamification.services.RunnableHashMapService;
@@ -19,6 +21,8 @@ import fr.iagl.gamification.services.RunnableHashMapService;
 @Service("runnableInsertMessageServiceImpl")
 public class RunnableInsertMessageServiceImpl implements RunnableHashMapService{
 	
+	public static final Logger LOGGER = Logger.getLogger(RunnableInsertMessageServiceImpl.class);
+
 	/**
 	 * broadcast un message dans un cannal 
 	 */
@@ -27,7 +31,8 @@ public class RunnableInsertMessageServiceImpl implements RunnableHashMapService{
 
 	@Override
 	public void runMethod(JSONObject json) throws JSONException {
+		LOGGER.info("Envoi du message à " + Singleton.sessions.keySet().iterator().next());
 		MessageModel message = new MessageModel(MessageType.CHAT, json.getString("content"), json.getString("sender"));
-		messagingTemplate.convertAndSend("/channel/public", message);
+		messagingTemplate.convertAndSendToUser(Singleton.sessions.keySet().iterator().next(),"/user/channel/notification", message);
 	}
 }

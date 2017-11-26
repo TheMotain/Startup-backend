@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
-import fr.iagl.gamification.exceptions.ClassroomExistsException;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.object.ClassObject;
 import fr.iagl.gamification.services.ClassService;
@@ -65,7 +65,7 @@ public class ClassController implements AbstractController {
 	 * @return toutes les classes
 	 */
 	@RequestMapping(value = MappingConstant.CLASS_PATH_ROOT, method = RequestMethod.GET)
-	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassModel.class, responseContainer = "list", message = "Liste des classes")
+	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassObject.class, responseContainer = "list", message = "Liste des classes")
 	public ResponseEntity<List<ClassObject>> getAllClassroom() {
 		LOG.info("Récupération de la liste des classes");
 		List<ClassModel> result = classService.getAllClassroom();
@@ -85,7 +85,7 @@ public class ClassController implements AbstractController {
 	 * @return l'objet crée et statut OK s'il a été ajoute sinon le message d'erreur et le statut BAD_REQUEST
 	 */
 	@RequestMapping(value = MappingConstant.CLASS_PATH_ROOT, method = RequestMethod.POST)
-	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassModel.class, message = "La classe créée"),
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassObject.class, message = "La classe créée"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs au niveau du formulaire / La classe existe déjà")})
 	public ResponseEntity<ClassObject> submitClassForm(@Valid @RequestBody ClassForm classForm, BindingResult bindingResult) {
 		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
@@ -99,9 +99,9 @@ public class ClassController implements AbstractController {
 				if (createdClass != null) {
 					return new ResponseEntity<>(mapper.map(createdClass, ClassObject.class), HttpStatus.OK);
 				}
-			} catch (ClassroomExistsException e) {
-				LOG.info("Class already existed");
-				errors = Arrays.asList(CodeError.ERROR_EXISTS_CLASS);
+			} catch (GamificationServiceException e) {
+				LOG.info("Erreur lors de l'appel au service classService.createClass");
+				errors = e.getErrors();
 			}
 			
 		}

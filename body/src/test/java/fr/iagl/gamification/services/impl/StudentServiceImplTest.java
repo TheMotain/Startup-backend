@@ -16,9 +16,7 @@ import org.mockito.MockitoAnnotations;
 
 import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
-import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
-import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
-import fr.iagl.gamification.exceptions.StudentNotFoundException;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.repository.ClassRepository;
 import fr.iagl.gamification.repository.StudentRepository;
@@ -94,7 +92,7 @@ public class StudentServiceImplTest {
 	}
 	
 	@Test
-	public void testAddClassToStudent() throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
+	public void testAddClassToStudent() throws GamificationServiceException {
 		ClassEntity classe = Mockito.mock(ClassEntity.class);
 		StudentEntity entity = Mockito.mock(StudentEntity.class);
 		StudentModel model = Mockito.mock(StudentModel.class);
@@ -109,21 +107,21 @@ public class StudentServiceImplTest {
 	}
 	
 
-	@Test(expected=StudentNotFoundException.class)
-	public void testAddClassToStudentWithBadIdStudentThrowException() throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
+	@Test(expected=GamificationServiceException.class)
+	public void testAddClassToStudentWithBadIdStudentThrowException() throws GamificationServiceException {
 		service.addClassToStudent(1L, 2L);
 	}
 	
-	@Test(expected=ClassroomNotFoundException.class)
-	public void testAddClassToStudentWithBadIdClassThrowException() throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
+	@Test(expected=GamificationServiceException.class)
+	public void testAddClassToStudentWithBadIdClassThrowException() throws GamificationServiceException {
 		StudentEntity entity = Mockito.mock(StudentEntity.class);
 		
 		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(entity);
 		StudentModel output = service.addClassToStudent(1L, 2L);
 	}
 	
-	@Test(expected=ClassroomAlreadyExistedException.class)
-	public void testAddClassToStudentWithClassThrowException() throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
+	@Test(expected=GamificationServiceException.class)
+	public void testAddClassToStudentWithClassThrowException() throws GamificationServiceException {
 		StudentEntity entity = Mockito.mock(StudentEntity.class);
 		ClassEntity classroom = Mockito.mock(ClassEntity.class); 
 		
