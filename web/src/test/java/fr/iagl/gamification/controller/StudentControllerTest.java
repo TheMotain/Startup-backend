@@ -1,7 +1,5 @@
 package fr.iagl.gamification.controller;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,9 +21,7 @@ import org.springframework.validation.ObjectError;
 import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.StudentModel;
-import fr.iagl.gamification.object.StudentObject;
 import fr.iagl.gamification.services.StudentService;
-import fr.iagl.gamification.validator.LinkStudentClassForm;
 import fr.iagl.gamification.validator.StudentForm;
 
 public class StudentControllerTest extends SpringIntegrationTest {
@@ -54,7 +50,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	public void testGetAllStudentReturnResponseEntityContainsServiceResult(){
 		List<StudentModel> mock = new ArrayList<>();
 		Mockito.when(studentService.getAllStudent()).thenReturn(mock);
-		ResponseEntity<List<StudentObject>> response = controller.getAllStudent();
+		ResponseEntity<List<StudentForm>> response = controller.getAllStudent();
 		Assert.assertEquals(mock, response.getBody());
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
@@ -63,22 +59,22 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	public void testGetAllStudentReturnResponseEntityContainsServiceResultMultiple(){
 		StudentModel mock = Mockito.mock(StudentModel.class);
 		List<StudentModel> lst = Arrays.asList(mock);
-		StudentObject obj = Mockito.mock(StudentObject.class);
-		Mockito.when(mapper.map(mock, StudentObject.class)).thenReturn(obj);
+		StudentForm obj = Mockito.mock(StudentForm.class);
+		Mockito.when(mapper.map(mock, StudentForm.class)).thenReturn(obj);
 		Mockito.when(studentService.getAllStudent()).thenReturn(lst);
-		ResponseEntity<List<StudentObject>> response = controller.getAllStudent();
+		ResponseEntity<List<StudentForm>> response = controller.getAllStudent();
 		Assert.assertEquals(obj, response.getBody().get(0));
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 	
 	@Test
-	public void testCreateStudentCallCreateFromService(){
+	public void testCreateStudentCallCreateFromService() throws GamificationServiceException{
 		controller.createStudent(Mockito.mock(StudentForm.class), Mockito.mock(BindingResult.class));
 		Mockito.verify(studentService, Mockito.times(1)).saveStudent((StudentModel)Mockito.any());
 	}
 	
 	@Test
-	public void testCreateStudentCallCreateFromServiceWithMappedModel(){
+	public void testCreateStudentCallCreateFromServiceWithMappedModel() throws GamificationServiceException{
 		StudentModel model = Mockito.mock(StudentModel.class);
 		Mockito.when(mapper.map((StudentModel)Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(model);
 		ArgumentCaptor<StudentModel> modelCaptor = ArgumentCaptor.forClass(StudentModel.class);
@@ -90,12 +86,12 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	}
 	
 	@Test
-	public void testCreateStudentReturnNewCreatedStudent(){
+	public void testCreateStudentReturnNewCreatedStudent() throws GamificationServiceException{
 		StudentModel in = Mockito.mock(StudentModel.class);
-		StudentObject out = Mockito.mock(StudentObject.class);
+		StudentForm out = Mockito.mock(StudentForm.class);
 		Mockito.when(mapper.map((StudentModel)Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(in);
 		Mockito.when(studentService.saveStudent(in)).thenReturn(in);
-		Mockito.when(mapper.map(in, StudentObject.class)).thenReturn(out);
+		Mockito.when(mapper.map(in, StudentForm.class)).thenReturn(out);
 		ResponseEntity<StudentModel> response = (ResponseEntity<StudentModel>) controller.createStudent(Mockito.mock(StudentForm.class), Mockito.mock(BindingResult.class));
 		Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		Assert.assertEquals(out, response.getBody());
@@ -122,88 +118,15 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		Assert.assertEquals("message", response.getBody().get(0));
 	}
 	
-	@Test
-	public void testLinkClassStudentFormOK() throws GamificationServiceException{
-		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
-		StudentModel classModel = Mockito.mock(StudentModel.class);
+	@Test(expected=GamificationServiceException.class)
+	public void testCreateStudentErrorOnServiceReturnResponseContainsErrors() throws GamificationServiceException{
+		StudentForm form = Mockito.mock(StudentForm.class);
+		GamificationServiceException exception = Mockito.mock(GamificationServiceException.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
-		Mockito.doReturn(1L).when(linkForm).getIdStudent();
-		Mockito.doReturn(2L).when(linkForm).getIdClass();
-		Mockito.doReturn(classModel).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.doThrow(exception).when(studentService).saveStudent(Mockito.any(StudentModel.class));
+		
+		controller.createStudent(form, bindingResult);
+	}
 
-		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
-		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
-		assertEquals(HttpStatus.OK, output.getStatusCode());
-	}
-	
-	@Test
-	public void testLinkClassStudentFormKOServiceReturnsNull() throws GamificationServiceException{
-		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
-		StudentModel classModel = Mockito.mock(StudentModel.class);
-		BindingResult bindingResult = Mockito.mock(BindingResult.class);
-		Mockito.doReturn(false).when(bindingResult).hasErrors();
-		Mockito.doReturn(1L).when(linkForm).getIdStudent();
-		Mockito.doReturn(2L).when(linkForm).getIdClass();
-		
-		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
-		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
-		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
-	}
-	
-	@Test
-	public void testLinkClassStudentFormKO() throws GamificationServiceException{
-		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
-		BindingResult bindingResult = Mockito.mock(BindingResult.class);
-		Mockito.doReturn(true).when(bindingResult).hasErrors();
-		
-		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
-		Mockito.verify(studentService, Mockito.never()).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
-		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
-	}
-	
-	@Test
-	public void testLinkClassStudentFormKOStudentNotFound() throws GamificationServiceException{
-		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
-		StudentModel classModel = Mockito.mock(StudentModel.class);
-		BindingResult bindingResult = Mockito.mock(BindingResult.class);
-		Mockito.doReturn(false).when(bindingResult).hasErrors();
-		Mockito.doReturn(1L).when(linkForm).getIdStudent();
-		Mockito.doReturn(2L).when(linkForm).getIdClass();
-		Mockito.doThrow(GamificationServiceException.class).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
-		
-		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
-		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
-		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
-	}
-	
-	@Test
-	public void testLinkClassStudentFormKOClassroomNotFound() throws GamificationServiceException{
-		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
-		StudentModel classModel = Mockito.mock(StudentModel.class);
-		BindingResult bindingResult = Mockito.mock(BindingResult.class);
-		Mockito.doReturn(false).when(bindingResult).hasErrors();
-		Mockito.doReturn(1L).when(linkForm).getIdStudent();
-		Mockito.doReturn(2L).when(linkForm).getIdClass();
-		Mockito.doThrow(GamificationServiceException.class).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
-		
-		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
-		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
-		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
-	}
-	
-	@Test
-	public void testLinkClassStudentFormKOClassroomAlreadyExistedException() throws GamificationServiceException{
-		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
-		StudentModel classModel = Mockito.mock(StudentModel.class);
-		BindingResult bindingResult = Mockito.mock(BindingResult.class);
-		Mockito.doReturn(false).when(bindingResult).hasErrors();
-		Mockito.doReturn(1L).when(linkForm).getIdStudent();
-		Mockito.doReturn(2L).when(linkForm).getIdClass();
-		Mockito.doThrow(GamificationServiceException.class).when(studentService).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
-		
-		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
-		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
-		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
-	}
 }

@@ -52,29 +52,13 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public StudentModel saveStudent(StudentModel model) {
-		StudentEntity entity = mapper.map(model, StudentEntity.class);
-		return entityToModel(entity);
-	}
-
-	@Override
-	public StudentModel addClassToStudent(long idStudent, long idClass) throws GamificationServiceException {
-		StudentEntity entity = studentRepository.findOne(idStudent);
-		
-		if (entity == null) {
-			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT));
-		}
-		if (entity.getClassroom() != null) {
-			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_CLASS_ALREADY_EXISTS));
-		}
-		
-		ClassEntity classEntity = classRepository.findOne(idClass);
-		
-		if (classEntity == null) {
+	public StudentModel saveStudent(StudentModel model) throws GamificationServiceException {
+		ClassEntity classe = model.getClassroom() != null &&  model.getClassroom().getId() != null? classRepository.findOne(model.getClassroom().getId()) : null;
+		if (classe == null) {
 			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASSROOM));
 		}
-		
-		entity.setClassroom(classEntity);
+		StudentEntity entity = mapper.map(model, StudentEntity.class);
+		entity.setClassroom(classe);
 		return entityToModel(entity);
 	}
 	

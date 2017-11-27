@@ -15,6 +15,11 @@ import fr.iagl.gamification.constants.CodeError;
 public class StudentForm implements AbstractForm {
 	
 	/**
+	 * identifiant de l'élève
+	 */
+	private Long id;
+	
+	/**
 	 * Nom
 	 */
 	@Pattern(regexp = "^[A-Z].*", message = CodeError.ERROR_FIRST_NAME_NOT_START_WITH_MAJ)
@@ -33,6 +38,12 @@ public class StudentForm implements AbstractForm {
 	 */
 	@NotNull(message = CodeError.ERROR_NULL_BORN_DATE)
 	private Date born;
+	
+	/**
+	 * id de la classe
+	 */
+	@NotNull
+	private Long idClass;
 
 	/**
 	 * Getter de l'attribut {@link StudentForm#firstName}
@@ -81,4 +92,38 @@ public class StudentForm implements AbstractForm {
 	public void setBorn(Date born) {
 		this.born = born;
 	}
+
+	/**
+	 * Getter de l'attribut {@link StudentForm#id}
+	 * @return id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentForm#id}
+	 * @param id l'attribut {@link StudentForm#id} à setter
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * Getter de l'attribut {@link StudentForm#idClass}
+	 * @return idClass
+	 */
+	public Long getIdClass() {
+		return idClass;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentForm#idClass}
+	 * @param idClass l'attribut {@link StudentForm#idClass} à setter
+	 */
+	public void setIdClass(Long idClass) {
+		this.idClass = idClass;
+	}
+	
+	
 }
