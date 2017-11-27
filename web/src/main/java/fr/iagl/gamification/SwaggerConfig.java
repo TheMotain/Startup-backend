@@ -25,8 +25,8 @@ public class SwaggerConfig {
 
 	private ApiInfo apiInfo() {
 		ApiInfo apiInfo = new ApiInfo("Startup Back REST API", "Liste REST URL", "API TOS", "Terms of service",
-				new Contact("", "", ""), "License of API",
-				"API license URL", Collections.emptyList());
+				new Contact("", "", ""), "Websocket informations",
+				"https://docs.google.com/spreadsheets/d/143uYsnhLAgCt0MSIdNJSgmr0E2Uk8R3dLaRsguf0eDg/edit?usp=sharing", Collections.emptyList());
 		return apiInfo;
 	}
 }
