@@ -108,6 +108,12 @@ public class StudentServiceImplTest {
 		Assert.assertEquals(studentModel, model);
 
 	}
+	
+	@Test(expected=StudentNotFoundException.class)
+	public void testDeleteStudentFromClassWithInexistingStudentThrowException() throws StudentNotFoundException{
+		service.deleteStudentFromClass(1L);
+	}
+	
 	@Test
 	public void testAddClassToStudent() throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
 		ClassEntity classe = Mockito.mock(ClassEntity.class);
