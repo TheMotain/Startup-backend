@@ -118,15 +118,19 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		Assert.assertEquals("message", response.getBody().get(0));
 	}
 	
-	@Test(expected=GamificationServiceException.class)
+	@Test
 	public void testCreateStudentErrorOnServiceReturnResponseContainsErrors() throws GamificationServiceException{
 		StudentForm form = Mockito.mock(StudentForm.class);
+		StudentModel model = Mockito.mock(StudentModel.class);
 		GamificationServiceException exception = Mockito.mock(GamificationServiceException.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
+		Mockito.doReturn(model).when(mapper).map(form, StudentModel.class);
 		Mockito.doThrow(exception).when(studentService).saveStudent(Mockito.any(StudentModel.class));
+		Mockito.doReturn(Arrays.asList("ERROR")).when(exception).getErrors();
 		
-		controller.createStudent(form, bindingResult);
+		ResponseEntity<List<String>> output = (ResponseEntity<List<String>>) controller.createStudent(form, bindingResult);
+		Assert.assertEquals("ERROR", output.getBody().get(0));
 	}
 
 }

@@ -1,11 +1,6 @@
 package fr.iagl.gamification.model;
 
 public class PointModel {
-
-	/**
-	 * id du point
-	 */
-	private Long id;
 	
 	/**
 	 * bonus de l'élève
@@ -21,22 +16,6 @@ public class PointModel {
 	 * élève
 	 */
 	private StudentModel student;
-
-	/**
-	 * Getter de l'attribut {@link PointModel#id}
-	 * @return id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * Setter de l'attribut {@link PointModel#id}
-	 * @param id l'attribut {@link PointModel#id} à setter
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	/**
 	 * Getter de l'attribut {@link PointModel#bonus}

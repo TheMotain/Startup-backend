@@ -10,11 +10,6 @@ import javax.validation.constraints.NotNull;
  *
  */
 public class PointForm implements AbstractForm{
-
-	/**
-	 * id des points
-	 */
-	private Long id;
 	
 	/**
 	 * id de l'élève
@@ -83,23 +78,5 @@ public class PointForm implements AbstractForm{
 	public void setMalus(long malus) {
 		this.malus = malus;
 	}
-
-	/**
-	 * Getter de l'attribut {@link PointForm#id}
-	 * @return id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * Setter de l'attribut {@link PointForm#id}
-	 * @param id l'attribut {@link PointForm#id} à setter
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	
 	
 }

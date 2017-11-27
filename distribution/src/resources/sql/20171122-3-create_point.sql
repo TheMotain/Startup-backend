@@ -1,7 +1,6 @@
 create table point (
-	id serial primary key,
 	bonus bigint,
 	malus bigint,
-	pupil integer,
+	pupil integer unique,
 	constraint pupil_fk foreign key (pupil) references pupil(id)
 );

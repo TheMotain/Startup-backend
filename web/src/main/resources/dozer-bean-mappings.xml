@@ -17,10 +17,6 @@
 			<a>bonus</a>
 			<b>bonus</b>
 		</field>
-		<field>
-			<a>id</a>
-			<b>id</b>
-		</field>
 	</mapping>
 	
 	<mapping wildcard="false">
