@@ -27,7 +27,8 @@ public class RunnablePointServiceImpl implements RunnableHashMapService{
 
 	@Override
 	public void runMethod(JSONObject json) throws JSONException {
+		LOGGER.info("Runnable Point WS : " + json);
 		PointModel message = new PointModel(json);
-		messagingTemplate.convertAndSend(ChannelEnum.NOTIFICATION_POINT.getFullChannelURLUserID(message.getStudent().getId().toString()), message);
+		messagingTemplate.convertAndSend(ChannelEnum.NOTIFICATION_POINT.getFullChannelURLWithID(message.getStudent().getId().toString()), message);
 	}
 }

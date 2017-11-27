@@ -12,8 +12,8 @@ public class ChannelEnumTest {
 	}
 	
 	@Test
-	public void testGetFullChannelURLForUser() {
+	public void testGetFullChannelURLForID() {
 		String expected = "/channel/notification/point/USRtest";
-		Assert.assertEquals(expected, ChannelEnum.NOTIFICATION_POINT.getFullChannelURLUserID("USRtest"));
+		Assert.assertEquals(expected, ChannelEnum.NOTIFICATION_POINT.getFullChannelURLWithID("USRtest"));
 	}
 }

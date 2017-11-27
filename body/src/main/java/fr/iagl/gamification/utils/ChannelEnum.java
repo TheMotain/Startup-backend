@@ -23,12 +23,12 @@ public enum ChannelEnum {
 	}
 	
 	/**
-	 * Retourne l'URL de broadcast pour un utilisateur
-	 * @param userID ID utilisateur à inclure dans l'URL
+	 * Retourne l'URL de broadcast pour un ID particuliet
+	 * @param id ID à inclure dans l'URL
 	 * @return L'URL généré
 	 */
-	public String getFullChannelURLUserID(String userID) {
-		return String.format("%s/%s", getFullChannelURL(), userID);
+	public String getFullChannelURLWithID(String id) {
+		return String.format("%s/%s", getFullChannelURL(), id);
 	}
 	
 	/**
