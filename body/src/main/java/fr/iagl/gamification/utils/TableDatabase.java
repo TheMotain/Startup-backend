@@ -1,5 +1,8 @@
 package fr.iagl.gamification.utils;
 
+import fr.iagl.gamification.entity.MessageEntity;
+import fr.iagl.gamification.model.PointModel;
+
 /**
  * Tables de la base de données
  * 
@@ -7,7 +10,15 @@ package fr.iagl.gamification.utils;
  *
  */
 public enum TableDatabase {
-	MESSAGE("MESSAGE");
+	/**
+	 * Table message {@link MessageEntity}
+	 */
+	MESSAGE("MESSAGE"),
+	/**
+	 * Table point {@link PointModel}
+	 */
+	POINT("POINT")
+	;
 	
 	/**
 	 * Nom de la table en base de données 

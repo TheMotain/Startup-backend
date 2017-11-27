@@ -1,17 +1,20 @@
 package fr.iagl.gamification.services.impl;
 
+import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import fr.iagl.gamification.model.PointModel;
 import fr.iagl.gamification.model.TaskModel;
 import fr.iagl.gamification.services.RunnableHashMapService;
 import fr.iagl.gamification.services.TaskService;
@@ -27,9 +30,18 @@ import fr.iagl.gamification.utils.TableDatabase;
 @Service
 public class TaskServiceImpl implements TaskService{
 
+	/**
+	 * Logger
+	 */
+	private static final Logger LOGGER = Logger.getLogger(TaskServiceImpl.class);
+
+//	@Autowired
+//	@Qualifier("runnableInsertMessageServiceImpl")
+//	private RunnableHashMapService runnableInsertMessageServiceImpl;
+	
 	@Autowired
-	@Qualifier("runnableInsertMessageServiceImpl")
-	private RunnableHashMapService runnableInsertMessageServiceImpl;
+	@Qualifier("runnablePointServiceImpl")
+	private RunnableHashMapService runnablePointServiceImpl;
 	
 	/**
 	 * Map qui contient toutes les méthodes à executer pour une table donnée et une action donnée
@@ -44,11 +56,14 @@ public class TaskServiceImpl implements TaskService{
 		map = new EnumMap(TableDatabase.class);
 		
 		//actions de la table message
-		Map<ActionDatabase, RunnableHashMapService> mapActionsMessageTable = new EnumMap(ActionDatabase.class);
-		mapActionsMessageTable.put(ActionDatabase.INSERT, runnableInsertMessageServiceImpl);
+		Map<ActionDatabase, RunnableHashMapService> mapActionsPointTable = new EnumMap(ActionDatabase.class);
+//		mapActionsMessageTable.put(ActionDatabase.INSERT, runnableInsertMessageServiceImpl);
+		mapActionsPointTable.put(ActionDatabase.INSERT, runnablePointServiceImpl);
+		mapActionsPointTable.put(ActionDatabase.UPDATE, runnablePointServiceImpl);		
 		
 		//insertion de toutes les actions des tables
-		map.put(TableDatabase.MESSAGE, mapActionsMessageTable);
+//		map.put(TableDatabase.MESSAGE, mapActionsMessageTable);
+		map.put(TableDatabase.POINT, mapActionsPointTable);
 	}
 	
 	/*
@@ -58,6 +73,8 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public void treatTask(TaskModel task) throws JSONException {
 		JSONObject json = task.getNotification();
+		
+		Class obj = PointModel.class;
 		
 		String table = json.getString("table").toUpperCase();
 		String action = json.getString("type");

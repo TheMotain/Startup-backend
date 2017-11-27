@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
-import fr.iagl.gamification.entity.Singleton;
 import fr.iagl.gamification.model.MessageModel;
 import fr.iagl.gamification.model.MessageModel.MessageType;
 import fr.iagl.gamification.services.RunnableHashMapService;
@@ -31,8 +30,7 @@ public class RunnableInsertMessageServiceImpl implements RunnableHashMapService{
 
 	@Override
 	public void runMethod(JSONObject json) throws JSONException {
-		LOGGER.info("Envoi du message à " + Singleton.sessions.keySet().iterator().next());
 		MessageModel message = new MessageModel(MessageType.CHAT, json.getString("content"), json.getString("sender"));
-		messagingTemplate.convertAndSendToUser(Singleton.sessions.keySet().iterator().next(),"/user/channel/notification", message);
+		messagingTemplate.convertAndSend("/channel/notification", message);
 	}
 }
