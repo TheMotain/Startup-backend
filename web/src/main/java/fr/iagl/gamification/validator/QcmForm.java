@@ -2,7 +2,6 @@ package fr.iagl.gamification.validator;
 
 import java.util.List;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -31,7 +30,7 @@ public class QcmForm implements AbstractForm{
 	 */
 	@NotNull
 	@Pattern(regexp="^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'?!.+=*/;:]*$", message = CodeError.ERROR_STRING_PATTERN_QCM_TITRE)
-	private String titre;
+	private String title;
 	
 	/**
 	 * instruction du QCM
@@ -45,7 +44,7 @@ public class QcmForm implements AbstractForm{
 	 */
 	@NotNull
 	private List<QuestionForm> questions;
-	
+
 	/**
 	 * Getter de l'attribut {@link QcmForm#idClass}
 	 * @return idClass
@@ -79,19 +78,19 @@ public class QcmForm implements AbstractForm{
 	}
 
 	/**
-	 * Getter de l'attribut {@link QcmForm#titre}
+	 * Getter de l'attribut {@link QcmForm#title}
 	 * @return titre
 	 */
-	public String getTitre() {
-		return titre;
+	public String getTitle() {
+		return title;
 	}
 
 	/**
-	 * Setter de l'attribut {@link QcmForm#titre}
-	 * @param titre l'attribut {@link QcmForm#titre} à setter
+	 * Setter de l'attribut {@link QcmForm#title}
+	 * @param titre l'attribut {@link QcmForm#title} à setter
 	 */
-	public void setTitre(String titre) {
-		this.titre = titre;
+	public void setTitle(String titre) {
+		this.title = titre;
 	}
 
 	/**
@@ -125,165 +124,5 @@ public class QcmForm implements AbstractForm{
 	public void setQuestions(List<QuestionForm> questions) {
 		this.questions = questions;
 	}
-
-	/**
-	 * Vérification des questions
-	 *
-	 * @author Hélène MEYER
-	 *
-	 */
-	public class QuestionForm implements AbstractForm {
-		
-		/**
-		 * identifiant de la question
-		 */
-		private Long id;
-		
-		/**
-		 * Question
-		 */
-		@NotNull
-		@Pattern(regexp="^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'/!?;:+*x=]*$", message = CodeError.ERROR_STRING_PATTERN_QCM_QUERY)
-		private String query;
-		
-		/**
-		 * liste des choix
-		 */
-		@NotNull
-		private List<ChoiceForm> choices;
-		
-		/**
-		 * nombre de points à gagner
-		 */
-		@NotNull
-		@Min(0)
-		private int nbPoints;
-
-		/**
-		 * Getter de l'attribut {@link QcmForm.QuestionForm#id}
-		 * @return id
-		 */
-		public Long getId() {
-			return id;
-		}
-
-		/**
-		 * Setter de l'attribut {@link QcmForm.QuestionForm#id}
-		 * @param id l'attribut {@link QcmForm.QuestionForm#id} à setter
-		 */
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		/**
-		 * Getter de l'attribut {@link QcmForm.QuestionForm#choices}
-		 * @return choices
-		 */
-		public List<ChoiceForm> getChoices() {
-			return choices;
-		}
-
-		/**
-		 * Setter de l'attribut {@link QcmForm.QuestionForm#choices}
-		 * @param choices l'attribut {@link QcmForm.QuestionForm#choices} à setter
-		 */
-		public void setChoices(List<ChoiceForm> choices) {
-			this.choices = choices;
-		}
-
-		/**
-		 * Getter de l'attribut {@link QcmForm.QuestionForm#nbPoints}
-		 * @return nbPoints
-		 */
-		public int getNbPoints() {
-			return nbPoints;
-		}
-
-		/**
-		 * Setter de l'attribut {@link QcmForm.QuestionForm#nbPoints}
-		 * @param nbPoints l'attribut {@link QcmForm.QuestionForm#nbPoints} à setter
-		 */
-		public void setNbPoints(int nbPoints) {
-			this.nbPoints = nbPoints;
-		}
-		
-		
-	}
 	
-	/**
-	 * Vérification des choix
-	 *
-	 * @author Hélène MEYER
-	 *
-	 */
-	public class ChoiceForm implements AbstractForm {
-		
-		/**
-		 * identifiant du choix
-		 */
-		private Long id;
-		
-		/**
-		 * intitulé du choix
-		 */
-		@NotNull
-		@Pattern(regexp="^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'?!?;:=/+*x]*$", message = CodeError.ERROR_STRING_PATTERN_QCM_CHOICE)
-		private String choice;
-		
-		/**
-		 * true si c'est la bonne réponse
-		 */
-		@NotNull
-		private boolean good;
-
-		/**
-		 * Getter de l'attribut {@link QcmForm.ChoiceForm#id}
-		 * @return id
-		 */
-		public Long getId() {
-			return id;
-		}
-
-		/**
-		 * Setter de l'attribut {@link QcmForm.ChoiceForm#id}
-		 * @param id l'attribut {@link QcmForm.ChoiceForm#id} à setter
-		 */
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		/**
-		 * Getter de l'attribut {@link QcmForm.ChoiceForm#choice}
-		 * @return choice
-		 */
-		public String getChoice() {
-			return choice;
-		}
-
-		/**
-		 * Setter de l'attribut {@link QcmForm.ChoiceForm#choice}
-		 * @param choice l'attribut {@link QcmForm.ChoiceForm#choice} à setter
-		 */
-		public void setChoice(String choice) {
-			this.choice = choice;
-		}
-
-		/**
-		 * Getter de l'attribut {@link QcmForm.ChoiceForm#good}
-		 * @return good
-		 */
-		public boolean isGood() {
-			return good;
-		}
-
-		/**
-		 * Setter de l'attribut {@link QcmForm.ChoiceForm#good}
-		 * @param good l'attribut {@link QcmForm.ChoiceForm#good} à setter
-		 */
-		public void setGood(boolean good) {
-			this.good = good;
-		}
-		
-		
-	}
 }

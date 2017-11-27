@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.iagl.gamification.constants.CodeError;
+import fr.iagl.gamification.entity.AnswerEntity;
 import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.QcmEntity;
+import fr.iagl.gamification.entity.QuestionEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
+import fr.iagl.gamification.model.AnswerModel;
 import fr.iagl.gamification.model.QcmModel;
+import fr.iagl.gamification.model.QuestionModel;
 import fr.iagl.gamification.repository.ClassRepository;
 import fr.iagl.gamification.repository.QcmRepository;
 import fr.iagl.gamification.services.QcmService;
@@ -32,6 +36,7 @@ public class QcmServiceImpl implements QcmService {
 	@Autowired
 	private QcmRepository repository;
 	
+	@Autowired
 	private ClassRepository classRepository;
 	
 	/**
@@ -48,15 +53,29 @@ public class QcmServiceImpl implements QcmService {
 	}
 
 	@Override
-	public QcmModel saveQcm(QcmModel model) throws GamificationServiceException {
-		if (model.getClassroom() == null || model.getClassroom().getId() == null) {
-			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASSROOM));
-		}
-		ClassEntity classroom = classRepository.findOne(model.getClassroom().getId());
+	public QcmModel saveQcm(QcmModel model, long idClass) throws GamificationServiceException {
+		ClassEntity classroom = classRepository.findOne(idClass);
+
 		if (classroom == null) {
 			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASSROOM));
 		}
 		QcmEntity entity = mapper.map(model, QcmEntity.class);
+		entity.setClassroom(classroom);
+		List<QuestionEntity> questions = new ArrayList<>();
+		for (QuestionModel q: model.getQuestions()){
+			QuestionEntity question = mapper.map(q, QuestionEntity.class);
+			List<AnswerEntity> answers = new ArrayList<>();
+			for (AnswerModel a: q.getAnswers()) {
+				AnswerEntity answer = mapper.map(a, AnswerEntity.class);
+				answer.setQuestion(question);
+				answers.add(answer);
+			}
+			question.setAnswers(answers);
+			question.setQcm(entity);
+			questions.add(question);
+		}
+		entity.setQuestions(questions);
+		
 		repository.save(entity);
 		return mapper.map(entity, QcmModel.class);
 	}

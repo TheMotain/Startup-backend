@@ -21,11 +21,6 @@ public class QuestionModel {
 	private String query;
 	
 	/**
-	 * qcm de la question
-	 */
-	private QcmModel qcm;
-	
-	/**
 	 * liste de toutes les réponses possibles
 	 */
 	private List<AnswerModel> answers;
@@ -65,22 +60,6 @@ public class QuestionModel {
 	 */
 	public void setQuery(String query) {
 		this.query = query;
-	}
-
-	/**
-	 * Getter de l'attribut {@link QuestionModel#qcm}
-	 * @return qcm
-	 */
-	public QcmModel getQcm() {
-		return qcm;
-	}
-
-	/**
-	 * Setter de l'attribut {@link QuestionModel#qcm}
-	 * @param qcm l'attribut {@link QuestionModel#qcm} à setter
-	 */
-	public void setQcm(QcmModel qcm) {
-		this.qcm = qcm;
 	}
 
 	/**

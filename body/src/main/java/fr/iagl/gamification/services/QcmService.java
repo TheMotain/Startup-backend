@@ -24,8 +24,9 @@ public interface QcmService {
 	 * Enregistre le QCM
 	 * 
 	 * @param model le qcm à sauvegarder
+	 * @param idClass id de la classe
 	 * @return le qcm enregistré
 	 * @throws GamificationServiceException 
 	 */
-	public QcmModel saveQcm(QcmModel model) throws GamificationServiceException;
+	public QcmModel saveQcm(QcmModel model, long idClass) throws GamificationServiceException;
 }

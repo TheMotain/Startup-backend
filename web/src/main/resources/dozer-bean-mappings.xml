@@ -48,33 +48,5 @@
 		</field>
 	</mapping>
 	
-	<mapping wildcard="false">
-		<class-a>fr.iagl.gamification.model.QcmModel</class-a>
-		<class-b>fr.iagl.gamification.object.QcmObject</class-b>
-		<field>
-			<a>classroom.id</a>
-			<b>idClass</b>
-		</field>
-		<field>
-			<a>id</a>
-			<b>id</b>
-		</field>
-		<field>
-			<a>title</a>
-			<b>title</b>
-		</field>
-		<field>
-			<a>instruction</a>
-			<b>instruction</b>
-		</field>
-		<field>
-			<a>questions</a>
-			<b>questions</b>
-		</field>
-		<field>
-			<a>dateIns</a>
-			<b>dateIns</b>
-		</field>
-	</mapping>
 
 </mappings> 

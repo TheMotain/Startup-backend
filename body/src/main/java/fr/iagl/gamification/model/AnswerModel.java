@@ -22,11 +22,6 @@ public class AnswerModel {
 	 * true si c'est la bonne réponse
 	 */
 	private boolean good;
-	
-	/**
-	 * question 
-	 */
-	private QuestionModel question;
 
 	/**
 	 * Getter de l'attribut {@link AnswerModel#id}
@@ -75,22 +70,5 @@ public class AnswerModel {
 	public void setGood(boolean good) {
 		this.good = good;
 	}
-
-	/**
-	 * Getter de l'attribut {@link AnswerModel#question}
-	 * @return question
-	 */
-	public QuestionModel getQuestion() {
-		return question;
-	}
-
-	/**
-	 * Setter de l'attribut {@link AnswerModel#question}
-	 * @param question l'attribut {@link AnswerModel#question} à setter
-	 */
-	public void setQuestion(QuestionModel question) {
-		this.question = question;
-	}
-	
 	
 }

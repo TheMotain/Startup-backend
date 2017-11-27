@@ -3,6 +3,7 @@ package fr.iagl.gamification.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,7 +60,7 @@ public class QcmEntity {
 	/**
 	 * Récupération de la liste des questions pour le qcm
 	 */
-	@OneToMany(mappedBy = "qcm")
+	@OneToMany(mappedBy = "qcm", cascade = CascadeType.ALL)
 	private List<QuestionEntity> questions;
 
 	/**
