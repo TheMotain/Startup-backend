@@ -41,10 +41,12 @@ public class StudentFormTest extends AbstractFormTest {
 		form.setFirstName("A");
 		form.setLastName("A");
 		form.setBorn(new Date());
+		form.setIdClass(2L);
 		validateSuccess(form);
 		form.setFirstName("Azzeee refzrzer");
 		form.setLastName("A");
 		form.setBorn(new Date());
+		form.setIdClass(6L);
 		validateSuccess(form);
 	}
 	
@@ -82,10 +84,12 @@ public class StudentFormTest extends AbstractFormTest {
 		form.setFirstName("A");
 		form.setLastName("A");
 		form.setBorn(new Date());
+		form.setIdClass(2L);
 		validateSuccess(form);
 		form.setFirstName("Azzeee refzrzer");
 		form.setLastName("Azeazezae zaezaezae");
 		form.setBorn(new Date());
+		form.setIdClass(3L);
 		validateSuccess(form);
 	}
 	
@@ -104,6 +108,7 @@ public class StudentFormTest extends AbstractFormTest {
 		form.setFirstName("Azzeee refzrzer");
 		form.setLastName("Azeazezae zaezaezae");
 		form.setBorn(new Date());
+		form.setIdClass(2L);
 		validateSuccess(form);
 	}
 }

@@ -24,10 +24,8 @@ import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.StudentModel;
-import fr.iagl.gamification.object.StudentObject;
 import fr.iagl.gamification.services.StudentService;
 import fr.iagl.gamification.utils.RequestTools;
-import fr.iagl.gamification.validator.LinkStudentClassForm;
 import fr.iagl.gamification.validator.StudentForm;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -64,15 +62,15 @@ public class StudentController implements AbstractController {
 	 * @return Response contenant la liste des élèves
 	 */
 	@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT, method = RequestMethod.GET)
-	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentObject.class, responseContainer = "list", message = "Liste des élève")
-	public ResponseEntity<List<StudentObject>> getAllStudent() {
+	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentForm.class, responseContainer = "list", message = "Liste des élève")
+	public ResponseEntity<List<StudentForm>> getAllStudent() {
 		LOG.info("Récupération de la liste des élèves");
 		List<StudentModel> result = studentService.getAllStudent();
-		List<StudentObject> students = new ArrayList<>();
+		List<StudentForm> students = new ArrayList<>();
 		Optional.ofNullable(result)
 					.orElseGet(Collections::emptyList)
 					.iterator()
-					.forEachRemaining(e -> students.add(mapper.map(e, StudentObject.class)));
+					.forEachRemaining(e -> students.add(mapper.map(e, StudentForm.class)));
 		return new ResponseEntity<>(students, HttpStatus.OK);
 	}
 
@@ -87,7 +85,7 @@ public class StudentController implements AbstractController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT, method = RequestMethod.POST)
-	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_CREATED, response = StudentObject.class, message = "Elève créé"),
+	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_CREATED, response = StudentForm.class, message = "Elève créé"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs à la validation du formulaire") })
 	public ResponseEntity createStudent(@Valid @RequestBody StudentForm studentForm, BindingResult bindingResult) {
 		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
@@ -96,44 +94,19 @@ public class StudentController implements AbstractController {
 			errors = RequestTools.transformBindingErrors(bindingResult);
 		} else {
 			LOG.info("Call createOrUpdateStudent from service");
-			StudentModel studentCreated = studentService.saveStudent(mapper.map(studentForm, StudentModel.class));
-			LOG.info("Return createOrUpdateStudent from service");
-			
-			if (studentCreated != null) {
-				return new ResponseEntity<StudentObject>(mapper.map(studentCreated, StudentObject.class), HttpStatus.CREATED);
-			}
-		}
-		
-		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
-	}
-	
-	/**
-	 * Ajouter une classe 
-	 * 
-	 * @param linkForm le formulaire contenant l'identifiant de l'élève et celui de la classe
-	 * @param bindingResult
-	 * @return l'objet modifié
-	 */
-	@RequestMapping(value=MappingConstant.POST_ADD_CLASS, method = RequestMethod.POST)
-	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentObject.class, message = "Classe ajoutée à l'élève"),
-			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs") })
-	public ResponseEntity<StudentObject> addClassToStudent(@Valid @RequestBody LinkStudentClassForm linkForm, BindingResult bindingResult) {
-		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
-		
-		if (bindingResult.hasErrors()) {
-			errors = RequestTools.transformBindingErrors(bindingResult);
-		} else {
-
-			StudentModel studentModified;
+			StudentModel studentCreated;
 			try {
-				studentModified = studentService.addClassToStudent(linkForm.getIdStudent(), linkForm.getIdClass());
-				if (studentModified != null) {
-					return new ResponseEntity<>(mapper.map(studentModified, StudentObject.class), HttpStatus.OK);
+				studentCreated = studentService.saveStudent(mapper.map(studentForm, StudentModel.class));
+				LOG.info("Return saveStudent from service");
+				
+				if (studentCreated != null) {
+					return new ResponseEntity<StudentForm>(mapper.map(studentCreated, StudentForm.class), HttpStatus.CREATED);
 				}
 			} catch (GamificationServiceException e) {
+				LOG.warn("Erreur lors de l'appel au service studentService (saveStudent)");
 				errors = e.getErrors();
-				LOG.warn("Erreur lors de l'appel au service studentService.addClassToStudent");
-			} 
+			}
+			
 		}
 		
 		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);

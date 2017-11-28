@@ -24,7 +24,6 @@ import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.PointModel;
-import fr.iagl.gamification.object.PointObject;
 import fr.iagl.gamification.services.PointService;
 import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.PointForm;
@@ -64,15 +63,15 @@ public class PointController implements AbstractController{
 	 * @return tous les points
 	 */
 	@RequestMapping(value = MappingConstant.POINTS_PATH_ROOT, method = RequestMethod.GET)
-	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = PointObject.class, responseContainer = "list", message = "Liste des points des élèves")
-	public ResponseEntity<List<PointObject>> getAllPoints() {
+	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = PointForm.class, responseContainer = "list", message = "Liste des points des élèves")
+	public ResponseEntity<List<PointForm>> getAllPoints() {
 		LOG.info("Récupération de la liste des points");
 		List<PointModel> result = pointService.getPoints();
-		List<PointObject> points = new ArrayList<>();
+		List<PointForm> points = new ArrayList<>();
 		Optional.ofNullable(result)
 					.orElseGet(Collections::emptyList)
 					.iterator()
-					.forEachRemaining(e -> points.add(mapper.map(e, PointObject.class)));
+					.forEachRemaining(e -> points.add(mapper.map(e, PointForm.class)));
 		return new ResponseEntity<>(points, HttpStatus.OK);
 	}
 	
@@ -84,9 +83,9 @@ public class PointController implements AbstractController{
 	 * @return les points de l'élève ou la liste des erreurs
 	 */
 	@RequestMapping(value = MappingConstant.POINTS_PATH_ROOT, method = RequestMethod.POST)
-	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = PointObject.class, message = "Les points modifiés"),
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = PointForm.class, message = "Les points modifiés"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs au niveau du formulaire / L'élève n'existe pas")})
-	public ResponseEntity<PointObject> submitPointForm(@Valid @RequestBody PointForm pointForm, BindingResult bindingResult) {
+	public ResponseEntity<PointForm> submitPointForm(@Valid @RequestBody PointForm pointForm, BindingResult bindingResult) {
 		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
 		
 		if (bindingResult.hasErrors()) {
@@ -96,7 +95,7 @@ public class PointController implements AbstractController{
 			try {
 				PointModel updatedPoint = pointService.updatePoint(mapper.map(pointForm, PointModel.class), pointForm.getIdStudent());
 				if (updatedPoint != null) {
-					return new ResponseEntity<>(mapper.map(updatedPoint, PointObject.class), HttpStatus.OK);
+					return new ResponseEntity<>(mapper.map(updatedPoint, PointForm.class), HttpStatus.OK);
 				}
 			} catch (GamificationServiceException e) {
 				LOG.info("Erreur lors de l'appel au service pointService.updatePoint");
