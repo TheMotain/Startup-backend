@@ -137,7 +137,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 	
 	@Test
 	public void testReturnErrorListStringIfUserNotKnow() throws GamificationServiceException {
-		Mockito.when(pointService.getPoint(Mockito.anyLong())).thenReturn(null);
+		Mockito.when(pointService.getPoint(Mockito.anyLong())).thenThrow(new GamificationServiceException(null));
 		ResponseEntity<List<String>> res = (ResponseEntity<List<String>>) controller.getPoint(Mockito.anyLong());
 		Assert.assertEquals(HttpStatus.BAD_REQUEST, res.getStatusCode());
 	}
