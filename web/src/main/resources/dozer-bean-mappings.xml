@@ -4,7 +4,7 @@
 
 	<mapping wildcard="false">
 		<class-a>fr.iagl.gamification.model.PointModel</class-a>
-		<class-b>fr.iagl.gamification.object.PointObject</class-b>
+		<class-b>fr.iagl.gamification.validator.PointForm</class-b>
 		<field>
 			<a>student.id</a>
 			<b>idStudent</b>
@@ -17,15 +17,11 @@
 			<a>bonus</a>
 			<b>bonus</b>
 		</field>
-		<field>
-			<a>id</a>
-			<b>id</b>
-		</field>
 	</mapping>
 	
 	<mapping wildcard="false">
 		<class-a>fr.iagl.gamification.model.StudentModel</class-a>
-		<class-b>fr.iagl.gamification.object.StudentObject</class-b>
+		<class-b>fr.iagl.gamification.validator.StudentForm</class-b>
 		<field>
 			<a>classroom.id</a>
 			<b>idClass</b>

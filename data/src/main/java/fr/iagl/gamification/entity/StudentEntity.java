@@ -3,6 +3,7 @@ package fr.iagl.gamification.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -52,9 +55,19 @@ public class StudentEntity implements Serializable {
 	@Column(name = "borndate", nullable = false, columnDefinition = "date")
 	private Date born;
 	
+	/**
+	 * classe de l'élève
+	 */
 	@ManyToOne
 	@JoinColumn(name = "classroom", nullable = true)
 	private ClassEntity classroom;
+	
+	/**
+	 * point de l'élève
+	 */
+    @PrimaryKeyJoinColumn
+	@OneToOne(cascade = CascadeType.ALL)
+    private PointEntity points;
 
 	/**
 	 * Getter de l'attribut {@link StudentEntity#id}
@@ -135,4 +148,22 @@ public class StudentEntity implements Serializable {
 	public void setBorn(Date born) {
 		this.born = born;
 	}
+
+	/**
+	 * Getter de l'attribut {@link StudentEntity#points}
+	 * @return points
+	 */
+	public PointEntity getPoints() {
+		return points;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentEntity#points}
+	 * @param points l'attribut {@link StudentEntity#points} à setter
+	 */
+	public void setPoints(PointEntity points) {
+		this.points = points;
+	}
+	
+	
 }

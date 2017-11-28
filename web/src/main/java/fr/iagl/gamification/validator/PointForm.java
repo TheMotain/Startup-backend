@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  *
  */
 public class PointForm implements AbstractForm{
-
+	
 	/**
 	 * id de l'élève
 	 */
@@ -78,6 +78,5 @@ public class PointForm implements AbstractForm{
 	public void setMalus(long malus) {
 		this.malus = malus;
 	}
-	
 	
 }

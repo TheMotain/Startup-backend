@@ -22,18 +22,9 @@ public interface StudentService {
 	 * Créer ou Modifier un élève
 	 * @param model élève à créer ou à modifier
 	 * @return élève créé ou modifié
+	 * @throws GamificationServiceException lorsque la classe n'existe pas
 	 */
-	public StudentModel saveStudent(StudentModel model);
+	public StudentModel saveStudent(StudentModel model) throws GamificationServiceException;
 
-	/**
-	 * Ajouter un élève dans une classe
-	 * 
-	 * @param idStudent  identifiant de l'élève
-	 * @param idClass identifiant de la classe
-	 * @return élève 
-	 * 
-	 * @throws GamificationServiceException
-	 */
-	public StudentModel addClassToStudent(long idStudent, long idClass) throws GamificationServiceException;
 	
 }

@@ -3,11 +3,6 @@ package fr.iagl.gamification.model;
 import org.json.JSONObject;
 
 public class PointModel {
-
-	/**
-	 * id du point
-	 */
-	private Long id;
 	
 	/**
 	 * bonus de l'élève
@@ -105,7 +100,4 @@ public class PointModel {
 	public void setStudent(StudentModel student) {
 		this.student = student;
 	}
-	
-	
-
 }

@@ -23,7 +23,6 @@ import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.PointModel;
-import fr.iagl.gamification.object.PointObject;
 import fr.iagl.gamification.services.PointService;
 import fr.iagl.gamification.validator.PointForm;
 
@@ -52,11 +51,11 @@ public class PointControllerTest extends SpringIntegrationTest{
 	@Test
 	public void testGetAllPointReturnResponseEntityContainsServiceResultMultiple(){
 		PointModel mock = Mockito.mock(PointModel.class);
-		PointObject cls = Mockito.mock(PointObject.class);
-		Mockito.when(mapper.map(mock, PointObject.class)).thenReturn(cls);
+		PointForm cls = Mockito.mock(PointForm.class);
+		Mockito.when(mapper.map(mock, PointForm.class)).thenReturn(cls);
 		List<PointModel> lst = Arrays.asList(mock);
 		Mockito.when(service.getPoints()).thenReturn(lst);
-		ResponseEntity<List<PointObject>> response = controller.getAllPoints();
+		ResponseEntity<List<PointForm>> response = controller.getAllPoints();
 		Assert.assertEquals(cls, response.getBody().get(0));
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
@@ -65,7 +64,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 	public void testGetAllPointReturnResponseEntityContainsServiceResult(){
 		List<PointModel> mock = new ArrayList<>();
 		Mockito.when(service.getPoints()).thenReturn(mock);
-		ResponseEntity<List<PointObject>> response = controller.getAllPoints();
+		ResponseEntity<List<PointForm>> response = controller.getAllPoints();
 		Assert.assertEquals(mock, response.getBody());
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
