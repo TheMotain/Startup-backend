@@ -18,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
@@ -57,12 +56,6 @@ public class PointController implements AbstractController{
 	 */
 	@Autowired
 	private Mapper mapper;
-	
-	@RequestMapping(value = MappingConstant.POINTS_PATH_ROOT_WITH_USERID, method = RequestMethod.GET)
-	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = PointObject.class, message = "Détail des points pour l'utilisateur")
-	public ResponseEntity<PointForm> getPoint(@RequestParam("usrID") String userID){
-		return null;
-	}
 	
 	/**
 	 * Récupère tous les points

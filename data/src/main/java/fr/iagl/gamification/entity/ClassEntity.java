@@ -31,7 +31,6 @@ public class ClassEntity implements Serializable {
 	 * id de la classe
 	 */
 	@Id
-	@Column(name="id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
  

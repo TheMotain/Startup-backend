@@ -20,10 +20,9 @@ import javax.persistence.Table;
 public class MessageEntity implements Serializable {
  
 	private static final long serialVersionUID = -3009157732242241606L;
-	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
  
 	/**
 	 * Nom de celui qui a envoyé le message
@@ -37,61 +36,11 @@ public class MessageEntity implements Serializable {
 	@Column(name = "content")
 	private String content;
  
-	public MessageEntity() {
+	protected MessageEntity() {
 	}
  
 	public MessageEntity(String name, String content) {
 		this.sender = name;
-		this.content = content;
-	}
-
-	
-	
-	/**
-	 * Getter de l'attribut {@link MessageEntity#id}
-	 * @return id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * Setter de l'attribut {@link MessageEntity#id}
-	 * @param id l'attribut {@link MessageEntity#id} à setter
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	/**
-	 * Getter de l'attribut {@link MessageEntity#sender}
-	 * @return sender
-	 */
-	public String getSender() {
-		return sender;
-	}
-
-	/**
-	 * Setter de l'attribut {@link MessageEntity#sender}
-	 * @param sender l'attribut {@link MessageEntity#sender} à setter
-	 */
-	public void setSender(String sender) {
-		this.sender = sender;
-	}
-
-	/**
-	 * Getter de l'attribut {@link MessageEntity#content}
-	 * @return content
-	 */
-	public String getContent() {
-		return content;
-	}
-
-	/**
-	 * Setter de l'attribut {@link MessageEntity#content}
-	 * @param content l'attribut {@link MessageEntity#content} à setter
-	 */
-	public void setContent(String content) {
 		this.content = content;
 	}
 

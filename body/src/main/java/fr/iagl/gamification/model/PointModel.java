@@ -1,7 +1,5 @@
 package fr.iagl.gamification.model;
 
-import org.json.JSONObject;
-
 public class PointModel {
 	
 	/**
@@ -18,40 +16,6 @@ public class PointModel {
 	 * élève
 	 */
 	private StudentModel student;
-
-	/**
-	 * Constructeur standard
-	 */
-	public PointModel() {
-		
-	}
-	
-	/**
-	 * Constructeur à partir d'un model JSON
-	 * @param json modèle à parser
-	 */
-	public PointModel(JSONObject json) {
-		bonus = json.getLong("bonus");
-		malus = json.getLong("malus");
-		student = new StudentModel();
-		student.setId(json.getLong("pupil"));
-	}
-
-	/**
-	 * Getter de l'attribut {@link PointModel#id}
-	 * @return id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * Setter de l'attribut {@link PointModel#id}
-	 * @param id l'attribut {@link PointModel#id} à setter
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	/**
 	 * Getter de l'attribut {@link PointModel#bonus}
@@ -100,4 +64,7 @@ public class PointModel {
 	public void setStudent(StudentModel student) {
 		this.student = student;
 	}
+	
+	
+
 }

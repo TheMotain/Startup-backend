@@ -1,21 +1,18 @@
 package fr.iagl.gamification.services.impl;
 
-import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import fr.iagl.gamification.model.PointModel;
-import fr.iagl.gamification.model.TaskModel;
+import fr.iagl.gamification.model.Task;
 import fr.iagl.gamification.services.RunnableHashMapService;
 import fr.iagl.gamification.services.TaskService;
 import fr.iagl.gamification.utils.ActionDatabase;
@@ -30,46 +27,30 @@ import fr.iagl.gamification.utils.TableDatabase;
 @Service
 public class TaskServiceImpl implements TaskService{
 
-	/**
-	 * Logger
-	 */
-	private static final Logger LOGGER = Logger.getLogger(TaskServiceImpl.class);
-
-//	@Autowired
-//	@Qualifier("runnableInsertMessageServiceImpl")
-//	private RunnableHashMapService runnableInsertMessageServiceImpl;
-	
 	@Autowired
-	@Qualifier("runnablePointServiceImpl")
-	private RunnableHashMapService runnablePointServiceImpl;
+	@Qualifier("runnableInsertMessageServiceImpl")
+	private RunnableHashMapService runnableInsertMessageServiceImpl;
 	
 	/**
 	 * Map qui contient toutes les méthodes à executer pour une table donnée et une action donnée
 	 */
-	private Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> runnableTableMap;
+	private Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> map;
 
-	/**
-	 * Initialise la map des messages possibles
-	 */
 	@PostConstruct
 	public void init() {
-		runnableTableMap = new EnumMap<>(TableDatabase.class);
+		map = new EnumMap(TableDatabase.class);
 		
 		//actions de la table message
-		Map<ActionDatabase, RunnableHashMapService> mapActionsPointTable = new EnumMap<>(ActionDatabase.class);
-		mapActionsPointTable.put(ActionDatabase.INSERT, runnablePointServiceImpl);
-		mapActionsPointTable.put(ActionDatabase.UPDATE, runnablePointServiceImpl);		
+		Map<ActionDatabase, RunnableHashMapService> mapActionsMessageTable = new EnumMap(ActionDatabase.class);
+		mapActionsMessageTable.put(ActionDatabase.INSERT, runnableInsertMessageServiceImpl);
 		
 		//insertion de toutes les actions des tables
-		runnableTableMap.put(TableDatabase.POINT, mapActionsPointTable);
+		map.put(TableDatabase.MESSAGE, mapActionsMessageTable);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see fr.iagl.gamification.services.TaskService#treatTask(fr.iagl.gamification.model.TaskModel)
-	 */
+	
 	@Override
-	public void treatTask(TaskModel task) throws JSONException {
+	public void treatTask(Task task) throws JSONException {
 		JSONObject json = task.getNotification();
 		
 		String table = json.getString("table").toUpperCase();
@@ -81,25 +62,20 @@ public class TaskServiceImpl implements TaskService{
 		if (! Arrays.stream(tables).anyMatch(t -> t.toString().equals(table)) || ! Arrays.stream(actions).anyMatch(a -> a.toString().equals(action))) {
 			return;
 		}
-		if (runnableTableMap.containsKey(TableDatabase.valueOf(table)) && runnableTableMap.get(TableDatabase.valueOf(table)).containsKey(ActionDatabase.valueOf(action))) {
-			runnableTableMap.get(TableDatabase.valueOf(table)).get(ActionDatabase.valueOf(action)).runMethod(data);
+		if (map.containsKey(TableDatabase.valueOf(table)) && map.get(TableDatabase.valueOf(table)).containsKey(ActionDatabase.valueOf(action))) {
+			map.get(TableDatabase.valueOf(table)).get(ActionDatabase.valueOf(action)).runMethod(data);
 		}
 	}
 	
-	/**
-	 * Setter de l'attribut {@link TaskServiceImpl#runnableTableMap}
-	 * @param map Map des messages à utiliser
-	 */
+	@Override
 	public void setMap(Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> map) {
-		this.runnableTableMap = map;
+		this.map = map;
 	}
 
-	/**
-	 * Getter de l'attribut {@link TaskServiceImpl#runnableTableMap}
-	 * @return Map des messages à utiliser
-	 */
+
+	@Override
 	public Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> getMap() {
-		return this.runnableTableMap;
+		return this.map;
 	}
 
 }
