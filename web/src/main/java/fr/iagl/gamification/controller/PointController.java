@@ -59,7 +59,7 @@ public class PointController implements AbstractController{
 	private Mapper mapper;
 	
 	@RequestMapping(value = MappingConstant.POINTS_PATH_ROOT_WITH_USERID, method = RequestMethod.GET)
-	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = PointObject.class, message = "Détail des points pour l'utilisateur")
+	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = PointForm.class, message = "Détail des points pour l'utilisateur")
 	public ResponseEntity<PointForm> getPoint(@RequestParam("usrID") String userID){
 		return null;
 	}

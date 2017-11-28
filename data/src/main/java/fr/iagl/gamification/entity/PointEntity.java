@@ -42,6 +42,9 @@ public class PointEntity implements Serializable {
 	 */
 	@Id @Column(name="pupil") Long id;
 
+	/**
+	 * Liaison JPA vers l'entité {@link StudentEntity}
+	 */
     @MapsId 
     @OneToOne(mappedBy = "points")
 	@JoinColumn(name = "pupil", nullable = false)
