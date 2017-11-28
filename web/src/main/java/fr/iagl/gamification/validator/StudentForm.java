@@ -6,12 +6,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import fr.iagl.gamification.constants.CodeError;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Formulaire d'entrée pour la création d'un élève
  * @author ALEX
  *
  */
+@ApiModel
 public class StudentForm implements AbstractForm {
 	
 	/**
@@ -22,6 +25,7 @@ public class StudentForm implements AbstractForm {
 	/**
 	 * Nom
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@Pattern(regexp = "^[A-Z].*", message = CodeError.ERROR_FIRST_NAME_NOT_START_WITH_MAJ)
 	@NotNull(message = CodeError.ERROR_NULL_FIRST_NAME)
 	private String firstName;
@@ -29,6 +33,7 @@ public class StudentForm implements AbstractForm {
 	/**
 	 * Prénom
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@Pattern(regexp = "^[A-Z].*", message = CodeError.ERROR_LAST_NAME_NOT_START_WITH_MAJ)
 	@NotNull(message = CodeError.ERROR_NULL_LAST_NAME)
 	private String lastName;
@@ -36,6 +41,7 @@ public class StudentForm implements AbstractForm {
 	/**
 	 * Date de naissance
 	 */
+	@ApiModelProperty(required=true)
 	@NotNull(message = CodeError.ERROR_NULL_BORN_DATE)
 	private Date born;
 	
