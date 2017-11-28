@@ -32,5 +32,10 @@ public class MappingConstant {
 	 * Chemin pour la récupération des points pour un utilisateur spécifique
 	 */
 	public static final String POINTS_PATH_ROOT_WITH_USERID = "${url.point.userID}";
-	
+
+	/**
+	 * Classe non instanciable
+	 */
+	private MappingConstant() {
+	}
 }

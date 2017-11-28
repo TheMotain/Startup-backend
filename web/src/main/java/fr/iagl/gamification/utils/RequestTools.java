@@ -22,4 +22,11 @@ public class RequestTools {
 				.map(ObjectError::getDefaultMessage)
 				.collect(Collectors.toList());
 	}
+
+	/**
+	 * La classe n'est pas instanciable
+	 */
+	private RequestTools() {
+		
+	}
 }

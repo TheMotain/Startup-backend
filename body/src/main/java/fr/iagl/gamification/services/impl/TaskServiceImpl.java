@@ -1,6 +1,5 @@
 package fr.iagl.gamification.services.impl;
 
-import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import fr.iagl.gamification.model.PointModel;
 import fr.iagl.gamification.model.TaskModel;
 import fr.iagl.gamification.services.RunnableHashMapService;
 import fr.iagl.gamification.services.TaskService;
@@ -30,15 +28,6 @@ import fr.iagl.gamification.utils.TableDatabase;
 @Service
 public class TaskServiceImpl implements TaskService{
 
-	/**
-	 * Logger
-	 */
-	private static final Logger LOGGER = Logger.getLogger(TaskServiceImpl.class);
-
-//	@Autowired
-//	@Qualifier("runnableInsertMessageServiceImpl")
-//	private RunnableHashMapService runnableInsertMessageServiceImpl;
-	
 	@Autowired
 	@Qualifier("runnablePointServiceImpl")
 	private RunnableHashMapService runnablePointServiceImpl;

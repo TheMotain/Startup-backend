@@ -23,7 +23,6 @@ import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.PointModel;
-import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.services.PointService;
 import fr.iagl.gamification.validator.PointForm;
 
@@ -138,7 +137,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 	@Test
 	public void testReturnErrorListStringIfUserNotKnow() throws GamificationServiceException {
 		Mockito.when(pointService.getPoint(Mockito.anyLong())).thenThrow(new GamificationServiceException(null));
-		ResponseEntity<List<String>> res = (ResponseEntity<List<String>>) controller.getPoint(Mockito.anyLong());
+		ResponseEntity res = controller.getPoint(Mockito.anyLong());
 		Assert.assertEquals(HttpStatus.BAD_REQUEST, res.getStatusCode());
 	}
 	

@@ -1,12 +1,8 @@
 package fr.iagl.gamification.services;
 
-import java.util.Map;
-
 import org.json.JSONException;
 
 import fr.iagl.gamification.model.TaskModel;
-import fr.iagl.gamification.utils.ActionDatabase;
-import fr.iagl.gamification.utils.TableDatabase;
 
 
 /**
