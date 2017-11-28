@@ -23,6 +23,7 @@ import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.PointModel;
+import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.services.PointService;
 import fr.iagl.gamification.validator.PointForm;
 
@@ -32,7 +33,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 	private PointController controller;
 	
 	@Mock
-	private PointService service;
+	private PointService pointService;
 	
 	@Mock
 	private Mapper mapper;
@@ -45,7 +46,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 	@Test
 	public void testGetAllPointCallGetAllFromService(){
 		controller.getAllPoints();
-		Mockito.verify(service, Mockito.times(1)).getPoints();
+		Mockito.verify(pointService, Mockito.times(1)).getPoints();
 	}
 	
 	@Test
@@ -54,7 +55,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 		PointForm cls = Mockito.mock(PointForm.class);
 		Mockito.when(mapper.map(mock, PointForm.class)).thenReturn(cls);
 		List<PointModel> lst = Arrays.asList(mock);
-		Mockito.when(service.getPoints()).thenReturn(lst);
+		Mockito.when(pointService.getPoints()).thenReturn(lst);
 		ResponseEntity<List<PointForm>> response = controller.getAllPoints();
 		Assert.assertEquals(cls, response.getBody().get(0));
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -63,7 +64,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 	@Test
 	public void testGetAllPointReturnResponseEntityContainsServiceResult(){
 		List<PointModel> mock = new ArrayList<>();
-		Mockito.when(service.getPoints()).thenReturn(mock);
+		Mockito.when(pointService.getPoints()).thenReturn(mock);
 		ResponseEntity<List<PointForm>> response = controller.getAllPoints();
 		Assert.assertEquals(mock, response.getBody());
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -75,10 +76,10 @@ public class PointControllerTest extends SpringIntegrationTest{
 		PointModel classModel = Mockito.mock(PointModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
-		Mockito.doReturn(classModel).when(service).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
+		Mockito.doReturn(classModel).when(pointService).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
 
 		ResponseEntity output = controller.submitPointForm(pointForm, bindingResult);
-		Mockito.verify(service, Mockito.times(1)).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
+		Mockito.verify(pointService, Mockito.times(1)).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
 		assertEquals(HttpStatus.OK, output.getStatusCode());
 	}
 	
@@ -92,7 +93,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 		Mockito.doReturn(pointModel).when(mapper).map(pointForm, PointModel.class);
 		
 		ResponseEntity output = controller.submitPointForm(pointForm, bindingResult);
-		Mockito.verify(service, Mockito.times(1)).updatePoint(pointModel, 2L);
+		Mockito.verify(pointService, Mockito.times(1)).updatePoint(pointModel, 2L);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
 	}
 
@@ -106,7 +107,7 @@ public class PointControllerTest extends SpringIntegrationTest{
 		Mockito.doReturn("error message").when(error).getDefaultMessage();
 		
 		ResponseEntity output = controller.submitPointForm(pointForm, bindingResult);
-		Mockito.verify(service, Mockito.never()).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
+		Mockito.verify(pointService, Mockito.never()).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
 	}
 	
@@ -121,10 +122,35 @@ public class PointControllerTest extends SpringIntegrationTest{
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
 		Mockito.doReturn("error message").when(error).getDefaultMessage();
 		Mockito.doReturn(point).when(mapper).map(pointForm, PointModel.class);
-		Mockito.doThrow(exception).when(service).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
+		Mockito.doThrow(exception).when(pointService).updatePoint(Mockito.any(PointModel.class), Mockito.anyLong());
 		
 		ResponseEntity output = controller.submitPointForm(pointForm, bindingResult);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
 		assertEquals("["+CodeError.ERROR_NOT_EXISTS_STUDENT+"]", output.getBody().toString());
+	}
+	
+	@Test
+	public void testGetPointCallService() {
+		controller.getPoint(Mockito.anyLong());
+		Mockito.verify(pointService, Mockito.times(1)).getPoint(Mockito.anyLong());
+	}
+	
+	@Test
+	public void testReturnErrorStringIfUserNotKnow() {
+		Mockito.when(pointService.getPoint(Mockito.anyLong())).thenReturn(null);
+		ResponseEntity<String> res = (ResponseEntity<String>) controller.getPoint(Mockito.anyLong());
+		Assert.assertEquals(HttpStatus.BAD_REQUEST, res.getStatusCode());
+	}
+	
+	@Test
+	public void testReturnMappedPointFormFromReturnServiceAndUserID() {
+		PointModel model = Mockito.mock(PointModel.class);
+		PointForm form = Mockito.mock(PointForm.class);
+		Mockito.when(pointService.getPoint(Mockito.anyLong())).thenReturn(model);
+		Mockito.when(mapper.map(model, PointForm.class)).thenReturn(form);
+		ResponseEntity<PointForm> res = (ResponseEntity<PointForm>) controller.getPoint(Mockito.anyLong());
+		Assert.assertEquals(form, res.getBody());
+		Assert.assertEquals(HttpStatus.OK, res.getStatusCode());
+		Mockito.verify(mapper, Mockito.times(1)).map(Mockito.any(), Mockito.any());
 	}
 }

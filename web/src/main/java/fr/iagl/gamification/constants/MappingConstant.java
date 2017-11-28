@@ -33,8 +33,4 @@ public class MappingConstant {
 	 */
 	public static final String POINTS_PATH_ROOT_WITH_USERID = "${url.point.userID}";
 	
-	/**
-	 * Le mapping Constant ne peut pas être instancié
-	 */
-	private MappingConstant() {}
 }

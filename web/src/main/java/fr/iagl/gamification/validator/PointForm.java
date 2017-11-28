@@ -3,23 +3,29 @@ package fr.iagl.gamification.validator;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Formulaire de modification des points
  * 
  * @author Hélène MEYER
  *
  */
+@ApiModel
 public class PointForm implements AbstractForm{
 	
 	/**
 	 * id de l'élève
 	 */
+	@ApiModelProperty(required=true)
 	@NotNull
 	private long idStudent;
 	
 	/**
 	 * point de bonus à ajouter
 	 */
+	@ApiModelProperty(required=true)
 	@NotNull
 	@Min(value=0)
 	private long bonus;
@@ -27,6 +33,7 @@ public class PointForm implements AbstractForm{
 	/**
 	 * point de malus à ajouter
 	 */
+	@ApiModelProperty(required=true)
 	@NotNull
 	@Min(value=0)
 	private long malus;
