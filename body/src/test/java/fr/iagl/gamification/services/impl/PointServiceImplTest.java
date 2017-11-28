@@ -27,7 +27,7 @@ public class PointServiceImplTest {
 	private PointServiceImpl service;
 	
 	@Mock
-	private PointRepository repository;
+	private PointRepository pointRepository;
 	
 	@Mock 
 	private StudentRepository studentRepository;
@@ -42,9 +42,9 @@ public class PointServiceImplTest {
 	
 	@Test
 	public void testGetAllPointCallFindAllFromRepository(){
-		Mockito.when(repository.findAll()).thenReturn(new ArrayList<PointEntity>());
+		Mockito.when(pointRepository.findAll()).thenReturn(new ArrayList<PointEntity>());
 		service.getPoints();
-		Mockito.verify(repository, Mockito.times(1)).findAll();
+		Mockito.verify(pointRepository, Mockito.times(1)).findAll();
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ public class PointServiceImplTest {
 		Mockito.when(mapper.map(ste1, PointModel.class)).thenReturn(stm1);
 		Mockito.when(mapper.map(ste2, PointModel.class)).thenReturn(stm2);
 		Mockito.when(mapper.map(ste3, PointModel.class)).thenReturn(stm3);
-		Mockito.when(repository.findAll()).thenReturn(Arrays.asList(new PointEntity[]{ste1,ste2,ste3}));
+		Mockito.when(pointRepository.findAll()).thenReturn(Arrays.asList(new PointEntity[]{ste1,ste2,ste3}));
 		List<PointModel> result = service.getPoints();
 		Assert.assertEquals(3, result.size());
 		Assert.assertTrue(result.contains(stm1));
@@ -82,7 +82,7 @@ public class PointServiceImplTest {
 		
 		service.updatePoint(model, 2L);
 		Mockito.verify(points).setStudent(student);
-		Mockito.verify(repository).save(Mockito.any(PointEntity.class));
+		Mockito.verify(pointRepository).save(Mockito.any(PointEntity.class));
 	}
 	
 	@Test
@@ -91,7 +91,7 @@ public class PointServiceImplTest {
 		PointEntity points = Mockito.mock(PointEntity.class);
 		PointModel ptUpdated = Mockito.mock(PointModel.class);
 		PointModel model = Mockito.mock(PointModel.class);
-		Mockito.when(repository.findByStudent_Id(2L)).thenReturn(points);
+		Mockito.when(pointRepository.findByStudent_Id(2L)).thenReturn(points);
 		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(student);
 		Mockito.when(mapper.map(ptUpdated, PointEntity.class)).thenReturn(points);
 		Mockito.when(mapper.map(points, PointModel.class)).thenReturn(model);
@@ -103,7 +103,7 @@ public class PointServiceImplTest {
 		service.updatePoint(ptUpdated, 2L);
 		Mockito.verify(points).setBonus(3L);
 		Mockito.verify(points).setMalus(5L);
-		Mockito.verify(repository).save(Mockito.any(PointEntity.class));
+		Mockito.verify(pointRepository).save(Mockito.any(PointEntity.class));
 		
 	}
 	
@@ -112,7 +112,7 @@ public class PointServiceImplTest {
 		StudentEntity student = Mockito.mock(StudentEntity.class);
 		PointEntity points = Mockito.mock(PointEntity.class);
 		PointModel ptUpdated = Mockito.mock(PointModel.class);
-		Mockito.when(repository.findByStudent_Id(2L)).thenReturn(points);
+		Mockito.when(pointRepository.findByStudent_Id(2L)).thenReturn(points);
 		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(student);
 		Mockito.when(mapper.map(ptUpdated, PointEntity.class)).thenReturn(points);
 		Mockito.when(points.getBonus()).thenReturn(1L);
@@ -128,7 +128,7 @@ public class PointServiceImplTest {
 		StudentEntity student = Mockito.mock(StudentEntity.class);
 		PointEntity points = Mockito.mock(PointEntity.class);
 		PointModel ptUpdated = Mockito.mock(PointModel.class);
-		Mockito.when(repository.findByStudent_Id(2L)).thenReturn(points);
+		Mockito.when(pointRepository.findByStudent_Id(2L)).thenReturn(points);
 		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(student);
 		Mockito.when(mapper.map(ptUpdated, PointEntity.class)).thenReturn(points);
 		Mockito.when(points.getBonus()).thenReturn(1L);
@@ -144,7 +144,7 @@ public class PointServiceImplTest {
 		StudentEntity student = Mockito.mock(StudentEntity.class);
 		PointEntity points = Mockito.mock(PointEntity.class);
 		PointModel ptUpdated = Mockito.mock(PointModel.class);
-		Mockito.when(repository.findByStudent_Id(2L)).thenReturn(points);
+		Mockito.when(pointRepository.findByStudent_Id(2L)).thenReturn(points);
 		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(student);
 		Mockito.when(mapper.map(ptUpdated, PointEntity.class)).thenReturn(points);
 		Mockito.when(points.getBonus()).thenReturn(1L);
@@ -153,5 +153,28 @@ public class PointServiceImplTest {
 		Mockito.when(ptUpdated.getMalus()).thenReturn(0L);
 		
 		service.updatePoint(ptUpdated, 2L);
+	}
+	
+	@Test
+	public void testGetPointByStudentCallRepository() throws GamificationServiceException {
+		Mockito.when(pointRepository.findByStudent_Id(Mockito.anyLong())).thenReturn(new PointEntity());
+		service.getPoint(Mockito.anyLong());
+		Mockito.verify(pointRepository, Mockito.times(1)).findByStudent_Id(Mockito.anyLong());
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testGetPointByStudentThrowException() throws GamificationServiceException {
+		Mockito.when(pointRepository.findByStudent_Id(Mockito.anyLong())).thenReturn(null);
+		service.getPoint(1L);
+	}
+	
+	@Test
+	public void testGetPointByStudentReturnMappedEntity() throws GamificationServiceException {
+		PointEntity entity = Mockito.mock(PointEntity.class);
+		PointModel model = Mockito.mock(PointModel.class);
+		Mockito.when(pointRepository.findByStudent_Id(Mockito.anyLong())).thenReturn(entity);
+		Mockito.when(mapper.map(entity, PointModel.class)).thenReturn(model);
+		Assert.assertEquals(model, service.getPoint(Mockito.anyLong()));
+		Mockito.verify(mapper, Mockito.times(1)).map(Mockito.any(), Mockito.any());
 	}
 }

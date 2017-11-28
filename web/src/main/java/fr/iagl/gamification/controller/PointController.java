@@ -61,13 +61,15 @@ public class PointController implements AbstractController{
 	
 	@RequestMapping(value = MappingConstant.POINTS_PATH_ROOT_WITH_USERID, method = RequestMethod.GET)
 	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = PointForm.class, message = "Détail des points pour l'utilisateur"),
-		@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, message = "L'utilisateur n'existe pas")})
+		@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer="list", message = "L'utilisateur n'existe pas")})
 	public ResponseEntity<?> getPoint(@PathVariable("userID") Long userID){
-		PointModel model = pointService.getPoint(userID);
-		if(null == model) {
-			return new ResponseEntity<String>("L'étudiant demandé n'existe pas", HttpStatus.BAD_REQUEST);
+		try {
+			PointModel model = pointService.getPoint(userID);
+			return new ResponseEntity<PointForm>(mapper.map(model, PointForm.class), HttpStatus.OK);
+		}catch(GamificationServiceException gse) {
+			LOGGER.error("Etudiant non reconnu pour la récupération des points avec l'id : " + userID);
+			return new ResponseEntity<List<String>>(gse.getErrors(), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<PointForm>(mapper.map(model, PointForm.class), HttpStatus.OK);
 	}
 	
 	/**

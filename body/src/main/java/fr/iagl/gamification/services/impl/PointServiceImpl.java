@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.dozer.Mapper;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,6 +73,15 @@ public class PointServiceImpl implements PointService{
 		List<PointModel> output = new ArrayList<>();
 		pointRepository.findAll().iterator().forEachRemaining(x -> output.add(mapper.map(x, PointModel.class)));
 		return output;
+	}
+
+	@Override
+	public PointModel getPoint(long studentID) throws GamificationServiceException {
+		PointEntity entity = pointRepository.findByStudent_Id(studentID);
+		if(null == entity) {
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT));
+		}
+		return mapper.map(entity, PointModel.class);
 	}
 
 }

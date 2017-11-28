@@ -130,20 +130,20 @@ public class PointControllerTest extends SpringIntegrationTest{
 	}
 	
 	@Test
-	public void testGetPointCallService() {
+	public void testGetPointCallService() throws GamificationServiceException {
 		controller.getPoint(Mockito.anyLong());
 		Mockito.verify(pointService, Mockito.times(1)).getPoint(Mockito.anyLong());
 	}
 	
 	@Test
-	public void testReturnErrorStringIfUserNotKnow() {
+	public void testReturnErrorListStringIfUserNotKnow() throws GamificationServiceException {
 		Mockito.when(pointService.getPoint(Mockito.anyLong())).thenReturn(null);
-		ResponseEntity<String> res = (ResponseEntity<String>) controller.getPoint(Mockito.anyLong());
+		ResponseEntity<List<String>> res = (ResponseEntity<List<String>>) controller.getPoint(Mockito.anyLong());
 		Assert.assertEquals(HttpStatus.BAD_REQUEST, res.getStatusCode());
 	}
 	
 	@Test
-	public void testReturnMappedPointFormFromReturnServiceAndUserID() {
+	public void testReturnMappedPointFormFromReturnServiceAndUserID() throws GamificationServiceException {
 		PointModel model = Mockito.mock(PointModel.class);
 		PointForm form = Mockito.mock(PointForm.class);
 		Mockito.when(pointService.getPoint(Mockito.anyLong())).thenReturn(model);
