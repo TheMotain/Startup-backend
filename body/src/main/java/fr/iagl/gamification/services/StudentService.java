@@ -27,4 +27,24 @@ public interface StudentService {
 	public StudentModel saveStudent(StudentModel model) throws GamificationServiceException;
 
 	
+	
+	/**
+	 * Supprimer un élève d'une classe
+	 * @param idStudent identifiant de l'élève à supprimer
+	 * @return élève
+	 * @throws GamificationServiceException  lorsque l'élève n'existe pas
+	 */
+	public StudentModel deleteStudentFromClass(long idStudent) throws GamificationServiceException;
+
+	/**
+	 * Ajouter un élève dans une classe
+	 * 
+	 * @param idStudent  identifiant de l'élève
+	 * @param idClass identifiant de la classe
+	 * @return élève 
+	 * 
+	 * @throws GamificationServiceException lorsque l'élève / la classe n'existe pas
+	 */
+	public StudentModel addClassToStudent(long idStudent, long idClass) throws GamificationServiceException;
+	
 }

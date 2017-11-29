@@ -38,6 +38,7 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	private ClassRepository classRepository;
 
+	
 	/**
 	 * Mapper Model <-> Entité
 	 */
@@ -61,6 +62,24 @@ public class StudentServiceImpl implements StudentService {
 		entity.setClassroom(classe);
 		return entityToModel(entity);
 	}
+
+	@Override
+	public StudentModel addClassToStudent(long idStudent, long idClass) throws GamificationServiceException {
+		StudentEntity entity = studentRepository.findOne(idStudent);
+		if (entity == null) {
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT));
+		}
+		if (entity.getClassroom() != null) {
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_CLASS_ALREADY_EXISTS));
+		}
+		ClassEntity classEntity = classRepository.findOne(idClass);
+		if (classEntity == null) {
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_CLASSROOM));
+		}
+		
+		entity.setClassroom(classEntity);
+		return entityToModel(entity);
+	}
 	
 	/**
 	 * Map l'entité sous le format modèle
@@ -72,5 +91,16 @@ public class StudentServiceImpl implements StudentService {
 		return mapper.map(studentRepository.save(entity), StudentModel.class);
 	}
 
+	@Override
+	public StudentModel deleteStudentFromClass(long idStudent) throws GamificationServiceException{
+		StudentEntity studentEntity = studentRepository.findOne(idStudent);
+		
+		if(studentEntity == null) {
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT));
+		}
+		studentEntity.setClassroom(null);
+		
+		return mapper.map(studentRepository.save(studentEntity),StudentModel.class);
+	}
 
 }
