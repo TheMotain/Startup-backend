@@ -144,7 +144,6 @@ public class StudentController implements AbstractController {
 				LOG.warn(CodeError.ERROR_CLASS_ALREADY_EXISTS);
 			}
 		}
-		
 		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
 	}
 	

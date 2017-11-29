@@ -61,16 +61,13 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public StudentModel addClassToStudent(long idStudent, long idClass) throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException {
 		StudentEntity entity = studentRepository.findOne(idStudent);
-		
 		if (entity == null) {
 			throw new StudentNotFoundException();
 		}
 		if (entity.getClassroom() != null) {
 			throw new ClassroomAlreadyExistedException();
 		}
-		
 		ClassEntity classEntity = classRepository.findOne(idClass);
-		
 		if (classEntity == null) {
 			throw new ClassroomNotFoundException();
 		}

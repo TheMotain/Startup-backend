@@ -183,6 +183,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
 		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
 		assertEquals(HttpStatus.OK, output.getStatusCode());
+		
 	}
 	
 	@Test
@@ -197,6 +198,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
 		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
+		
 	}
 	
 	@Test
@@ -208,6 +210,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
 		Mockito.verify(studentService, Mockito.never()).addClassToStudent(Mockito.anyLong(), Mockito.anyLong());
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
+		
 	}
 	
 	@Test
@@ -223,6 +226,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
 		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
+		
 	}
 	
 	@Test
@@ -238,6 +242,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
 		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
+		
 	}
 	
 	@Test
@@ -253,5 +258,6 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
 		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
+		
 	}
 }
