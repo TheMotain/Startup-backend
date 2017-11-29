@@ -61,16 +61,11 @@ public class QcmController {
 	 * @return tous les qcm
 	 */
 	@RequestMapping(value = MappingConstant.QCM_PATH_ROOT, method = RequestMethod.GET)
-	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = QcmObject.class, responseContainer = "list", message = "Liste des qcm")
-	public ResponseEntity<List<QcmObject>> getAllQcm() {
+	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = QcmModel.class, responseContainer = "list", message = "Liste des qcm")
+	public ResponseEntity<List<QcmModel>> getAllQcm() {
 		LOG.info("Récupération de la liste des QCM");
 		List<QcmModel> result = qcmService.getAllQcm();
-		List<QcmObject> qcms = new ArrayList<>();
-		Optional.ofNullable(result)
-					.orElseGet(Collections::emptyList)
-					.iterator()
-					.forEachRemaining(e -> qcms.add(mapper.map(e, QcmObject.class)));
-		return new ResponseEntity<>(qcms, HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 	
@@ -79,7 +74,6 @@ public class QcmController {
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs au niveau du formulaire / La classe n'existe pas")})
 	public ResponseEntity<QcmModel> submitQcmForm(@Valid @RequestBody QcmForm qcmForm, BindingResult bindingResult) {
 		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
-		//System.out.println(qcmForm.getQuestions().get(0).getChoices().get(0).getChoice());
 		if (bindingResult.hasErrors()) {
 			errors = RequestTools.transformBindingErrors(bindingResult);
 		} else {
@@ -98,7 +92,7 @@ public class QcmController {
 			
 		}
 		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
-	}ù
+	}
 
 
 	private QcmModel mapFormToModel(QcmForm qcmForm) {
