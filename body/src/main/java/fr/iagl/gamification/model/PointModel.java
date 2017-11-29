@@ -89,4 +89,7 @@ public class PointModel {
 	public void setStudent(StudentModel student) {
 		this.student = student;
 	}
+	
+	
+
 }

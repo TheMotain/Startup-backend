@@ -15,7 +15,6 @@ import fr.iagl.gamification.services.RunnableHashMapService;
 import fr.iagl.gamification.services.TaskService;
 import fr.iagl.gamification.utils.ActionDatabase;
 import fr.iagl.gamification.utils.TableDatabase;
-import junit.framework.Assert;
 
 public class TaskServiceImplTest {
 
