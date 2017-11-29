@@ -18,6 +18,7 @@ var colors = [
 ];
 
 function connect(event) {
+	var root = document.querySelector('#rootpath').value.trim();
     username = document.querySelector('#name').value.trim();
 
     if(username) {
@@ -25,7 +26,7 @@ function connect(event) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
-        var socket = new SockJS('/ws');
+        var socket = new SockJS(root);
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, onConnected, onError);
