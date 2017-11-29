@@ -7,7 +7,7 @@ package fr.iagl.gamification.utils;
  *
  */
 public enum TableDatabase {
-	MESSAGE("MESSAGE");
+	POINT("POINT");
 	
 	private String tableName;
 	

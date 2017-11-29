@@ -5,6 +5,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import fr.iagl.gamification.constants.CodeError;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Objet représentant le formulaire de la création d'une classe
@@ -12,11 +14,13 @@ import fr.iagl.gamification.constants.CodeError;
  * @author Hélène Meyer
  *
  */
+@ApiModel
 public class ClassForm implements AbstractForm{
 
 	/**
 	 * Nom d'une classe 
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=true)
 	@Size(min = 2, max = 30, message = CodeError.ERROR_SIZE_2_30_CLASSNAME)
 	@Pattern(regexp="^[a-zA-Z0-9- _']*$", message= CodeError.ERROR_PATTERN_CLASSNAME)
 	@NotNull(message = CodeError.ERROR_NULL_CLASSNAME)

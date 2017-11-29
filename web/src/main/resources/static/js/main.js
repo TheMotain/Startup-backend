@@ -4,6 +4,7 @@ var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
 var usernameForm = document.querySelector('#usernameForm');
 var messageForm = document.querySelector('#messageForm');
+messageForm.style.display = 'none';
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
@@ -35,13 +36,7 @@ function connect(event) {
 
 function onConnected() {
     // Subscribe to the Public Channel
-    stompClient.subscribe('/channel/public', onMessageReceived);
-
-    // Tell your username to the server
-    stompClient.send("/app/chat.addUser",
-        {},
-        JSON.stringify({sender: username, type: 'JOIN'})
-    )
+    stompClient.subscribe(username, onMessageReceived);
 
     connectingElement.classList.add('hidden');
 }
@@ -71,11 +66,12 @@ function sendMessage(event) {
 
 
 function onMessageReceived(payload) {
-    var message = JSON.parse(payload.body);
+    var message = JSON.stringify(JSON.parse(payload.body));
+    console.log(message);
 
     var messageElement = document.createElement('li');
 
-    if(message.type === 'JOIN') {
+   /* if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' joined!';
     } else if (message.type === 'LEAVE') {
@@ -95,10 +91,10 @@ function onMessageReceived(payload) {
         var usernameText = document.createTextNode(message.sender);
         usernameElement.appendChild(usernameText);
         messageElement.appendChild(usernameElement);
-    }
+    }*/
 
     var textElement = document.createElement('p');
-    var messageText = document.createTextNode(message.content);
+    var messageText = document.createTextNode(message);
     textElement.appendChild(messageText);
 
     messageElement.appendChild(textElement);

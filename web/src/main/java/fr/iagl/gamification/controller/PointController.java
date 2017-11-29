@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,7 +44,7 @@ public class PointController implements AbstractController{
 	/**
 	 * Logger
 	 */
-	private static final Logger LOG = Logger.getLogger(PointController.class);
+	private static final Logger LOGGER = Logger.getLogger(PointController.class);
 	
 	/**
 	 * Service pour la gestion des points
@@ -57,6 +58,19 @@ public class PointController implements AbstractController{
 	@Autowired
 	private Mapper mapper;
 	
+	@RequestMapping(value = MappingConstant.POINTS_PATH_ROOT_WITH_USERID, method = RequestMethod.GET)
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = PointForm.class, message = "Détail des points pour l'utilisateur"),
+		@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer="list", message = "L'utilisateur n'existe pas")})
+	public ResponseEntity<PointForm> getPoint(@PathVariable("userID") Long userID){
+		try {
+			PointModel model = pointService.getPoint(userID);
+			return new ResponseEntity<>(mapper.map(model, PointForm.class), HttpStatus.OK);
+		}catch(GamificationServiceException gse) {
+			LOGGER.error("Etudiant non reconnu pour la récupération des points avec l'id : " + userID);
+			return new ResponseEntity(gse.getErrors(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	/**
 	 * Récupère tous les points
 	 * 
@@ -65,7 +79,7 @@ public class PointController implements AbstractController{
 	@RequestMapping(value = MappingConstant.POINTS_PATH_ROOT, method = RequestMethod.GET)
 	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = PointForm.class, responseContainer = "list", message = "Liste des points des élèves")
 	public ResponseEntity<List<PointForm>> getAllPoints() {
-		LOG.info("Récupération de la liste des points");
+		LOGGER.info("Récupération de la liste des points");
 		List<PointModel> result = pointService.getPoints();
 		List<PointForm> points = new ArrayList<>();
 		Optional.ofNullable(result)
@@ -98,7 +112,7 @@ public class PointController implements AbstractController{
 					return new ResponseEntity<>(mapper.map(updatedPoint, PointForm.class), HttpStatus.OK);
 				}
 			} catch (GamificationServiceException e) {
-				LOG.info("Erreur lors de l'appel au service pointService.updatePoint");
+				LOGGER.info("Erreur lors de l'appel au service pointService.updatePoint");
 				errors = e.getErrors();
 			}
 			

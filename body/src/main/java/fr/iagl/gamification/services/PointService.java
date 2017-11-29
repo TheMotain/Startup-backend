@@ -14,6 +14,14 @@ import fr.iagl.gamification.model.PointModel;
 public interface PointService {
 
 	/**
+	 * Récupère les points associés à un élève
+	 * @param studentID ID de l'élève à chercher
+	 * @return Le model contenant le détail des points
+	 * @throws GamificationServiceException Est relevé si l'étudiant n'existe pas
+	 */
+	public PointModel getPoint(long studentID) throws GamificationServiceException;
+	
+	/**
 	 * Mettre à jour un bonus ou un malus à un élève
 	 * 
 	 * @param pointToUpdate les points à modifier de l'élève

@@ -28,9 +28,14 @@ public class MappingConstant {
 	 * Chemin pour la modification des points d'un élève
 	 */
 	public static final String POINTS_PATH_ROOT = "${url.point}";
-	
 	/**
-	 * Le mapping Constant ne peut pas être instancié
+	 * Chemin pour la récupération des points pour un utilisateur spécifique
 	 */
-	private MappingConstant() {}
+	public static final String POINTS_PATH_ROOT_WITH_USERID = "${url.point.userID}";
+
+	/**
+	 * Classe non instanciable
+	 */
+	private MappingConstant() {
+	}
 }
