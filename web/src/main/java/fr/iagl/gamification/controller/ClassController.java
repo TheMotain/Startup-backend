@@ -1,10 +1,7 @@
 package fr.iagl.gamification.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.validation.Valid;
@@ -23,9 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
-import fr.iagl.gamification.exceptions.ClassroomExistsException;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.ClassModel;
-import fr.iagl.gamification.object.ClassObject;
 import fr.iagl.gamification.services.ClassService;
 import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.ClassForm;
@@ -66,15 +62,10 @@ public class ClassController implements AbstractController {
 	 */
 	@RequestMapping(value = MappingConstant.CLASS_PATH_ROOT, method = RequestMethod.GET)
 	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassModel.class, responseContainer = "list", message = "Liste des classes")
-	public ResponseEntity<List<ClassObject>> getAllClassroom() {
+	public ResponseEntity<List<ClassModel>> getAllClassroom() {
 		LOG.info("Récupération de la liste des classes");
 		List<ClassModel> result = classService.getAllClassroom();
-		List<ClassObject> classes = new ArrayList<>();
-		Optional.ofNullable(result)
-					.orElseGet(Collections::emptyList)
-					.iterator()
-					.forEachRemaining(e -> classes.add(mapper.map(e, ClassObject.class)));
-		return new ResponseEntity<>(classes, HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 	/**
@@ -87,7 +78,7 @@ public class ClassController implements AbstractController {
 	@RequestMapping(value = MappingConstant.CLASS_PATH_ROOT, method = RequestMethod.POST)
 	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassModel.class, message = "La classe créée"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs au niveau du formulaire / La classe existe déjà")})
-	public ResponseEntity<ClassObject> submitClassForm(@Valid @RequestBody ClassForm classForm, BindingResult bindingResult) {
+	public ResponseEntity<ClassModel> submitClassForm(@Valid @RequestBody ClassForm classForm, BindingResult bindingResult) {
 		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
 		
 		if (bindingResult.hasErrors()) {
@@ -97,11 +88,11 @@ public class ClassController implements AbstractController {
 			try {
 				ClassModel createdClass = classService.createClass(mapper.map(classForm, ClassModel.class));
 				if (createdClass != null) {
-					return new ResponseEntity<>(mapper.map(createdClass, ClassObject.class), HttpStatus.OK);
+					return new ResponseEntity<>(createdClass, HttpStatus.OK);
 				}
-			} catch (ClassroomExistsException e) {
-				LOG.info("Class already existed");
-				errors = Arrays.asList(CodeError.ERROR_EXISTS_CLASS);
+			} catch (GamificationServiceException e) {
+				LOG.info("Erreur lors de l'appel au service classService.createClass");
+				errors = e.getErrors();
 			}
 			
 		}

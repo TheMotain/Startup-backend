@@ -21,9 +21,8 @@ import org.springframework.validation.ObjectError;
 
 import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.constants.CodeError;
-import fr.iagl.gamification.exceptions.ClassroomExistsException;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.ClassModel;
-import fr.iagl.gamification.object.ClassObject;
 import fr.iagl.gamification.services.ClassService;
 import fr.iagl.gamification.validator.ClassForm;
 
@@ -44,7 +43,7 @@ public class ClassControllerTest extends SpringIntegrationTest{
 	}
 	
 	@Test
-	public void testClassFormOK() throws ClassroomExistsException{
+	public void testClassFormOK() throws GamificationServiceException{
 		ClassForm classForm = Mockito.mock(ClassForm.class);
 		ClassModel classModel = Mockito.mock(ClassModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
@@ -57,7 +56,7 @@ public class ClassControllerTest extends SpringIntegrationTest{
 	}
 	
 	@Test
-	public void testClassFormKOServiceReturnNull() throws ClassroomExistsException{
+	public void testClassFormKOServiceReturnNull() throws GamificationServiceException{
 		ClassForm classForm = Mockito.mock(ClassForm.class);
 		ClassModel classModel = Mockito.mock(ClassModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
@@ -69,7 +68,7 @@ public class ClassControllerTest extends SpringIntegrationTest{
 	}
 
 	@Test
-	public void testClassFormKO() throws ClassroomExistsException{
+	public void testClassFormKO() throws GamificationServiceException{
 		ClassForm classForm = Mockito.mock(ClassForm.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		ObjectError error = Mockito.mock(ObjectError.class);
@@ -84,15 +83,17 @@ public class ClassControllerTest extends SpringIntegrationTest{
 	}
 	
 	@Test
-	public void testClassFormKOClassAlreadyExisted() throws ClassroomExistsException{
+	public void testClassFormKOClassAlreadyExisted() throws GamificationServiceException{
 		ClassForm classForm = Mockito.mock(ClassForm.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		ObjectError error = Mockito.mock(ObjectError.class);
 		ClassModel classe = Mockito.mock(ClassModel.class);
+		GamificationServiceException exception = Mockito.mock(GamificationServiceException.class);
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
 		Mockito.doReturn("error message").when(error).getDefaultMessage();
 		Mockito.doReturn(classe).when(mapper).map(classForm, ClassModel.class);
-		Mockito.doThrow(ClassroomExistsException.class).when(service).createClass(Mockito.any());
+		Mockito.doThrow(exception).when(service).createClass(Mockito.any());
+		Mockito.doReturn(Arrays.asList(CodeError.ERROR_EXISTS_CLASS)).when(exception).getErrors();
 		
 		ResponseEntity output = controller.submitClassForm(classForm, bindingResult);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
@@ -100,7 +101,7 @@ public class ClassControllerTest extends SpringIntegrationTest{
 	}
 	
 	@Test
-	public void testGetAllClassroomCallGetAllFromService() throws ClassroomExistsException{
+	public void testGetAllClassroomCallGetAllFromService() throws GamificationServiceException{
 		controller.getAllClassroom();
 		Mockito.verify(service, Mockito.times(1)).getAllClassroom();
 	}
@@ -108,12 +109,10 @@ public class ClassControllerTest extends SpringIntegrationTest{
 	@Test
 	public void testGetAllClassroomReturnResponseEntityContainsServiceResultMultiple(){
 		ClassModel mock = Mockito.mock(ClassModel.class);
-		ClassObject cls = Mockito.mock(ClassObject.class);
-		Mockito.when(mapper.map(mock, ClassObject.class)).thenReturn(cls);
 		List<ClassModel> lst = Arrays.asList(mock);
 		Mockito.when(service.getAllClassroom()).thenReturn(lst);
-		ResponseEntity<List<ClassObject>> response = controller.getAllClassroom();
-		Assert.assertEquals(cls, response.getBody().get(0));
+		ResponseEntity<List<ClassModel>> response = controller.getAllClassroom();
+		Assert.assertEquals(mock, response.getBody().get(0));
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 	
@@ -121,7 +120,7 @@ public class ClassControllerTest extends SpringIntegrationTest{
 	public void testGetAllClassroomReturnResponseEntityContainsServiceResult(){
 		List<ClassModel> mock = new ArrayList<>();
 		Mockito.when(service.getAllClassroom()).thenReturn(mock);
-		ResponseEntity<List<ClassObject>> response = controller.getAllClassroom();
+		ResponseEntity<List<ClassModel>> response = controller.getAllClassroom();
 		Assert.assertEquals(mock, response.getBody());
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}

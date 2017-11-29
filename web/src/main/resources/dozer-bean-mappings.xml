@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mappings xmlns="http://dozer.sourceforge.net"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
- 
- 		<mapping>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping wildcard="false">
+		<class-a>fr.iagl.gamification.model.PointModel</class-a>
+		<class-b>fr.iagl.gamification.validator.PointForm</class-b>
+		<field>
+			<a>student.id</a>
+			<b>idStudent</b>
+		</field>
+		<field>
+			<a>malus</a>
+			<b>malus</b>
+		</field>
+		<field>
+			<a>bonus</a>
+			<b>bonus</b>
+		</field>
+	</mapping>
+	
+	<mapping wildcard="false">
 		<class-a>fr.iagl.gamification.model.StudentModel</class-a>
-		<class-b>fr.iagl.gamification.object.StudentObject</class-b>
+		<class-b>fr.iagl.gamification.validator.StudentForm</class-b>
 		<field>
 			<a>classroom.id</a>
 			<b>idClass</b>
@@ -22,6 +38,10 @@
 			<a>lastName</a>
 			<b>lastName</b>
 		</field>
+		<field>
+			<a>id</a>
+			<b>id</b>
+		</field>
 	</mapping>
 
-</mappings>
+</mappings> 

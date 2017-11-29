@@ -2,9 +2,7 @@ package fr.iagl.gamification.services;
 
 import java.util.List;
 
-import fr.iagl.gamification.exceptions.ClassroomAlreadyExistedException;
-import fr.iagl.gamification.exceptions.ClassroomNotFoundException;
-import fr.iagl.gamification.exceptions.StudentNotFoundException;
+import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.StudentModel;
 
 /**
@@ -24,8 +22,9 @@ public interface StudentService {
 	 * Créer ou Modifier un élève
 	 * @param model élève à créer ou à modifier
 	 * @return élève créé ou modifié
+	 * @throws GamificationServiceException lorsque la classe n'existe pas
 	 */
-	public StudentModel saveStudent(StudentModel model);
+	public StudentModel saveStudent(StudentModel model) throws GamificationServiceException;
 
 	
 	
@@ -33,9 +32,9 @@ public interface StudentService {
 	 * Supprimer un élève d'une classe
 	 * @param idStudent identifiant de l'élève à supprimer
 	 * @return élève
-	 * @throws StudentNotFoundException 
+	 * @throws GamificationServiceException  lorsque l'élève n'existe pas
 	 */
-	public StudentModel deleteStudentFromClass(long idStudent) throws StudentNotFoundException;
+	public StudentModel deleteStudentFromClass(long idStudent) throws GamificationServiceException;
 
 	/**
 	 * Ajouter un élève dans une classe
@@ -44,10 +43,8 @@ public interface StudentService {
 	 * @param idClass identifiant de la classe
 	 * @return élève 
 	 * 
-	 * @throws StudentNotFoundException 
-	 * @throws ClassroomNotFoundException 
-	 * @throws ClassroomAlreadyExistedException 
+	 * @throws GamificationServiceException lorsque l'élève / la classe n'existe pas
 	 */
-	public StudentModel addClassToStudent(long idStudent, long idClass) throws StudentNotFoundException, ClassroomNotFoundException, ClassroomAlreadyExistedException;
+	public StudentModel addClassToStudent(long idStudent, long idClass) throws GamificationServiceException;
 	
 }
