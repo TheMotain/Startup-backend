@@ -90,6 +90,4 @@ public class PointModel {
 		this.student = student;
 	}
 	
-	
-
 }

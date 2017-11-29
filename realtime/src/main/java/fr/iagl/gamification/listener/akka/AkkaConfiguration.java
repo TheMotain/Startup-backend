@@ -8,16 +8,31 @@ import org.springframework.context.annotation.Configuration;
 
 import akka.actor.ActorSystem;
 
+/**
+ * Configuration du système AKKA
+ * 
+ * @author ALEX
+ *
+ */
 @Configuration
 @ComponentScan
 public class AkkaConfiguration {
-    @Autowired
-    private ApplicationContext applicationContext;
+  /**
+   * Context d'application
+   */
+  @Autowired
+  private ApplicationContext applicationContext;
 
-    @Bean
-    public ActorSystem actorSystem() {
-        ActorSystem system = ActorSystem.create("akka-system");
-        SpringExtension.SPRING_EXTENSION_PROVIDER.get(system).initialize(applicationContext);
-        return system;
+  /**
+   * Méthode de création du système
+   * 
+   * @return l'acteur système
+   */
+  @Bean
+  public ActorSystem actorSystem() {
+    ActorSystem system = ActorSystem.create("akka-system");
+    SpringExtension.SPRING_EXTENSION_PROVIDER.get(system).initialize(applicationContext);
+    return system;
+  }
 }
-}
+ 

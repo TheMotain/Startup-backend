@@ -19,20 +19,21 @@ import fr.iagl.gamification.utils.ActionDatabase;
 import fr.iagl.gamification.utils.TableDatabase;
 
 /**
- * Lance le traitement d'un message reçu 
+ * Lance le traitement d'un message reçu
  * 
  * @author Hélène Meyer
  *
  */
 @Service
-public class TaskServiceImpl implements TaskService{
+public class TaskServiceImpl implements TaskService {
 
 	@Autowired
 	@Qualifier("runnablePointServiceImpl")
 	private RunnableHashMapService runnablePointServiceImpl;
-	
+
 	/**
-	 * Map qui contient toutes les méthodes à executer pour une table donnée et une action donnée
+	 * Map qui contient toutes les méthodes à executer pour une table donnée et une
+	 * action donnée
 	 */
 	private Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> runnableTableMap;
 
@@ -42,41 +43,48 @@ public class TaskServiceImpl implements TaskService{
 	@PostConstruct
 	public void init() {
 		runnableTableMap = new EnumMap<>(TableDatabase.class);
-		
-		//actions de la table message
+
+		// actions de la table message
 		Map<ActionDatabase, RunnableHashMapService> mapActionsPointTable = new EnumMap<>(ActionDatabase.class);
 		mapActionsPointTable.put(ActionDatabase.INSERT, runnablePointServiceImpl);
-		mapActionsPointTable.put(ActionDatabase.UPDATE, runnablePointServiceImpl);		
-		
-		//insertion de toutes les actions des tables
+		mapActionsPointTable.put(ActionDatabase.UPDATE, runnablePointServiceImpl);
+
+		// insertion de toutes les actions des tables
 		runnableTableMap.put(TableDatabase.POINT, mapActionsPointTable);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see fr.iagl.gamification.services.TaskService#treatTask(fr.iagl.gamification.model.TaskModel)
+	 * 
+	 * @see
+	 * fr.iagl.gamification.services.TaskService#treatTask(fr.iagl.gamification.
+	 * model.TaskModel)
 	 */
 	@Override
 	public void treatTask(TaskModel task) throws JSONException {
 		JSONObject json = task.getNotification();
-		
+
 		String table = json.getString("table").toUpperCase();
 		String action = json.getString("type");
 		JSONObject data = (JSONObject) json.get("data");
-		
+
 		TableDatabase[] tables = TableDatabase.values();
 		ActionDatabase[] actions = ActionDatabase.values();
-		if (! Arrays.stream(tables).anyMatch(t -> t.toString().equals(table)) || ! Arrays.stream(actions).anyMatch(a -> a.toString().equals(action))) {
+		if (!Arrays.stream(tables).anyMatch(t -> t.toString().equals(table))
+				|| !Arrays.stream(actions).anyMatch(a -> a.toString().equals(action))) {
 			return;
 		}
-		if (runnableTableMap.containsKey(TableDatabase.valueOf(table)) && runnableTableMap.get(TableDatabase.valueOf(table)).containsKey(ActionDatabase.valueOf(action))) {
+		if (runnableTableMap.containsKey(TableDatabase.valueOf(table))
+				&& runnableTableMap.get(TableDatabase.valueOf(table)).containsKey(ActionDatabase.valueOf(action))) {
 			runnableTableMap.get(TableDatabase.valueOf(table)).get(ActionDatabase.valueOf(action)).runMethod(data);
 		}
 	}
-	
+
 	/**
 	 * Setter de l'attribut {@link TaskServiceImpl#runnableTableMap}
-	 * @param map Map des messages à utiliser
+	 * 
+	 * @param map
+	 *            Map des messages à utiliser
 	 */
 	public void setMap(Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> map) {
 		this.runnableTableMap = map;
@@ -84,6 +92,7 @@ public class TaskServiceImpl implements TaskService{
 
 	/**
 	 * Getter de l'attribut {@link TaskServiceImpl#runnableTableMap}
+	 * 
 	 * @return Map des messages à utiliser
 	 */
 	public Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> getMap() {
