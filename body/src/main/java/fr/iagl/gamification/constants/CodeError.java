@@ -25,9 +25,9 @@ public class CodeError {
 	public static final String INVALID_STUDENT_POINT = "Les points de l'élève sont invalides";
 	public static final String ERROR_STRING_PATTERN = "Le nom ne doit contenir que des caratères alphanumériques";
 	public static final String ERROR_STRING_PATTERN_QCM_TITRE = "Le titre du QCM ne doit contenir que des caratères alphanumériques";
-	public static final String ERROR_STRING_PATTERN_QCM_INSTRUCTION = "Les instructions du QCM ne doit contenir que des caratères alphanumériques";;
-	public static final String ERROR_STRING_PATTERN_QCM_QUERY = "L'intitulé de la question du QCM ne doit contenir que des caratères alphanumériques";;
-	public static final String ERROR_STRING_PATTERN_QCM_CHOICE = "Le choix du QCM ne doit contenir que des caratères alphanumériques";;
+	public static final String ERROR_STRING_PATTERN_QCM_INSTRUCTION = "Les instructions du QCM ne doit contenir que des caratères alphanumériques";
+	public static final String ERROR_STRING_PATTERN_QCM_QUERY = "L'intitulé de la question du QCM ne doit contenir que des caratères alphanumériques";
+	public static final String ERROR_STRING_PATTERN_QCM_CHOICE = "Le choix du QCM ne doit contenir que des caratères alphanumériques";
 
 	
 	/**

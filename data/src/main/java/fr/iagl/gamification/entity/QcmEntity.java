@@ -15,8 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.springframework.data.annotation.CreatedDate;
-
 /**
  * Objet de la base de donnée représentant un QCM
  *
@@ -162,6 +160,9 @@ public class QcmEntity {
 		this.dateIns = dateIns;
 	}
 	
+	/**
+	 * Met à jour la date avant d'insérer
+	 */
 	@PrePersist
 	public void preInsert() {
 		this.dateIns = new Date();
