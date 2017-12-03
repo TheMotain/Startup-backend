@@ -3,6 +3,8 @@ package fr.iagl.gamification.model;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONObject;
+
 /**
  * Model représentant un QCM
  *
@@ -40,7 +42,7 @@ public class QcmModel {
 	 * Liste de toutes les questions
 	 */
 	private List<QuestionModel> questions;
-
+	
 	/**
 	 * Getter de l'attribut {@link QcmModel#id}
 	 * @return id

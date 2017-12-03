@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,8 +25,10 @@ import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.AnswerModel;
 import fr.iagl.gamification.model.QcmModel;
 import fr.iagl.gamification.model.QuestionModel;
+import fr.iagl.gamification.model.ResultQcmModel;
 import fr.iagl.gamification.object.QcmObject;
 import fr.iagl.gamification.services.QcmService;
+import fr.iagl.gamification.services.ResultQcmService;
 import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.AnswerForm;
 import fr.iagl.gamification.validator.QcmForm;
@@ -46,6 +49,9 @@ public class QcmController {
 	 */
 	@Autowired
 	private QcmService qcmService;
+	
+	@Autowired
+	private ResultQcmService resultQcmService;
 	
 	/**
 	 * Mapper
@@ -90,6 +96,14 @@ public class QcmController {
 			
 		}
 		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value = MappingConstant.QCM_RESULT_PATH_ROOT, method = RequestMethod.GET)
+	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ResultQcmModel.class, responseContainer = "list", message = "Liste des réponses des qcm")
+	public ResponseEntity<List<ResultQcmModel>> getAllResultQcm(@PathVariable("qcmID") Long qcmID) {
+		LOG.info("Récupération de la liste des Réponses du QCM [" + qcmID + "]");
+		List<ResultQcmModel> result = resultQcmService.getAllQcmResultsByIdQcm(qcmID);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 

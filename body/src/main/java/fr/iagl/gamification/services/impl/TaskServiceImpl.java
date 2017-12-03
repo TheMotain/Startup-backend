@@ -30,6 +30,14 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	@Qualifier("runnablePointServiceImpl")
 	private RunnableHashMapService runnablePointServiceImpl;
+	
+	@Autowired
+	@Qualifier("runnableQcmServiceImpl")
+	private RunnableHashMapService runnableQcmServiceImpl;
+
+	@Autowired
+	@Qualifier("runnableResultQcmServiceImpl")
+	private RunnableHashMapService runnableResultQcmServiceImpl;
 
 	/**
 	 * Map qui contient toutes les méthodes à executer pour une table donnée et une
@@ -48,9 +56,21 @@ public class TaskServiceImpl implements TaskService {
 		Map<ActionDatabase, RunnableHashMapService> mapActionsPointTable = new EnumMap<>(ActionDatabase.class);
 		mapActionsPointTable.put(ActionDatabase.INSERT, runnablePointServiceImpl);
 		mapActionsPointTable.put(ActionDatabase.UPDATE, runnablePointServiceImpl);
-
+		
+		// actions de la table QCM
+		Map<ActionDatabase, RunnableHashMapService> mapActionsQCMTable = new EnumMap<>(ActionDatabase.class);
+		mapActionsQCMTable.put(ActionDatabase.INSERT, runnableQcmServiceImpl);
+		mapActionsQCMTable.put(ActionDatabase.UPDATE, runnableQcmServiceImpl);
+		
+		// actions de la table result QCM
+		Map<ActionDatabase, RunnableHashMapService> mapActionsResultQCMTable = new EnumMap<>(ActionDatabase.class);
+		mapActionsResultQCMTable.put(ActionDatabase.INSERT, runnableResultQcmServiceImpl);
+		mapActionsResultQCMTable.put(ActionDatabase.UPDATE, runnableResultQcmServiceImpl);
+		
 		// insertion de toutes les actions des tables
 		runnableTableMap.put(TableDatabase.POINT, mapActionsPointTable);
+		runnableTableMap.put(TableDatabase.QCM, mapActionsQCMTable);
+		runnableTableMap.put(TableDatabase.RESULT_QCM, mapActionsResultQCMTable);
 	}
 
 	/*
