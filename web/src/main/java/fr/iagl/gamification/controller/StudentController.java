@@ -62,16 +62,14 @@ public class StudentController implements AbstractController {
 	 * @return Response contenant la liste des élèves
 	 */
 	@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT, method = RequestMethod.GET)
-	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentForm.class, responseContainer = "list", message = "Liste des élève")
-	public ResponseEntity<List<StudentForm>> getAllStudent() {
+	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, responseContainer = "list", message = "Liste des élève")
+	public ResponseEntity<List<StudentModel>> getAllStudent() {
 		LOG.info("Récupération de la liste des élèves");
 		List<StudentModel> result = studentService.getAllStudent();
-		List<StudentForm> students = new ArrayList<>();
-		Optional.ofNullable(result)
-					.orElseGet(Collections::emptyList)
-					.iterator()
-					.forEachRemaining(e -> students.add(mapper.map(e, StudentForm.class)));
-		return new ResponseEntity<>(students, HttpStatus.OK);
+		if(null == result){
+			result = new ArrayList<StudentModel>();
+		}
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	/**
@@ -85,7 +83,7 @@ public class StudentController implements AbstractController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = MappingConstant.STUDENT_PATH_ROOT, method = RequestMethod.POST)
-	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_CREATED, response = StudentForm.class, message = "Elève créé"),
+	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_CREATED, response = StudentModel.class, message = "Elève créé"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs à la validation du formulaire") })
 	public ResponseEntity createStudent(@Valid @RequestBody StudentForm studentForm, BindingResult bindingResult) {
 		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
@@ -100,7 +98,7 @@ public class StudentController implements AbstractController {
 				LOG.info("Return saveStudent from service");
 				
 				if (studentCreated != null) {
-					return new ResponseEntity<StudentForm>(mapper.map(studentCreated, StudentForm.class), HttpStatus.CREATED);
+					return new ResponseEntity<StudentModel>(studentCreated, HttpStatus.CREATED);
 				}
 			} catch (GamificationServiceException e) {
 				LOG.warn("Erreur lors de l'appel au service studentService (saveStudent)");
@@ -118,9 +116,9 @@ public class StudentController implements AbstractController {
 	 * @return l'objet modifié
 	 */
 	@RequestMapping(value=MappingConstant.POST_ADD_CLASS_TO_STUDENT, method = RequestMethod.POST)
-	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentForm.class, message = "Classe ajoutée à l'élève"),
+	@ApiResponses(value = { @ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, message = "Classe ajoutée à l'élève"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs") })
-	public ResponseEntity<StudentForm> addClassToStudent(@Valid @RequestBody LinkStudentClassForm linkForm, BindingResult bindingResult) {
+	public ResponseEntity<StudentModel> addClassToStudent(@Valid @RequestBody LinkStudentClassForm linkForm, BindingResult bindingResult) {
 		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
 		
 		if (bindingResult.hasErrors()) {
@@ -131,7 +129,7 @@ public class StudentController implements AbstractController {
 			try {
 				studentModified = studentService.addClassToStudent(linkForm.getIdStudent(), linkForm.getIdClass());
 				if (studentModified != null) {
-					return new ResponseEntity<>(mapper.map(studentModified, StudentForm.class), HttpStatus.OK);
+					return new ResponseEntity<>(studentModified, HttpStatus.OK);
 				}
 			} catch (GamificationServiceException gse) {
 				errors = gse.getErrors();
@@ -149,9 +147,9 @@ public class StudentController implements AbstractController {
 	 * @return L'étudiant qui a été modifié
 	 */
 	@RequestMapping(value=MappingConstant.POST_DELETE_STUDENT_CLASS, method = RequestMethod.POST)
-	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK,response = StudentForm.class, message = "élève supprimé de la classe"),
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK,response = StudentModel.class, message = "élève supprimé de la classe"),
 				@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list" , message = "Liste des erreurs")})
-	public ResponseEntity<StudentForm> deleteStudentFromClass(@Valid @RequestBody Long idStudent,BindingResult bindingResult){
+	public ResponseEntity<StudentModel> deleteStudentFromClass(@Valid @RequestBody Long idStudent,BindingResult bindingResult){
 		
 		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
 		if(bindingResult.hasErrors()){
@@ -161,7 +159,7 @@ public class StudentController implements AbstractController {
 				try {
 					studentUpdate=studentService.deleteStudentFromClass(idStudent);
 					if (studentUpdate != null) {
-						return new ResponseEntity<>(mapper.map(studentUpdate, StudentForm.class), HttpStatus.OK);
+						return new ResponseEntity<>(studentUpdate, HttpStatus.OK);
 					}
 				} catch (GamificationServiceException e) {
 					errors = e.getErrors();
