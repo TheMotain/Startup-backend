@@ -74,4 +74,13 @@ public class PointServiceImpl implements PointService{
 		return output;
 	}
 
+	@Override
+	public PointModel getPoint(long studentID) throws GamificationServiceException {
+		PointEntity entity = pointRepository.findByStudent_Id(studentID);
+		if(null == entity) {
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT));
+		}
+		return mapper.map(entity, PointModel.class);
+	}
+
 }

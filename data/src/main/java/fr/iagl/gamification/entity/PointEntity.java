@@ -4,10 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,13 +24,6 @@ public class PointEntity implements Serializable {
 	 * Generated Serial version UID
 	 */
 	private static final long serialVersionUID = -3650567266024965280L;
-
-	/**
-	 * id des points de l'élève
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 	
 	/**
 	 * Bonus de l'élève
@@ -48,25 +40,15 @@ public class PointEntity implements Serializable {
 	/**
 	 * Elève
 	 */
-	@OneToOne
-	@JoinColumn(name = "pupil", nullable = true)
+	@Id @Column(name="pupil") Long id;
+
+	/**
+	 * Liaison JPA vers l'entité {@link StudentEntity}
+	 */
+    @MapsId 
+    @OneToOne(mappedBy = "points")
+	@JoinColumn(name = "pupil", nullable = false)
 	private StudentEntity student;
-
-	/**
-	 * Getter de l'attribut {@link PointEntity#id}
-	 * @return id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * Setter de l'attribut {@link PointEntity#id}
-	 * @param id l'attribut {@link PointEntity#id} à setter
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	/**
 	 * Getter de l'attribut {@link PointEntity#bonus}

@@ -5,25 +5,49 @@ import org.springframework.context.ApplicationContext;
 import akka.actor.Actor;
 import akka.actor.IndirectActorProducer;
 
+/**
+ * Créateur d'acteur AKKA
+ * @author ALEX
+ *
+ */
 public class SpringActorProducer implements IndirectActorProducer {
 
-	private ApplicationContext applicationContext;
+  /**
+   * Context de l'application
+   */
+  private ApplicationContext applicationContext;
 
-	private String beanActorName;
+  /**
+   * Nom de l'acteur
+   */
+  private String beanActorName;
 
-	public SpringActorProducer(ApplicationContext applicationContext, String beanActorName) {
-		this.applicationContext = applicationContext;
-		this.beanActorName = beanActorName;
-	}
+  /**
+   * Constructeur
+   * @param applicationContext Context de l'application
+   * @param beanActorName Nom de l'acteur à créer
+   */
+  public SpringActorProducer(ApplicationContext applicationContext, String beanActorName) {
+    this.applicationContext = applicationContext;
+    this.beanActorName = beanActorName;
+  }
 
-	@Override
-	public Actor produce() {
-		return (Actor) applicationContext.getBean(beanActorName);
-	}
+  /*
+   * (non-Javadoc)
+   * @see akka.actor.IndirectActorProducer#produce()
+   */
+  @Override
+  public Actor produce() {
+    return (Actor) applicationContext.getBean(beanActorName);
+  }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Class<? extends Actor> actorClass() {
-		return (Class<? extends Actor>) applicationContext.getType(beanActorName);
-	}
+  /*
+   * (non-Javadoc)
+   * @see akka.actor.IndirectActorProducer#actorClass()
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public Class<? extends Actor> actorClass() {
+    return (Class<? extends Actor>) applicationContext.getType(beanActorName);
+  }
 }

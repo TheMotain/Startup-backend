@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
+import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.repository.ClassRepository;
 import fr.iagl.gamification.repository.StudentRepository;
@@ -67,28 +68,89 @@ public class StudentServiceImplTest {
 	}
 	
 	@Test
-	public void testSaveStudentCallSaveRepositoryMethod() {
-		service.saveStudent(Mockito.mock(StudentModel.class));
+	public void testSaveStudentCallSaveRepositoryMethod() throws GamificationServiceException {
+		StudentModel model = Mockito.mock(StudentModel.class);
+		ClassModel classe = Mockito.mock(ClassModel.class);
+		ClassEntity classEntity = Mockito.mock(ClassEntity.class);
+		StudentEntity studentEntity = Mockito.mock(StudentEntity.class);
+		Mockito.doReturn(classe).when(model).getClassroom();
+		Mockito.doReturn(2L).when(classe).getId();
+		Mockito.doReturn(classEntity).when(classRepository).findOne(Mockito.anyLong());
+		Mockito.doReturn(studentEntity).when(mapper).map(model, StudentEntity.class);
+		
+		service.saveStudent(model);
 		Mockito.verify(studentRepository, Mockito.times(1)).save((StudentEntity)Mockito.any());
 	}
 	
-	@Test
-	public void testSaveStudentReturnCreatedOrUpdatedStudentByRepository() {
+	@Test(expected=GamificationServiceException.class)
+	public void testSaveStudentBadClassReturnException() throws GamificationServiceException {
 		StudentModel model = Mockito.mock(StudentModel.class);
-		Mockito.when(mapper.map((StudentEntity)Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(model);
-		Assert.assertEquals(model, service.saveStudent(Mockito.mock(StudentModel.class)));
+		service.saveStudent(model);
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testSaveStudentBadIdClassReturnException() throws GamificationServiceException {
+		StudentModel model = Mockito.mock(StudentModel.class);
+		ClassModel classe = Mockito.mock(ClassModel.class);
+		Mockito.doReturn(classe).when(model).getClassroom();
+		service.saveStudent(model);
 	}
 	
 	@Test
-	public void testSaveStudentUseStudentModelInParamToPersistIt() {
-		StudentModel in = Mockito.mock(StudentModel.class);
-		StudentEntity entity = Mockito.mock(StudentEntity.class);
+	public void testDeleteStudentFromClass() throws GamificationServiceException{
+		StudentEntity studentEntity = Mockito.mock(StudentEntity.class);
+		StudentModel studentModel = Mockito.mock(StudentModel.class);
+		
+		Mockito.when(mapper.map(Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(studentModel);
+		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(studentEntity);
+		
+		StudentModel model = service.deleteStudentFromClass(1L);
+		Mockito.verify(studentEntity).setClassroom(null);
+		Mockito.verify(studentRepository, Mockito.times(1)).save(studentEntity);
+		
+		Assert.assertEquals(studentModel, model);
+
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testDeleteStudentFromClassWithInexistingStudentThrowException() throws GamificationServiceException{
+		service.deleteStudentFromClass(1L);
+	}
+	
+	@Test
+	public void testSaveStudentReturnSaveStudentByRepository() throws GamificationServiceException {
+		StudentModel model = Mockito.mock(StudentModel.class);
+		StudentModel modelUpdated = Mockito.mock(StudentModel.class);
+		ClassModel classe = Mockito.mock(ClassModel.class);
+		ClassEntity classEntity = Mockito.mock(ClassEntity.class);
+		StudentEntity studentEntity = Mockito.mock(StudentEntity.class);
+		Mockito.doReturn(classe).when(model).getClassroom();
+		Mockito.doReturn(2L).when(classe).getId();
+		Mockito.doReturn(studentEntity).when(studentRepository).save(studentEntity);
+		Mockito.doReturn(classEntity).when(classRepository).findOne(Mockito.anyLong());
+		Mockito.doReturn(studentEntity).when(mapper).map(model, StudentEntity.class);
+		
+		Mockito.doReturn(modelUpdated).when(mapper).map(studentEntity, StudentModel.class);
+		Assert.assertEquals(modelUpdated, service.saveStudent(model));
+	}
+	
+	@Test
+	public void testSaveStudentUseStudentModelInParamToPersistIt() throws GamificationServiceException {
+		StudentModel model = Mockito.mock(StudentModel.class);
+		ClassModel classe = Mockito.mock(ClassModel.class);
+		ClassEntity classEntity = Mockito.mock(ClassEntity.class);
+		StudentEntity studentEntity = Mockito.mock(StudentEntity.class);
+		Mockito.doReturn(classe).when(model).getClassroom();
+		Mockito.doReturn(2L).when(classe).getId();
+		Mockito.doReturn(studentEntity).when(studentRepository).save(studentEntity);
+		Mockito.doReturn(classEntity).when(classRepository).findOne(Mockito.anyLong());
+		Mockito.doReturn(studentEntity).when(mapper).map(model, StudentEntity.class);
+		
 		ArgumentCaptor<StudentEntity> captor = ArgumentCaptor.forClass(StudentEntity.class);
 		
-		Mockito.when(mapper.map((StudentModel)Mockito.any(), Mockito.eq(StudentEntity.class))).thenReturn(entity);
-		service.saveStudent(in);
+		service.saveStudent(model);
 		Mockito.verify(studentRepository, Mockito.times(1)).save(captor.capture());
-		Assert.assertEquals(entity, captor.getValue());
+		Assert.assertEquals(studentEntity, captor.getValue());
 	}
 	
 	@Test
@@ -117,7 +179,7 @@ public class StudentServiceImplTest {
 		StudentEntity entity = Mockito.mock(StudentEntity.class);
 		
 		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(entity);
-		StudentModel output = service.addClassToStudent(1L, 2L);
+		service.addClassToStudent(1L, 2L);
 	}
 	
 	@Test(expected=GamificationServiceException.class)
@@ -127,6 +189,7 @@ public class StudentServiceImplTest {
 		
 		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(entity);
 		Mockito.when(entity.getClassroom()).thenReturn(classroom);
-		StudentModel output = service.addClassToStudent(1L, 2L);
+		service.addClassToStudent(1L, 2L);
 	}
+	
 }

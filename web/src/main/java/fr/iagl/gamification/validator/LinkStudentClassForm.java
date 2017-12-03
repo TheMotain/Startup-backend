@@ -3,6 +3,8 @@ package fr.iagl.gamification.validator;
 import javax.validation.constraints.NotNull;
 
 import fr.iagl.gamification.constants.CodeError;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Formulaire du lien entre la classe et l'élève
@@ -10,17 +12,20 @@ import fr.iagl.gamification.constants.CodeError;
  * @author Hélène MEYER
  *
  */
+@ApiModel
 public class LinkStudentClassForm implements AbstractForm {
 
 	/**
 	 * id de la classe
 	 */
+	@ApiModelProperty(required=true)
 	@NotNull(message = CodeError.ERROR_NULL)
 	private long idClass;
 	
 	/**
 	 * id de l'élève
 	 */
+	@ApiModelProperty(required=true)
 	@NotNull(message = CodeError.ERROR_NULL)
 	private long idStudent;
 

@@ -17,21 +17,28 @@ public class MappingConstant {
 	 */
 	public static final String STUDENT_PATH_ROOT = "${url.student}";
 	/**
-	 * Chemin pour récupérer les élèves n'ayant pas de classe
-	 */
-	public static final String GET_STUDENTS_WITHOUT_CLASS = "${url.studentwithoutclass}";
-	/**
 	 * Chemin pour l'ajout d'une classe à un élève
 	 */
-	public static final String POST_ADD_CLASS = "${url.class.addClass}";
+	public static final String POST_ADD_CLASS_TO_STUDENT = "${url.student.addClass}";
+	/**
+	 * Shemin root pour la suppression d'un élève d'une classe
+	 */
+	public static final String POST_DELETE_STUDENT_CLASS = "${url.student.deleteClass}";
 	/**
 	 * Chemin pour la modification des points d'un élève
 	 */
 	public static final String POINTS_PATH_ROOT = "${url.point}";
+
 	public static final String QCM_PATH_ROOT = "${url.qcm}";
-	
+
 	/**
-	 * Le mapping Constant ne peut pas être instancié
+	 * Chemin pour la récupération des points pour un utilisateur spécifique
 	 */
-	private MappingConstant() {}
+	public static final String POINTS_PATH_ROOT_WITH_USERID = "${url.point.userID}";
+
+	/**
+	 * Classe non instanciable
+	 */
+	private MappingConstant() {
+	}
 }

@@ -6,22 +6,37 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import akka.actor.UntypedAbstractActor;
-import fr.iagl.gamification.model.Task;
+import fr.iagl.gamification.model.TaskModel;
 import fr.iagl.gamification.services.TaskService;
+
+/**
+ * Définition d'un acteur
+ * 
+ * @author ALEX
+ *
+ */
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class TaskActor extends UntypedAbstractActor {
 
+	/**
+	 * Service pour le traitement d'une task
+	 */
 	@Autowired
-    private TaskService service;
+	private TaskService service;
 
-    @Override
-    public void onReceive(Object message) throws Throwable {
-       if(message instanceof Task) {
-    	   service.treatTask(((Task) message));
-       } else {
-    	   unhandled(message);
-       }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see akka.actor.UntypedAbstractActor#onReceive(java.lang.Object)
+	 */
+	@Override
+	public void onReceive(Object message) throws Throwable {
+		if (message instanceof TaskModel) {
+			service.treatTask(((TaskModel) message));
+		} else {
+			unhandled(message);
+		}
+	}
 }
