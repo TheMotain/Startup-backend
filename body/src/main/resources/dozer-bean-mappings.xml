@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
-
+	
 	<!-- ClassMapper -->
 	<mapping map-id="ClassMapper">
 		<class-a>fr.iagl.gamification.model.ClassModel</class-a>
@@ -16,4 +16,13 @@
 		</field>
 	</mapping>
 	
+	<!-- StudentMapper -->
+	<mapping wildcard="true" >
+		<class-a>fr.iagl.gamification.model.StudentModel</class-a>
+		<class-b>fr.iagl.gamification.entity.StudentEntity</class-b>
+		<field-exclude>
+			<a>points.student</a>
+			<b>points.student</b>
+		</field-exclude>
+	</mapping>
 </mappings> 
