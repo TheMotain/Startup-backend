@@ -65,6 +65,7 @@ public class StudentController implements AbstractController {
 	public ResponseEntity<List<StudentModel>> getAllStudent() {
 		LOG.info("Récupération de la liste des élèves");
 		List<StudentModel> result = studentService.getAllStudent();
+		LOG.info(result);
 		if (null == result) {
 			result = new ArrayList<StudentModel>();
 		}

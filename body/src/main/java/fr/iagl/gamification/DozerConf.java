@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan
 public class DozerConf {
-
+	
 	@Bean(name = "org.dozer.Mapper")
 	public DozerBeanMapper dozerBean() {
 		List<String> mappingFiles = Arrays.asList("dozer-bean-mappings.xml");
