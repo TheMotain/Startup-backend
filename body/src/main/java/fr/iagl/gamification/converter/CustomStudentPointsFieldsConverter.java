@@ -10,10 +10,10 @@ public class CustomStudentPointsFieldsConverter implements CustomConverter {
 
 	@Override
 	public Object convert(Object destination, Object source, Class<?> classDest, Class<?> classSource) {
-		if(source == null) {
+		if(source == null && PointModel.class.equals(classSource)) {
 			return null;
 		}
-		if(source instanceof PointModel) {
+		if(PointModel.class.equals(classSource)) {
 			PointEntity dest = null;
 			if(destination == null) {
 				dest = new PointEntity();
@@ -23,15 +23,20 @@ public class CustomStudentPointsFieldsConverter implements CustomConverter {
 			dest.setBonus(((PointModel)source).getBonus());
 			dest.setMalus(((PointModel)source).getMalus());
 			return dest;
-		}else if(source instanceof PointEntity) {
+		}else if(PointEntity.class.equals(classSource)) {
 			PointModel dest = null;
 			if(destination == null) {
 				dest = new PointModel();
 			} else {
 				dest = (PointModel) destination;
 			}
-			dest.setBonus(((PointEntity)source).getBonus());
-			dest.setMalus(((PointEntity)source).getMalus());
+			if(source != null) {
+				dest.setBonus(((PointEntity)source).getBonus());
+				dest.setMalus(((PointEntity)source).getMalus());
+			} else {
+				dest.setBonus(0);
+				dest.setMalus(0);
+			}
 			return dest;
 		}else {
 			throw new MappingException("Converter CustomStudentPointsFieldsConverter "
