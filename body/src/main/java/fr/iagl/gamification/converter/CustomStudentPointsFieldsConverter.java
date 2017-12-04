@@ -28,7 +28,7 @@ public class CustomStudentPointsFieldsConverter implements CustomConverter {
 	 */
 	@Override
 	public Object convert(Object destination, Object source, Class<?> classDest, Class<?> classSource) {
-		if (source == null && !PointEntity.class.equals(classSource)) {
+		if (source == null && PointModel.class.equals(classSource)) {
 			return null;
 		}
 		if (PointModel.class.equals(classSource)) {

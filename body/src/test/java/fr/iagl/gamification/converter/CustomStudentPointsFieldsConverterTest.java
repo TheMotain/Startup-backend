@@ -8,13 +8,9 @@ import fr.iagl.gamification.entity.PointEntity;
 import fr.iagl.gamification.model.PointModel;
 
 public class CustomStudentPointsFieldsConverterTest {
-	@Test
-	public void testInputIsNullAndNullSourceTypeThenReturnNullPointEntity() {
-		Assert.assertNull(new CustomStudentPointsFieldsConverter().convert(null,null,null,null));
-	}
 	
 	@Test
-	public void testInputIsNotAndSourceTypeIsNotPointEntityThenReturnNullPointEntity() {
+	public void testInputIsNotAndSourceTypeIsPointModelThenReturnNullPointEntity() {
 		Assert.assertNull(new CustomStudentPointsFieldsConverter().convert(null,null,null,PointModel.class));
 	}
 	
