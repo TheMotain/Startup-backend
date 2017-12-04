@@ -9,19 +9,34 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Représentation de la table result qcm
+ *
+ * @author Hélène MEYER
+ *
+ */
 @Entity
 @Table(name = "result_qcm")
 public class ResultQcmEntity {
 
+	/**
+	 * id de la table result qcm
+	 */
 	@Id
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	/**
+	 * eleve qui a envoyé le qcm
+	 */
 	@ManyToOne
 	@JoinColumn(name = "pupil", nullable = true)
 	private StudentEntity student;
 
+	/**
+	 * réponse de l'élève
+	 */
 	@ManyToOne
 	@JoinColumn(name = "answer", nullable = true)
 	private AnswerEntity answer;

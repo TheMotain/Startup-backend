@@ -25,7 +25,6 @@ import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.AnswerModel;
 import fr.iagl.gamification.model.QcmModel;
 import fr.iagl.gamification.model.QuestionModel;
-import fr.iagl.gamification.object.QcmObject;
 import fr.iagl.gamification.services.QcmService;
 import fr.iagl.gamification.validator.AnswerForm;
 import fr.iagl.gamification.validator.QcmForm;

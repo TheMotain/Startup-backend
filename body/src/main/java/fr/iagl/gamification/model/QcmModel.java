@@ -3,8 +3,6 @@ package fr.iagl.gamification.model;
 import java.util.Date;
 import java.util.List;
 
-import org.json.JSONObject;
-
 /**
  * Model représentant un QCM
  *

@@ -37,6 +37,7 @@ public class MappingConstant {
 	public static final String POINTS_PATH_ROOT_WITH_USERID = "${url.point.userID}";
 	
 	public static final String QCM_RESULT_PATH_ROOT = "${url.resultQcm}";
+	public static final String QCM_SEND_RESULT_ROOT = "${url.resultQcm.send}";
 
 	/**
 	 * Classe non instanciable
