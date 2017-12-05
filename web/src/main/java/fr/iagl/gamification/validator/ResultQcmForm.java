@@ -6,23 +6,29 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Resultat du QCM envoyé par un élève
  *
  * @author Hélène MEYER
  *
  */
+@ApiModel
 public class ResultQcmForm implements AbstractForm{
 
 	/**
 	 * identifiant de l'élève
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@NotNull
 	private Long idStudent;
 	
 	/**
 	 * identifiant de la réponse
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@NotNull
 	@NotEmpty
 	private List<Long> idAnswer;
