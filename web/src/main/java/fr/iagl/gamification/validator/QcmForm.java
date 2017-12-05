@@ -6,6 +6,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import fr.iagl.gamification.constants.CodeError;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Qcm à envoyer/modifier
@@ -13,21 +15,25 @@ import fr.iagl.gamification.constants.CodeError;
  * @author Hélène MEYER
  *
  */
+@ApiModel
 public class QcmForm implements AbstractForm{
 
 	/**
 	 * id de la classe
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	private long idClass;
 	
 	/**
 	 * id du QCM
 	 */
+	@ApiModelProperty(required=false, allowEmptyValue=true)
 	private Long id;
 	
 	/**
 	 * titre du QCM
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@NotNull
 	@Pattern(regexp="^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'?!.+=*/;:]*$", message = CodeError.ERROR_STRING_PATTERN_QCM_TITRE)
 	private String title;
@@ -35,6 +41,7 @@ public class QcmForm implements AbstractForm{
 	/**
 	 * instruction du QCM
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@NotNull
 	@Pattern(regexp="^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'?!/+*x?;:]*$", message = CodeError.ERROR_STRING_PATTERN_QCM_INSTRUCTION)
 	private String instruction;
@@ -42,6 +49,7 @@ public class QcmForm implements AbstractForm{
 	/**
 	 * Ensemble des questions du QCM
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@NotNull
 	private List<QuestionForm> questions;
 

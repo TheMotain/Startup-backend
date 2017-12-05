@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import fr.iagl.gamification.constants.CodeError;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Vérification des questions
@@ -14,16 +16,19 @@ import fr.iagl.gamification.constants.CodeError;
  * @author Hélène MEYER
  *
  */
+@ApiModel
 public class QuestionForm implements AbstractForm {
 	
 	/**
 	 * identifiant de la question
 	 */
+	@ApiModelProperty(required=false, allowEmptyValue=true)
 	private Long id;
 	
 	/**
 	 * Question
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@NotNull
 	@Pattern(regexp="^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'/!?;:+*x=]*$", message = CodeError.ERROR_STRING_PATTERN_QCM_QUERY)
 	private String query;
@@ -31,12 +36,14 @@ public class QuestionForm implements AbstractForm {
 	/**
 	 * liste des choix
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@NotNull
 	private List<AnswerForm> choices;
 	
 	/**
 	 * nombre de points à gagner
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=true)
 	@NotNull
 	@Min(0)
 	private int nbPoints;
