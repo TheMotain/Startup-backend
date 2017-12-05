@@ -1,5 +1,7 @@
 package fr.iagl.gamification.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "result_qcm")
-public class ResultQcmEntity {
+public class ResultQcmEntity implements Serializable {
 
 	/**
 	 * id de la table result qcm
