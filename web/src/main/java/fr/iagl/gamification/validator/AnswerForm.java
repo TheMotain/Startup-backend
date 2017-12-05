@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import fr.iagl.gamification.constants.CodeError;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Vérification des choix
@@ -11,16 +13,19 @@ import fr.iagl.gamification.constants.CodeError;
  * @author Hélène MEYER
  *
  */
+@ApiModel
 public class AnswerForm implements AbstractForm {
 	
 	/**
 	 * identifiant du choix
 	 */
+	@ApiModelProperty(required=false, allowEmptyValue=true)
 	private Long id;
 	
 	/**
 	 * intitulé du choix
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@NotNull
 	@Pattern(regexp="^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'?!?;:=/+*x]*$", message = CodeError.ERROR_STRING_PATTERN_QCM_CHOICE)
 	private String choice;
@@ -28,6 +33,7 @@ public class AnswerForm implements AbstractForm {
 	/**
 	 * true si c'est la bonne réponse
 	 */
+	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@NotNull
 	private boolean good;
 
