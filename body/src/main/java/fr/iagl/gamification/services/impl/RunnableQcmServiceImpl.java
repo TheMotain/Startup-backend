@@ -28,7 +28,7 @@ public class RunnableQcmServiceImpl implements RunnableHashMapService {
 	/**
 	 * Logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(RunnableQcmServiceImplTest.class);
+	private static final Logger LOGGER = Logger.getLogger(RunnableQcmServiceImpl.class);
 
 	/**
 	 * broadcast un message dans un cannal
