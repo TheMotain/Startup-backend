@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.iagl.gamification.entity.AnswerEntity;
+import fr.iagl.gamification.entity.PointEntity;
 import fr.iagl.gamification.entity.ResultQcmEntity;
 import fr.iagl.gamification.entity.StudentEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.ResultQcmModel;
 import fr.iagl.gamification.repository.AnswerRepository;
+import fr.iagl.gamification.repository.PointRepository;
 import fr.iagl.gamification.repository.ResultQcmRepository;
 import fr.iagl.gamification.repository.StudentRepository;
 import fr.iagl.gamification.services.ResultQcmService;
@@ -46,6 +48,9 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 	@Autowired
 	private StudentRepository studentRepository;
 	
+	@Autowired
+	private PointRepository pointRepository;
+	
 	/**
 	 * Mapper Model <-> Entité
 	 */
@@ -69,7 +74,7 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 		if (student == null) {
 			throw new GamificationServiceException(Arrays.asList("Eleve non trouvé ["+ idStudent + "]"));
 		}
-			
+		Long score = 0L;
 		List<ResultQcmEntity> lstToAdd = new ArrayList<>();
 		for (Long idAnswer : lst) {
 			if (repository.findByAnswer_IdAndStudent_Id(idAnswer, idStudent) != null) {
@@ -82,10 +87,24 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 			ResultQcmEntity entity = new ResultQcmEntity();
 			entity.setAnswer(answer);
 			entity.setStudent(student);
+			if (answer.isGood()) {
+				score += answer.getQuestion().getNbPoints();
+			}
 			lstToAdd.add(entity);
 		}
 		
 		Iterable<ResultQcmEntity> result = repository.save(lstToAdd);
+		
+		if (score != 0) {
+			PointEntity points = pointRepository.findByStudent_Id(idStudent);
+			if (points == null) {
+				points = new PointEntity();
+				points.setStudent(student);
+			}
+			points.setBonus(points.getBonus() + score);
+			pointRepository.save(points);
+		}
+		
 		List<ResultQcmModel> resultModel = new ArrayList<>();
 		result.iterator().forEachRemaining(x -> resultModel.add(mapper.map(x, ResultQcmModel.class)));
 		return resultModel;
