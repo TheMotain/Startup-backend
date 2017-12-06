@@ -25,7 +25,7 @@ public class AvatarServiceImpl implements AvatarService{
 	/**
 	 * Message d'erreur
 	 */
-	private static final String ERROR_ID_ÉTUDIANT_NON_CONNU = "ID étudiant non connu";
+	private static final String ERROR_ID_ETUDIANT_NON_CONNU = "ID étudiant non connu";
 
 	/**
 	 * Repository pour la manipulation des avatars
