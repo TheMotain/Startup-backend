@@ -1,5 +1,7 @@
 package fr.iagl.gamification.services.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -190,6 +192,27 @@ public class StudentServiceImplTest {
 		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(entity);
 		Mockito.when(entity.getClassroom()).thenReturn(classroom);
 		service.addClassToStudent(1L, 2L);
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testGetStudentWithIdNullThrowException() throws GamificationServiceException {
+		service.getStudentById(null);
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testGetStudentWithStudentNullThrowException() throws GamificationServiceException {
+		service.getStudentById(2L);
+	}
+	
+	@Test
+	public void testGetStudentOK() throws GamificationServiceException {
+		StudentEntity student = Mockito.mock(StudentEntity.class);
+		StudentModel model = Mockito.mock(StudentModel.class);
+		Mockito.when(studentRepository.findOne(2L)).thenReturn(student);
+		Mockito.when(mapper.map(student, StudentModel.class)).thenReturn(model);
+		StudentModel ret = service.getStudentById(2L);
+		
+		assertEquals(ret, model);
 	}
 	
 }

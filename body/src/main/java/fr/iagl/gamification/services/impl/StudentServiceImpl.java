@@ -103,4 +103,16 @@ public class StudentServiceImpl implements StudentService {
 		return mapper.map(studentRepository.save(studentEntity),StudentModel.class);
 	}
 
+	@Override
+	public StudentModel getStudentById(Long idStudent) throws GamificationServiceException {
+		if (idStudent == null) {
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NULL));
+		}
+		StudentEntity student = studentRepository.findOne(idStudent);
+		if (student == null) {
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT));
+		}
+		return mapper.map(student, StudentModel.class);
+	}
+
 }
