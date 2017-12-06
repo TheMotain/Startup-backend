@@ -14,8 +14,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ColumnDefault;
-
 /**
  * Définit un Avatar en base de donnée
  * @author dalencourt

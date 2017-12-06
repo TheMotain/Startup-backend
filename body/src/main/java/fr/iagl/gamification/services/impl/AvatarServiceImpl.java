@@ -30,7 +30,7 @@ public class AvatarServiceImpl implements AvatarService{
 	public AvatarModel findAvatar(Long idStudent) throws GamificationServiceException {
 		StudentEntity entity = null;
 		if(null == idStudent || null == (entity = studentRepository.findOne(idStudent))) {
-			throw new GamificationServiceException(Arrays.asList(new String[] {"ID étudiant non connu"}));
+			throw new GamificationServiceException(Arrays.asList("ID étudiant non connu"));
 		}
 		AvatarEntity result = avatarRepository.findOne(idStudent);
 		if(result == null) {
