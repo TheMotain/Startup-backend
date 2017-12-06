@@ -2,7 +2,6 @@ package fr.iagl.gamification.services.impl;
 
 import java.util.Map;
 
-import org.dozer.DozerBeanMapper;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,9 +14,7 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import fr.iagl.gamification.entity.AnswerEntity;
 import fr.iagl.gamification.entity.QcmEntity;
 import fr.iagl.gamification.entity.QuestionEntity;
-import fr.iagl.gamification.model.QcmModel;
 import fr.iagl.gamification.repository.AnswerRepository;
-import fr.iagl.gamification.repository.QcmRepository;
 import fr.iagl.gamification.utils.ChannelEnum;
 
 public class RunnableResultQcmServiceImplTest {
