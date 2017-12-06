@@ -56,9 +56,6 @@ public class PointServiceImpl implements PointService{
 			points = mapper.map(pointToUpdate, PointEntity.class);
 			points.setStudent(student);
 		} else {
-			if (points.getBonus() > pointToUpdate.getBonus() || points.getMalus() > pointToUpdate.getMalus()) {
-				throw new GamificationServiceException(Arrays.asList(CodeError.INVALID_STUDENT_POINT));
-			}
 			points.setBonus(points.getBonus() + pointToUpdate.getBonus());
 			points.setMalus(points.getMalus() + pointToUpdate.getMalus());
 		}
