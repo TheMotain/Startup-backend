@@ -1,2 +1,0 @@
-20171122-3-create_point.sql
-20171123-4-create_trigger_point.sql
