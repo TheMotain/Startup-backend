@@ -17,6 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+
+import com.google.common.util.concurrent.Service;
+
 import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.StudentModel;
@@ -50,7 +53,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	public void testGetAllStudentReturnResponseEntityContainsServiceResult() {
 		List<StudentModel> mock = new ArrayList<>();
 		Mockito.when(studentService.getAllStudent()).thenReturn(mock);
-		ResponseEntity<List<StudentForm>> response = controller.getAllStudent();
+		ResponseEntity<List<StudentModel>> response = controller.getAllStudent();
 		Assert.assertEquals(mock, response.getBody());
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
@@ -59,12 +62,18 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	public void testGetAllStudentReturnResponseEntityContainsServiceResultMultiple() {
 		StudentModel mock = Mockito.mock(StudentModel.class);
 		List<StudentModel> lst = Arrays.asList(mock);
-		StudentForm obj = Mockito.mock(StudentForm.class);
-		Mockito.when(mapper.map(mock, StudentForm.class)).thenReturn(obj);
 		Mockito.when(studentService.getAllStudent()).thenReturn(lst);
-		ResponseEntity<List<StudentForm>> response = controller.getAllStudent();
-		Assert.assertEquals(obj, response.getBody().get(0));
+		ResponseEntity<List<StudentModel>> response = controller.getAllStudent();
+		Assert.assertEquals(mock, response.getBody().get(0));
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+	
+	@Test
+	public void testGetAllStudentReturnEmptyListWhenserviceReturnNull(){
+		Mockito.when(studentService.getAllStudent()).thenReturn(null);
+		ResponseEntity<List<StudentModel>> result = controller.getAllStudent();
+		Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
+		Assert.assertTrue(result.getBody().isEmpty());
 	}
 
 	@Test
@@ -76,7 +85,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 	@Test
 	public void testCreateStudentCallCreateFromServiceWithMappedModel() throws GamificationServiceException {
 		StudentModel model = Mockito.mock(StudentModel.class);
-		Mockito.when(mapper.map((StudentModel) Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(model);
+		Mockito.when(mapper.map(Mockito.any(StudentForm.class), Mockito.eq(StudentModel.class))).thenReturn(model);
 		ArgumentCaptor<StudentModel> modelCaptor = ArgumentCaptor.forClass(StudentModel.class);
 
 		controller.createStudent(Mockito.mock(StudentForm.class), Mockito.mock(BindingResult.class));
@@ -91,11 +100,10 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		StudentForm out = Mockito.mock(StudentForm.class);
 		Mockito.when(mapper.map((StudentModel) Mockito.any(), Mockito.eq(StudentModel.class))).thenReturn(in);
 		Mockito.when(studentService.saveStudent(in)).thenReturn(in);
-		Mockito.when(mapper.map(in, StudentForm.class)).thenReturn(out);
 		ResponseEntity<StudentModel> response = (ResponseEntity<StudentModel>) controller
 				.createStudent(Mockito.mock(StudentForm.class), Mockito.mock(BindingResult.class));
 		Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		Assert.assertEquals(out, response.getBody());
+		Assert.assertEquals(in, response.getBody());
 	}
 
 	@Test
@@ -181,6 +189,7 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		Assert.assertEquals(HttpStatus.BAD_REQUEST, outputEntity.getStatusCode());
 	}
 
+	@Test
 	public void testLinkClassStudentFormOK() throws GamificationServiceException {
 		LinkStudentClassForm linkForm = Mockito.mock(LinkStudentClassForm.class);
 		StudentModel classModel = Mockito.mock(StudentModel.class);
