@@ -1,5 +1,6 @@
 package fr.iagl.gamification.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "question")
-public class QuestionEntity {
+public class QuestionEntity implements Serializable{
 
 	/**
 	 * Identifiant unique de la question

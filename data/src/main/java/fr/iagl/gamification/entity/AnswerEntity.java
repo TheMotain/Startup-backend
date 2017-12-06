@@ -1,5 +1,7 @@
 package fr.iagl.gamification.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "answer")
-public class AnswerEntity {
+public class AnswerEntity implements Serializable{
 
 	/**
 	 * Identifiant unique de la réponse

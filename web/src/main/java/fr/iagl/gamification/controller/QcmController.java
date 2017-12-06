@@ -24,7 +24,6 @@ import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.AnswerModel;
 import fr.iagl.gamification.model.QcmModel;
 import fr.iagl.gamification.model.QuestionModel;
-import fr.iagl.gamification.object.QcmObject;
 import fr.iagl.gamification.services.QcmService;
 import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.AnswerForm;
@@ -66,9 +65,15 @@ public class QcmController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
-	
+	/**
+	 * Enregistre le qcm
+	 * 
+	 * @param qcmForm le formulaire du qcm
+	 * @param bindingResult validation du formulaire
+	 * @return le qcm enregistré
+	 */
 	@RequestMapping(value = MappingConstant.QCM_PATH_ROOT, method = RequestMethod.POST)
-	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = QcmObject.class, message = "Les qcm modifiés/ajoutés"),
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = QcmModel.class, message = "Les qcm modifiés/ajoutés"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs au niveau du formulaire / La classe n'existe pas")})
 	public ResponseEntity<QcmModel> submitQcmForm(@Valid @RequestBody QcmForm qcmForm, BindingResult bindingResult) {
 		List<String> errors = Arrays.asList(CodeError.SAVE_FAIL);
@@ -91,7 +96,6 @@ public class QcmController {
 		}
 		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
 	}
-
 
 	private QcmModel mapFormToModel(QcmForm qcmForm) {
 		QcmModel qcm = mapper.map(qcmForm, QcmModel.class);

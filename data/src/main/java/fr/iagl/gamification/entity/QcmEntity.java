@@ -1,5 +1,6 @@
 package fr.iagl.gamification.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "qcm")
-public class QcmEntity {
+public class QcmEntity implements Serializable{
 	
 	/**
 	 * Identifiant unique du qcm

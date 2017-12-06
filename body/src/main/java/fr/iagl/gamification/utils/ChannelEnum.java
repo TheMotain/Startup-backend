@@ -1,7 +1,8 @@
 package fr.iagl.gamification.utils;
  
 public enum ChannelEnum {
-  NOTIFICATION_POINT ("notification","point");
+  NOTIFICATION_POINT ("notification","point"), 
+  NOTIFICATION_QCM ("notification", "qcm");
   
   public static final String ROOT_CHANNEL = "/channel";
   
