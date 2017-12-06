@@ -6,16 +6,23 @@ package fr.iagl.gamification.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
 
 /**
  * Définit un Avatar en base de donnée
  * @author dalencourt
  *
  */
+@Entity
+@Table(name = "avatar")
 public class AvatarEntity implements Serializable{
 	/**
 	 * Serial Version UID
@@ -27,13 +34,7 @@ public class AvatarEntity implements Serializable{
 	 */
 	@Id
 	@Column(name = "pupil", nullable = false)
-	private Long id;
-	
-	/**
-	 * Nom de l'avatar
-	 */
-	@Column(name = "avatar_name", nullable = false)
-	private String pseudo;
+	private Long idStudent;
 	
 	/**
 	 * Avatar à afficher
@@ -49,36 +50,30 @@ public class AvatarEntity implements Serializable{
 	@JoinColumn(name = "pupil", nullable = false)
 	private StudentEntity student;
 
+    /**
+     * Actions à réaliser avant persistance des données
+     */
+    @PrePersist
+    private void prePersist() {
+    	if(null == avatar) {
+    		avatar = "default";
+    	}
+    }
+    
 	/**
-	 * Getter de l'attribut {@link AvatarEntity#id}
-	 * @return id
+	 * Getter de l'attribut {@link AvatarEntity#idStudent}
+	 * @return idStudent
 	 */
-	public Long getId() {
-		return id;
+	public Long getIdStudent() {
+		return idStudent;
 	}
 
 	/**
-	 * Setter de l'attribut {@link AvatarEntity#id}
-	 * @param id l'attribut {@link AvatarEntity#id} à setter
+	 * Setter de l'attribut {@link AvatarEntity#idStudent}
+	 * @param idStudent l'attribut {@link AvatarEntity#idStudent} à setter
 	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	/**
-	 * Getter de l'attribut {@link AvatarEntity#pseudo}
-	 * @return pseudo
-	 */
-	public String getPseudo() {
-		return pseudo;
-	}
-
-	/**
-	 * Setter de l'attribut {@link AvatarEntity#pseudo}
-	 * @param pseudo l'attribut {@link AvatarEntity#pseudo} à setter
-	 */
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
+	public void setIdStudent(Long idStudent) {
+		this.idStudent = idStudent;
 	}
 
 	/**
