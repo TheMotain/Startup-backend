@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 @RestController
-public class ResponseQcmController {
+public class ResponseQcmController implements AbstractController {
 
 	/**
 	 * Logger
