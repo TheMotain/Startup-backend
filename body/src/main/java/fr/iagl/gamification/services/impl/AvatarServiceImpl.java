@@ -49,7 +49,7 @@ public class AvatarServiceImpl implements AvatarService{
 	public AvatarModel findAvatar(Long idStudent) throws GamificationServiceException {
 		StudentEntity entity = null;
 		if(null == idStudent || null == (entity = studentRepository.findOne(idStudent))) {
-			throw new GamificationServiceException(Arrays.asList(ERROR_ID_ÉTUDIANT_NON_CONNU));
+			throw new GamificationServiceException(Arrays.asList(ERROR_ID_ETUDIANT_NON_CONNU));
 		}
 		AvatarEntity result = avatarRepository.findOne(idStudent);
 		if(result == null) {
@@ -64,7 +64,7 @@ public class AvatarServiceImpl implements AvatarService{
 	public AvatarModel updateAvatar(Long idStudent, String avatar) throws GamificationServiceException {
 		StudentEntity studentEntity = null;
 		if(null == idStudent || null == (studentEntity = studentRepository.findOne(idStudent))) {
-			throw new GamificationServiceException(Arrays.asList(ERROR_ID_ÉTUDIANT_NON_CONNU));
+			throw new GamificationServiceException(Arrays.asList(ERROR_ID_ETUDIANT_NON_CONNU));
 		}
 		AvatarEntity avatarEntity = avatarRepository.findOne(idStudent);
 		if(null == avatarEntity) {
