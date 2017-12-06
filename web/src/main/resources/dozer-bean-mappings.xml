@@ -45,4 +45,13 @@
 	</mapping>
 	
 
+	<!-- ClassMapper -->
+	<mapping wildcard="true">
+		<class-a>fr.iagl.gamification.model.StudentModel</class-a>
+		<class-b>fr.iagl.gamification.entity.StudentEntity</class-b>
+		<field custom-converter="fr.iagl.gamification.converter.CustomStudentPointsFieldsConverter">
+			<a>points</a>
+			<b>points</b>
+		</field>
+	</mapping>
 </mappings> 

@@ -33,6 +33,27 @@ public class StudentModel {
 	 * Classe
 	 */
 	private ClassModel classroom;
+	
+	/**
+	 * Points
+	 */
+	private PointModel points;
+
+	/**
+	 * Getter de l'attribut {@link StudentModel#points}
+	 * @return points
+	 */
+	public PointModel getPoints() {
+		return points;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentModel#points}
+	 * @param points l'attribut {@link StudentModel#points} à setter
+	 */
+	public void setPoints(PointModel points) {
+		this.points = points;
+	}
 
 	/**
 	 * Getter de l'attribut {@link StudentModel#id}

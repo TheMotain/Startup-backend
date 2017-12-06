@@ -34,18 +34,6 @@
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>net.sf.dozer</groupId>
-			<artifactId>dozer</artifactId>
-			<version>5.5.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>net.sf.dozer</groupId>
-			<artifactId>dozer-spring</artifactId>
-			<version>5.5.1</version>
-		</dependency>
-
 		<!-- Swagger -->
 		<dependency>
 			<groupId>io.springfox</groupId>
