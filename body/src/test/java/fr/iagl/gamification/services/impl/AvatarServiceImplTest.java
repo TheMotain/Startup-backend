@@ -105,4 +105,18 @@ public class AvatarServiceImplTest {
 		Assert.assertEquals(model, service.updateAvatar(0L,Mockito.anyString()));
 		Mockito.verify(mapper, Mockito.times(1)).map(Mockito.any(AvatarEntity.class), Mockito.eq(AvatarModel.class));
 	}
+	
+	@Test
+	public void testCreateDefaultAvatarCallSave() {
+		service.createDefaultAvatar(Mockito.any(StudentEntity.class));
+		Mockito.verify(avatarRepository, Mockito.times(1)).save(Mockito.any(AvatarEntity.class));
+	}
+	
+	@Test
+	public void testCreateDefaultAvatarMapSaveResult() {
+		AvatarEntity entity = Mockito.mock(AvatarEntity.class);
+		Mockito.when(avatarRepository.save(Mockito.any(AvatarEntity.class))).thenReturn(entity);
+		service.createDefaultAvatar(Mockito.any(StudentEntity.class));
+		Mockito.verify(mapper, Mockito.times(1)).map(entity, AvatarModel.class);
+	}
 }

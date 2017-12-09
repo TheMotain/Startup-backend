@@ -1,5 +1,7 @@
 package fr.iagl.gamification.services;
 
+import fr.iagl.gamification.entity.AvatarEntity;
+import fr.iagl.gamification.entity.StudentEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.AvatarModel;
 
@@ -26,4 +28,11 @@ public interface AvatarService {
 	 * @throws GamificationServiceException Est retourné si l'étudiant n'existe pas
 	 */
 	public AvatarModel updateAvatar(Long idStudent, String avatar) throws GamificationServiceException;
+
+	/**
+	 * Créer un Model d'avatar par défaut et le persiste en base
+	 * @param student étudiant pour lequel créé l'avatar
+	 * @return L'avatar par défaut créé
+	 */
+	public AvatarModel createDefaultAvatar(StudentEntity student);
 }
