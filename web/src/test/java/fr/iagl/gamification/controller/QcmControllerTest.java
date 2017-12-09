@@ -160,10 +160,19 @@ public class QcmControllerTest extends SpringIntegrationTest {
 	
 	@Test
 	public void testfindAllQCMByClassReturnExceptionWhenIdClassIsNull() throws GamificationServiceException{
-		List<QcmModel> qcmMock = new ArrayList<>();
-		Mockito.when(service.getAllQcmByClass(Mockito.anyLong())).thenReturn(qcmMock);
-		ResponseEntity<List<QcmModel>> result = controller.findAllQCMByClass(0L);		
+		//Mockito.when(service.getAllQcmByClass(Mockito.anyLong())).thenThrow(new GamificationServiceException(null));
+		ResponseEntity<List<QcmModel>> result = controller.findAllQCMByClass(null);
+		Assert.assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
+		
 	}
+	
+	@Test
+	public void testfindAllQCMByClassReturnErrorListStringWhenInexistantClass() throws GamificationServiceException{
+		Mockito.when(service.getAllQcmByClass(Mockito.anyLong())).thenThrow(new GamificationServiceException(null));
+		ResponseEntity<List<QcmModel>> result = controller.findAllQCMByClass(1L);
+		Assert.assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
+	}
+	
 
 
 	
