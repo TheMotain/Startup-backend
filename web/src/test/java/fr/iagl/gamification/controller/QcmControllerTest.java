@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.matchers.Equals;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -140,5 +141,31 @@ public class QcmControllerTest extends SpringIntegrationTest {
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
 		assertEquals("["+CodeError.ERROR_NOT_EXISTS_CLASSROOM+"]", output.getBody().toString());
 	}
+	
+	@Test
+	public void testfindAllQCMByClassCallgetAllQcmByClassFromService() throws GamificationServiceException{
+		controller.findAllQCMByClass(1L);
+		Mockito.verify(service, Mockito.times(1)).getAllQcmByClass(1L);
+	}
+	
+	@Test
+	public void testfindAllQCMByClassReturnResponseEntityContainsServiceResult() throws GamificationServiceException{
+		List<QcmModel> qcmMock = new ArrayList<>();
+		Mockito.when(service.getAllQcmByClass(Mockito.anyLong())).thenReturn(qcmMock);
+		ResponseEntity<List<QcmModel>> result = controller.findAllQCMByClass(1L);
+		Assert.assertEquals(qcmMock, result.getBody());
+		Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
+		
+	}
+	
+	@Test
+	public void testfindAllQCMByClassReturnExceptionWhenIdClassIsNull() throws GamificationServiceException{
+		List<QcmModel> qcmMock = new ArrayList<>();
+		Mockito.when(service.getAllQcmByClass(Mockito.anyLong())).thenReturn(qcmMock);
+		ResponseEntity<List<QcmModel>> result = controller.findAllQCMByClass(0L);		
+	}
+
+
+	
 	
 }

@@ -1,5 +1,6 @@
 package fr.iagl.gamification.services.impl;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,6 +79,13 @@ public class QcmServiceImpl implements QcmService {
 		
 		repository.save(entity);
 		return mapper.map(entity, QcmModel.class);
+	}
+
+	@Override
+	public List<QcmModel> getAllQcmByClass(long idClass) throws GamificationServiceException {	
+		List<QcmModel> qcmModel = new ArrayList<>();
+		repository.findByClass(idClass).iterator().forEachRemaining(x -> qcmModel.add(mapper.map(x, QcmModel.class)));
+		return qcmModel;
 	}
 
 }

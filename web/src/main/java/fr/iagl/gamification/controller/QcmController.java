@@ -97,14 +97,28 @@ public class QcmController implements AbstractController {
 		}
 		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
 	}
+	
 	/**
 	 * Récupère tous les QCM disponibles pour une classe
 	 * @param classroomID Id de la classe en paramètres
 	 * @return La liste des QCM
 	 */
 	@RequestMapping(value = MappingConstant.QCM_PATH_ROOT, method = RequestMethod.GET)
-	public ResponseEntity findAllQCMByClass(@PathVariable ("classroomID") long classroomID) {
-		return null;
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = String.class , responseContainer = "list" , message = "Liste des qcm de la classe"),
+			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class , responseContainer = "list" , message = "liste des erreurs")
+	})
+	public ResponseEntity findAllQCMByClass(@PathVariable ("classroomID") Long classroomID) {
+		List<QcmModel> listQcm = new ArrayList<>();
+		try {
+			if( null == classroomID){
+				throw new GamificationServiceException(Arrays.asList("Classe invalide"));
+			}else{
+				listQcm = qcmService.getAllQcmByClass(classroomID);
+				return new ResponseEntity<>(listQcm,HttpStatus.OK);}
+			}catch (GamificationServiceException e) {
+				return new ResponseEntity<>(e.getErrors(), HttpStatus.BAD_REQUEST);
+			}
+		
 	}
 	
 	/**
