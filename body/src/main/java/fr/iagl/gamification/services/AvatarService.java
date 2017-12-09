@@ -1,6 +1,5 @@
 package fr.iagl.gamification.services;
 
-import fr.iagl.gamification.entity.AvatarEntity;
 import fr.iagl.gamification.entity.StudentEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.AvatarModel;
