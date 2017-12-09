@@ -53,9 +53,7 @@ public class AvatarServiceImpl implements AvatarService{
 		}
 		AvatarEntity result = avatarRepository.findOne(idStudent);
 		if(result == null) {
-			result = new AvatarEntity();
-			result.setStudent(entity);
-			result = avatarRepository.save(result);
+			return(createDefaultAvatar(entity));
 		}
 		return mapper.map(result, AvatarModel.class);
 	}
@@ -74,5 +72,16 @@ public class AvatarServiceImpl implements AvatarService{
 		avatarEntity.setAvatar(avatar);
 		avatarEntity = avatarRepository.save(avatarEntity);
 		return mapper.map(avatarEntity, AvatarModel.class);
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.iagl.gamification.services.AvatarService#createDefaultAvatar()
+	 */
+	@Override
+	public AvatarModel createDefaultAvatar(StudentEntity student) {
+		AvatarEntity result = new AvatarEntity();
+		result.setStudent(student);
+		result = avatarRepository.save(result);
+		return mapper.map(result, AvatarModel.class);
 	}
 }

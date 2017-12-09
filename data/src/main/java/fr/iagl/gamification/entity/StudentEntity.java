@@ -71,6 +71,13 @@ public class StudentEntity implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
     private PointEntity points;
     
+    /**
+     * Avatar de l'élève
+     */
+    @PrimaryKeyJoinColumn
+    @OneToOne(cascade = CascadeType.ALL)
+    private AvatarEntity avatar;
+    
     @OneToMany(mappedBy = "student")
 	private List<ResultQcmEntity> resultsQcm;
 
@@ -168,6 +175,22 @@ public class StudentEntity implements Serializable {
 	 */
 	public void setPoints(PointEntity points) {
 		this.points = points;
+	}
+
+	/**
+	 * Getter de l'attribut {@link StudentEntity#avatar}
+	 * @return avatar
+	 */
+	public AvatarEntity getAvatar() {
+		return avatar;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentEntity#avatar}
+	 * @param avatar l'attribut {@link StudentEntity#avatar} à setter
+	 */
+	public void setAvatar(AvatarEntity avatar) {
+		this.avatar = avatar;
 	}
 	
 	

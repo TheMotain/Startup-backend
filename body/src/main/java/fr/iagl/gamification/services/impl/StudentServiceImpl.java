@@ -15,6 +15,7 @@ import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.repository.ClassRepository;
 import fr.iagl.gamification.repository.StudentRepository;
+import fr.iagl.gamification.services.AvatarService;
 import fr.iagl.gamification.services.StudentService;
 
 /**
@@ -38,6 +39,11 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	private ClassRepository classRepository;
 
+	/**
+	 * Service de manipulation des avatars
+	 */
+	@Autowired
+	private AvatarService avatarService;
 	
 	/**
 	 * Mapper Model <-> Entité
@@ -60,7 +66,12 @@ public class StudentServiceImpl implements StudentService {
 		}
 		StudentEntity entity = mapper.map(model, StudentEntity.class);
 		entity.setClassroom(classe);
-		return entityToModel(entity);
+		entity = studentRepository.save(entity);
+		StudentModel newModel = mapper.map(entity, StudentModel.class);
+		if(null == newModel.getAvatar()) {
+			newModel.setAvatar(avatarService.createDefaultAvatar(entity));
+		}
+		return newModel;
 	}
 
 	@Override

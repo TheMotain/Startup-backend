@@ -17,10 +17,12 @@ import org.mockito.MockitoAnnotations;
 import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.StudentEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
+import fr.iagl.gamification.model.AvatarModel;
 import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.model.StudentModel;
 import fr.iagl.gamification.repository.ClassRepository;
 import fr.iagl.gamification.repository.StudentRepository;
+import fr.iagl.gamification.services.AvatarService;
 
 public class StudentServiceImplTest {
 	
@@ -32,6 +34,9 @@ public class StudentServiceImplTest {
 	
 	@Mock
 	private ClassRepository classRepository;
+	
+	@Mock
+	private AvatarService avatarService;
 	
 	@Mock
 	private Mapper mapper;
@@ -77,9 +82,48 @@ public class StudentServiceImplTest {
 		Mockito.doReturn(2L).when(classe).getId();
 		Mockito.doReturn(classEntity).when(classRepository).findOne(Mockito.anyLong());
 		Mockito.doReturn(studentEntity).when(mapper).map(model, StudentEntity.class);
+		Mockito.when(studentRepository.save(Mockito.any(StudentEntity.class))).thenReturn(studentEntity);
+		Mockito.when(mapper.map(studentEntity, StudentModel.class)).thenReturn(model);
 		
 		service.saveStudent(model);
 		Mockito.verify(studentRepository, Mockito.times(1)).save((StudentEntity)Mockito.any());
+	}
+	
+	@Test
+	public void testSaveStudentCallCreateDefaultAvatarIfNotExists() throws GamificationServiceException {
+		StudentModel model = Mockito.mock(StudentModel.class);
+		ClassModel classe = Mockito.mock(ClassModel.class);
+		ClassEntity classEntity = Mockito.mock(ClassEntity.class);
+		StudentEntity studentEntity = Mockito.mock(StudentEntity.class);
+		Mockito.when(model.getAvatar()).thenReturn(null);
+		Mockito.doReturn(classe).when(model).getClassroom();
+		Mockito.doReturn(2L).when(classe).getId();
+		Mockito.doReturn(classEntity).when(classRepository).findOne(Mockito.anyLong());
+		Mockito.doReturn(studentEntity).when(mapper).map(model, StudentEntity.class);
+		Mockito.when(studentRepository.save(Mockito.any(StudentEntity.class))).thenReturn(studentEntity);
+		Mockito.when(mapper.map(studentEntity, StudentModel.class)).thenReturn(model);
+		
+		service.saveStudent(model);
+		Mockito.verify(avatarService, Mockito.times(1)).createDefaultAvatar((StudentEntity)Mockito.any());
+	}
+	
+	@Test
+	public void testSaveStudentCallCreateDefaultAvatarExists() throws GamificationServiceException {
+		StudentModel model = Mockito.mock(StudentModel.class);
+		ClassModel classe = Mockito.mock(ClassModel.class);
+		ClassEntity classEntity = Mockito.mock(ClassEntity.class);
+		StudentEntity studentEntity = Mockito.mock(StudentEntity.class);
+		AvatarModel avatarEntity = Mockito.mock(AvatarModel.class);
+		Mockito.when(model.getAvatar()).thenReturn(avatarEntity);
+		Mockito.doReturn(classe).when(model).getClassroom();
+		Mockito.doReturn(2L).when(classe).getId();
+		Mockito.doReturn(classEntity).when(classRepository).findOne(Mockito.anyLong());
+		Mockito.doReturn(studentEntity).when(mapper).map(model, StudentEntity.class);
+		Mockito.when(studentRepository.save(Mockito.any(StudentEntity.class))).thenReturn(studentEntity);
+		Mockito.when(mapper.map(studentEntity, StudentModel.class)).thenReturn(model);
+		
+		service.saveStudent(model);
+		Mockito.verify(avatarService, Mockito.times(0)).createDefaultAvatar((StudentEntity)Mockito.any());
 	}
 	
 	@Test(expected=GamificationServiceException.class)
@@ -145,6 +189,7 @@ public class StudentServiceImplTest {
 		Mockito.doReturn(studentEntity).when(studentRepository).save(studentEntity);
 		Mockito.doReturn(classEntity).when(classRepository).findOne(Mockito.anyLong());
 		Mockito.doReturn(studentEntity).when(mapper).map(model, StudentEntity.class);
+		Mockito.when(mapper.map(studentEntity, StudentModel.class)).thenReturn(model);
 		
 		ArgumentCaptor<StudentEntity> captor = ArgumentCaptor.forClass(StudentEntity.class);
 		
