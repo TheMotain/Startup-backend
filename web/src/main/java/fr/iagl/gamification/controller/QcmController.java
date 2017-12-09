@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -96,7 +97,21 @@ public class QcmController implements AbstractController {
 		}
 		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
 	}
-
+	/**
+	 * Récupère tous les QCM disponibles pour une classe
+	 * @param classroomID Id de la classe en paramètres
+	 * @return La liste des QCM
+	 */
+	@RequestMapping(value = MappingConstant.QCM_PATH_ROOT, method = RequestMethod.GET)
+	public ResponseEntity findAllQCMByClass(@PathVariable ("classroomID") long classroomID) {
+		return null;
+	}
+	
+	/**
+	 * Permet de mapper un formulaire en un model
+	 * @param qcmForm Formulaire à mapper
+	 * @return le model généré
+	 */
 	private QcmModel mapFormToModel(QcmForm qcmForm) {
 		QcmModel qcm = mapper.map(qcmForm, QcmModel.class);
 		List<QuestionModel> questions = new ArrayList<>();
