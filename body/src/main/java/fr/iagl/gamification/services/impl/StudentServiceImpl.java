@@ -67,10 +67,11 @@ public class StudentServiceImpl implements StudentService {
 		StudentEntity entity = mapper.map(model, StudentEntity.class);
 		entity.setClassroom(classe);
 		entity = studentRepository.save(entity);
-		if(null == entity.getAvatar()) {
-			avatarService.createDefaultAvatar(entity);
+		StudentModel newModel = mapper.map(entity, StudentModel.class);
+		if(null == newModel.getAvatar()) {
+			newModel.setAvatar(avatarService.createDefaultAvatar(entity));
 		}
-		return mapper.map(entity, StudentModel.class);
+		return newModel;
 	}
 
 	@Override
