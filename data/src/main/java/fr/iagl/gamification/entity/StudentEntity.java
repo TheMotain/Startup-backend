@@ -40,6 +40,12 @@ public class StudentEntity implements Serializable {
 	private Long id;
 	
 	/**
+	 * Token unique de l'utilateur
+	 */
+	@Column(name = "token", nullable = false)
+	private String studentToken;
+	
+	/**
 	 * Prénom
 	 */
 	@Column(name = "firstname", nullable = false, columnDefinition = "text")
@@ -168,6 +174,22 @@ public class StudentEntity implements Serializable {
 	 */
 	public void setPoints(PointEntity points) {
 		this.points = points;
+	}
+
+	/**
+	 * Getter de l'attribut {@link StudentEntity#studentToken}
+	 * @return studentToken
+	 */
+	public String getStudentToken() {
+		return studentToken;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentEntity#studentToken}
+	 * @param studentToken l'attribut {@link StudentEntity#studentToken} à setter
+	 */
+	public void setStudentToken(String studentToken) {
+		this.studentToken = studentToken;
 	}
 	
 	

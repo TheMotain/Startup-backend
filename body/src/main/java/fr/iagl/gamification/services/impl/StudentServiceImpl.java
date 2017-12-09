@@ -60,6 +60,7 @@ public class StudentServiceImpl implements StudentService {
 		}
 		StudentEntity entity = mapper.map(model, StudentEntity.class);
 		entity.setClassroom(classe);
+		// TODO generate token
 		return entityToModel(entity);
 	}
 
@@ -79,16 +80,6 @@ public class StudentServiceImpl implements StudentService {
 		
 		entity.setClassroom(classEntity);
 		return entityToModel(entity);
-	}
-	
-	/**
-	 * Map l'entité sous le format modèle
-	 * 
-	 * @param entity entité de l'étudiant
-	 * @return le model de l'étudiant
-	 */
-	private StudentModel entityToModel(StudentEntity entity) {
-		return mapper.map(studentRepository.save(entity), StudentModel.class);
 	}
 
 	@Override
@@ -113,6 +104,16 @@ public class StudentServiceImpl implements StudentService {
 			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT));
 		}
 		return mapper.map(student, StudentModel.class);
+	}
+	
+	/**
+	 * Map l'entité sous le format modèle
+	 * 
+	 * @param entity entité de l'étudiant
+	 * @return le model de l'étudiant
+	 */
+	private StudentModel entityToModel(StudentEntity entity) {
+		return mapper.map(studentRepository.save(entity), StudentModel.class);
 	}
 
 }

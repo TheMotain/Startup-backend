@@ -15,6 +15,11 @@ public class StudentModel {
 	private Long id;
 	
 	/**
+	 * Token unique de l'utilisateur
+	 */
+	private String studentToken;
+	
+	/**
 	 * Prénom
 	 */
 	private String firstName;
@@ -39,6 +44,22 @@ public class StudentModel {
 	 */
 	private PointModel points;
 
+	/**
+	 * Getter de l'attribut {@link StudentModel#studentToken}
+	 * @return studentToken
+	 */
+	public String getStudentToken() {
+		return studentToken;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentModel#studentToken}
+	 * @param studentToken l'attribut {@link StudentModel#studentToken} à setter
+	 */
+	public void setStudentToken(String studentToken) {
+		this.studentToken = studentToken;
+	}
+	
 	/**
 	 * Getter de l'attribut {@link StudentModel#points}
 	 * @return points
