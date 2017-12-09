@@ -38,6 +38,11 @@ public class StudentModel {
 	 * Points
 	 */
 	private PointModel points;
+	
+	/**
+	 * Avatar
+	 */
+	private AvatarModel avatar;
 
 	/**
 	 * Getter de l'attribut {@link StudentModel#points}
@@ -133,6 +138,22 @@ public class StudentModel {
 	 */
 	public void setClassroom(ClassModel classroom) {
 		this.classroom = classroom;
+	}
+
+	/**
+	 * Getter de l'attribut {@link StudentModel#avatar}
+	 * @return avatar
+	 */
+	public AvatarModel getAvatar() {
+		return avatar;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentModel#avatar}
+	 * @param avatar l'attribut {@link StudentModel#avatar} à setter
+	 */
+	public void setAvatar(AvatarModel avatar) {
+		this.avatar = avatar;
 	}
 	
 	
