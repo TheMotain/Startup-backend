@@ -29,4 +29,13 @@ public interface QcmService {
 	 * @throws GamificationServiceException 
 	 */
 	public QcmModel saveQcm(QcmModel model, long idClass) throws GamificationServiceException;
+	
+	
+	/**
+	 * Récupère tous les QCM d'une classe
+	 * @param idClass l'identifiant de la class
+	 * @return la liste des QCM
+	 * @throws GamificationServiceException
+	 */
+	public List<QcmModel> getAllQcmByClass(long idClass) throws GamificationServiceException;
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -96,7 +97,35 @@ public class QcmController implements AbstractController {
 		}
 		return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
 	}
-
+	
+	/**
+	 * Récupère tous les QCM disponibles pour une classe
+	 * @param classroomID Id de la classe en paramètres
+	 * @return La liste des QCM
+	 */
+	@RequestMapping(value = MappingConstant.QCM_PATH_ROOT, method = RequestMethod.GET)
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = String.class , responseContainer = "list" , message = "Liste des qcm de la classe"),
+			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class , responseContainer = "list" , message = "liste des erreurs")
+	})
+	public ResponseEntity findAllQCMByClass(@PathVariable ("classroomID") Long classroomID) {
+		List<QcmModel> listQcm = new ArrayList<>();
+		try {
+			if( null == classroomID){
+				throw new GamificationServiceException(Arrays.asList("Classe invalide"));
+			}else{
+				listQcm = qcmService.getAllQcmByClass(classroomID);
+				return new ResponseEntity<>(listQcm,HttpStatus.OK);}
+			}catch (GamificationServiceException e) {
+				return new ResponseEntity<>(e.getErrors(), HttpStatus.BAD_REQUEST);
+			}
+		
+	}
+	
+	/**
+	 * Permet de mapper un formulaire en un model
+	 * @param qcmForm Formulaire à mapper
+	 * @return le model généré
+	 */
 	private QcmModel mapFormToModel(QcmForm qcmForm) {
 		QcmModel qcm = mapper.map(qcmForm, QcmModel.class);
 		List<QuestionModel> questions = new ArrayList<>();

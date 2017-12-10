@@ -80,4 +80,11 @@ public class QcmServiceImpl implements QcmService {
 		return mapper.map(entity, QcmModel.class);
 	}
 
+	@Override
+	public List<QcmModel> getAllQcmByClass(long idClass) throws GamificationServiceException {	
+		List<QcmModel> qcmModel = new ArrayList<>();
+		repository.findByClass(idClass).iterator().forEachRemaining(x -> qcmModel.add(mapper.map(x, QcmModel.class)));
+		return qcmModel;
+	}
+
 }
