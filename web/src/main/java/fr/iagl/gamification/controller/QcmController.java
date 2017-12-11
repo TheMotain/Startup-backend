@@ -103,7 +103,7 @@ public class QcmController implements AbstractController {
 	 * @param classroomID Id de la classe en paramètres
 	 * @return La liste des QCM
 	 */
-	@RequestMapping(value = MappingConstant.QCM_PATH_ROOT, method = RequestMethod.GET)
+	@RequestMapping(value = MappingConstant.QCM_FILTER_CLASSROM, method = RequestMethod.GET)
 	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = String.class , responseContainer = "list" , message = "Liste des qcm de la classe"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class , responseContainer = "list" , message = "liste des erreurs")
 	})

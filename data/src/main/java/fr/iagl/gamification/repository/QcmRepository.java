@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
+import fr.iagl.gamification.entity.ClassEntity;
 import fr.iagl.gamification.entity.QcmEntity;
 
 /**
@@ -14,6 +15,11 @@ import fr.iagl.gamification.entity.QcmEntity;
  */
 public interface QcmRepository extends CrudRepository<QcmEntity, Long>{
 	
-	public List<QcmEntity> findByClass(Long idClass);
+	/**
+	 * Récupère les QCM pour une classe
+	 * @param classroom id de la classe à filtrer
+	 * @return Liste des qcm
+	 */
+	public List<QcmEntity> findByClassroom(ClassEntity classroom);
 
 }
