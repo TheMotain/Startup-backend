@@ -107,14 +107,14 @@ public class QcmServiceImplTest {
 	
 	@Test
 	public void testGetAllQcmByClassCallFindByClassFromRepository() throws GamificationServiceException{
-		Mockito.when(repository.findByClass(Mockito.anyLong())).thenReturn( new ArrayList<QcmEntity>());
+		Mockito.when(repository.findByClassroom(Mockito.any())).thenReturn( new ArrayList<QcmEntity>());
 		service.getAllQcmByClass(Mockito.anyLong());
-		Mockito.verify(repository, Mockito.times(1)).findByClass(Mockito.anyLong());
+		Mockito.verify(repository, Mockito.times(1)).findByClassroom(Mockito.any());
 	}
 	
 	@Test
 	public void testGetAllQcmByClassThrowException() throws GamificationServiceException{
-		Mockito.when(repository.findByClass(Mockito.anyLong())).thenReturn( new ArrayList<QcmEntity>());
+		Mockito.when(repository.findByClassroom(Mockito.any())).thenReturn( new ArrayList<QcmEntity>());
 		service.getAllQcmByClass(Mockito.anyLong());
 	}
 	
@@ -131,7 +131,7 @@ public class QcmServiceImplTest {
 		Mockito.when(mapper.map(qentity1, QcmModel.class)).thenReturn(qmodel1);
 		Mockito.when(mapper.map(qentity2, QcmModel.class)).thenReturn(qmodel2);
 		Mockito.when(mapper.map(qentity3, QcmModel.class)).thenReturn(qmodel3);
-		Mockito.when(repository.findByClass(Mockito.anyLong())).thenReturn(Arrays.asList(new QcmEntity[]{qentity1,qentity2,qentity3}));
+		Mockito.when(repository.findByClassroom(Mockito.any())).thenReturn(Arrays.asList(new QcmEntity[]{qentity1,qentity2,qentity3}));
 		
 		List<QcmModel> resultat = service.getAllQcmByClass(1L);
 		
