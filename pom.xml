@@ -135,7 +135,7 @@
 					<tag>v${releaseVersion}</tag>
 					<tagNameFormat>v@{project.version}</tagNameFormat>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<arguments>-DskipTests -Dmaven.deploy.skip=true</arguments>
+					<arguments>-DskipTests -Dmaven.deploy.skip=true -Dmaven.javadoc.skip=true</arguments>
 				</configuration>
 				<dependencies>
 					<dependency>
