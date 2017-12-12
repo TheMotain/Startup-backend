@@ -93,9 +93,7 @@ public class StudentEntity implements Serializable {
     
     @PrePersist
     public void prePersist() {
-    	if(this.uuid == null) {
-    		this.uuid = UUID.randomUUID().toString();
-    	}
+    	this.uuid = UUID.randomUUID().toString();
     }
     
 	/**
