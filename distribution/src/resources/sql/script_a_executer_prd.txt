@@ -3,3 +3,5 @@
 20171123-5-create_qcm.sql
 20171203-6-create_table_result_qcm.sql
 20171203-7-create_trigger_qcm.sql
+20171205-8-create_avatar.sql
+20171206-9-create_trigger_result_qcm.sql
