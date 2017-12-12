@@ -34,7 +34,7 @@ public class QcmServiceImpl implements QcmService {
 	 * Repository du QCM
 	 */
 	@Autowired
-	private QcmRepository repository;
+	private QcmRepository qcmRepository;
 	
 	@Autowired
 	private ClassRepository classRepository;
@@ -48,7 +48,7 @@ public class QcmServiceImpl implements QcmService {
 	@Override
 	public List<QcmModel> getAllQcm() {
 		List<QcmModel> output = new ArrayList<>();
-		repository.findAll().iterator().forEachRemaining(x -> output.add(mapper.map(x, QcmModel.class)));
+		qcmRepository.findAll().iterator().forEachRemaining(x -> output.add(mapper.map(x, QcmModel.class)));
 		return output;
 	}
 
@@ -76,8 +76,17 @@ public class QcmServiceImpl implements QcmService {
 		}
 		entity.setQuestions(questions);
 		
-		repository.save(entity);
+		qcmRepository.save(entity);
 		return mapper.map(entity, QcmModel.class);
+	}
+
+	@Override
+	public List<QcmModel> getAllQcmByClass(long idClass) throws GamificationServiceException {
+		ClassEntity entity = new ClassEntity();
+		entity.setId(idClass);
+		List<QcmModel> qcmModel = new ArrayList<>();
+		qcmRepository.findByClassroom(entity).iterator().forEachRemaining(x -> qcmModel.add(mapper.map(x, QcmModel.class)));
+		return qcmModel;
 	}
 
 }

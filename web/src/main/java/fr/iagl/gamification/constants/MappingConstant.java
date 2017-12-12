@@ -40,6 +40,10 @@ public class MappingConstant {
 	 */
 	public static final String QCM_PATH_ROOT = "${url.qcm}";
 	/**
+	 * Chemin pour récupérer la liste des QCM par classe
+	 */
+	public static final String QCM_FILTER_CLASSROM = "${url.qcm.filter.classroom}";
+	/**
 	 * Permet de récupérer les résultats d'un QCM donné / Envoyer les réponses d'un élève
 	 */
 	public static final String QCM_RESULT_PATH_ROOT = "${url.resultQcm}";

@@ -70,8 +70,53 @@ public class AvatarServiceImplTest {
 	}
 	
 	@Test(expected = GamificationServiceException.class)
-	public void testGetAvatarThrowErrorIfStudentNotExist() throws GamificationServiceException {
+	public void testFindAvatarThrowErrorIfStudentNotExist() throws GamificationServiceException {
 		Mockito.when(studentRepository.findOne(Mockito.anyLong())).thenReturn(null);
 		service.findAvatar(0L);
+	}
+	
+	@Test(expected = GamificationServiceException.class)
+	public void testUpadeAvatarWithStudentNullParamThrowException() throws GamificationServiceException {
+		service.updateAvatar(null, "azeear");
+	}
+	
+	@Test
+	public void testUpdateAvatarCallRepository() throws GamificationServiceException {
+		Mockito.when(studentRepository.findOne(Mockito.anyLong())).thenReturn(Mockito.mock(StudentEntity.class));
+		service.updateAvatar(0L, "aze");
+		Mockito.verify(studentRepository, Mockito.times(1)).findOne(Mockito.anyLong());
+		Mockito.verify(avatarRepository, Mockito.times(1)).findOne(Mockito.anyLong());
+		Mockito.verify(avatarRepository, Mockito.times(1)).save((AvatarEntity)Mockito.any());
+	}
+
+	@Test(expected = GamificationServiceException.class)
+	public void testUpdateAvatarThrowErrorIfStudentNotExist() throws GamificationServiceException {
+		Mockito.when(studentRepository.findOne(Mockito.anyLong())).thenReturn(null);
+		service.updateAvatar(0L, "azea");
+	}
+	
+	@Test
+	public void testUpdateAvatarReturnAvatarModelMappedFromResultRepository() throws GamificationServiceException {
+		AvatarEntity entity = Mockito.mock(AvatarEntity.class);
+		AvatarModel model = Mockito.mock(AvatarModel.class);
+		Mockito.when(avatarRepository.save((AvatarEntity)Mockito.anyObject())).thenReturn(entity);
+		Mockito.when(mapper.map(entity, AvatarModel.class)).thenReturn(model);
+		Mockito.when(studentRepository.findOne(Mockito.anyLong())).thenReturn(Mockito.mock(StudentEntity.class));
+		Assert.assertEquals(model, service.updateAvatar(0L,Mockito.anyString()));
+		Mockito.verify(mapper, Mockito.times(1)).map(Mockito.any(AvatarEntity.class), Mockito.eq(AvatarModel.class));
+	}
+	
+	@Test
+	public void testCreateDefaultAvatarCallSave() {
+		service.createDefaultAvatar(Mockito.any(StudentEntity.class));
+		Mockito.verify(avatarRepository, Mockito.times(1)).save(Mockito.any(AvatarEntity.class));
+	}
+	
+	@Test
+	public void testCreateDefaultAvatarMapSaveResult() {
+		AvatarEntity entity = Mockito.mock(AvatarEntity.class);
+		Mockito.when(avatarRepository.save(Mockito.any(AvatarEntity.class))).thenReturn(entity);
+		service.createDefaultAvatar(Mockito.any(StudentEntity.class));
+		Mockito.verify(mapper, Mockito.times(1)).map(entity, AvatarModel.class);
 	}
 }

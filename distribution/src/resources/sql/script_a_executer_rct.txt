@@ -1,3 +1,1 @@
-20171205-8-create_avatar.sql
 
-20171206-9-create_trigger_result_qcm.sql

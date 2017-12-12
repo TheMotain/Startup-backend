@@ -14,15 +14,34 @@ import fr.iagl.gamification.repository.AvatarRepository;
 import fr.iagl.gamification.repository.StudentRepository;
 import fr.iagl.gamification.services.AvatarService;
 
+/**
+ * Service permettant la manipulation d'un Avatar
+ * @author dalencourt
+ *
+ */
 @Service
 public class AvatarServiceImpl implements AvatarService{
 
+	/**
+	 * Message d'erreur
+	 */
+	private static final String ERROR_ID_ETUDIANT_NON_CONNU = "ID étudiant non connu";
+
+	/**
+	 * Repository pour la manipulation des avatars
+	 */
 	@Autowired
 	private AvatarRepository avatarRepository;
 	
+	/**
+	 * Repository pour la récupération d'un étudiant
+	 */
 	@Autowired
 	private StudentRepository studentRepository;
 	
+	/**
+	 * Mapper
+	 */
 	@Autowired
 	private DozerBeanMapper mapper;
 	
@@ -30,15 +49,39 @@ public class AvatarServiceImpl implements AvatarService{
 	public AvatarModel findAvatar(Long idStudent) throws GamificationServiceException {
 		StudentEntity entity = null;
 		if(null == idStudent || null == (entity = studentRepository.findOne(idStudent))) {
-			throw new GamificationServiceException(Arrays.asList("ID étudiant non connu"));
+			throw new GamificationServiceException(Arrays.asList(ERROR_ID_ETUDIANT_NON_CONNU));
 		}
 		AvatarEntity result = avatarRepository.findOne(idStudent);
 		if(result == null) {
-			result = new AvatarEntity();
-			result.setStudent(entity);
-			result = avatarRepository.save(result);
+			return(createDefaultAvatar(entity));
 		}
 		return mapper.map(result, AvatarModel.class);
 	}
 
+	@Override
+	public AvatarModel updateAvatar(Long idStudent, String avatar) throws GamificationServiceException {
+		StudentEntity studentEntity = null;
+		if(null == idStudent || null == (studentEntity = studentRepository.findOne(idStudent))) {
+			throw new GamificationServiceException(Arrays.asList(ERROR_ID_ETUDIANT_NON_CONNU));
+		}
+		AvatarEntity avatarEntity = avatarRepository.findOne(idStudent);
+		if(null == avatarEntity) {
+			avatarEntity = new AvatarEntity();
+			avatarEntity.setStudent(studentEntity);
+		}
+		avatarEntity.setAvatar(avatar);
+		avatarEntity = avatarRepository.save(avatarEntity);
+		return mapper.map(avatarEntity, AvatarModel.class);
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.iagl.gamification.services.AvatarService#createDefaultAvatar()
+	 */
+	@Override
+	public AvatarModel createDefaultAvatar(StudentEntity student) {
+		AvatarEntity result = new AvatarEntity();
+		result.setStudent(student);
+		result = avatarRepository.save(result);
+		return mapper.map(result, AvatarModel.class);
+	}
 }
