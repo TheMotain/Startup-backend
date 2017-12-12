@@ -101,7 +101,7 @@ public class ResultQcmServiceImplTest {
 	@Test(expected=GamificationServiceException.class)
 	public void testSaveResultQcmResultAlreadyExists() throws GamificationServiceException {
 		Mockito.doReturn(Mockito.mock(StudentEntity.class)).when(studentRepository).findOne(2L);
-		Mockito.doReturn(Mockito.mock(ResultQcmEntity.class)).when(repository).findByAnswer_IdAndStudent_Id(1L, 2L);
+		Mockito.doReturn(Arrays.asList(Mockito.mock(ResultQcmEntity.class))).when(repository).findByStudent_Id(2L);
 		service.saveResultQcm(Arrays.asList(1L, 3L), 2L);
 	}
 	
@@ -111,12 +111,69 @@ public class ResultQcmServiceImplTest {
 		service.saveResultQcm(Arrays.asList(1L, 3L), 2L);
 	}
 	
+	@Test(expected=GamificationServiceException.class)
+	public void testSaveResultQcmResultWhenAnswerNotExistAndBadRecupAnswer() throws GamificationServiceException {
+		ResultQcmEntity result = Mockito.mock(ResultQcmEntity.class);
+		AnswerEntity answer = Mockito.mock(AnswerEntity.class);
+		Mockito.doReturn(Mockito.mock(StudentEntity.class)).when(studentRepository).findOne(2L);
+		Mockito.doReturn(Arrays.asList(result)).when(repository).findByStudent_Id(2L);
+		Mockito.doReturn(answer).when(result).getAnswer();
+		service.saveResultQcm(Arrays.asList(1L, 3L), 2L);
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testSaveResultQcmResultWhenAnswerNotExistAndBadRecupAnswerBadQuestion() throws GamificationServiceException {
+		ResultQcmEntity result = Mockito.mock(ResultQcmEntity.class);
+		AnswerEntity answer = Mockito.mock(AnswerEntity.class);
+		QuestionEntity question = Mockito.mock(QuestionEntity.class);
+		Mockito.doReturn(Mockito.mock(StudentEntity.class)).when(studentRepository).findOne(2L);
+		Mockito.doReturn(Arrays.asList(result)).when(repository).findByStudent_Id(2L);
+		Mockito.doReturn(answer).when(result).getAnswer();
+		Mockito.doReturn(question).when(answer).getQuestion();
+		service.saveResultQcm(Arrays.asList(1L, 3L), 2L);
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testSaveResultQcmResultDejaReponduALaQuestion() throws GamificationServiceException {
+		ResultQcmEntity resultats = Mockito.mock(ResultQcmEntity.class);
+		AnswerEntity answer = Mockito.mock(AnswerEntity.class);
+		AnswerEntity answerRep = Mockito.mock(AnswerEntity.class);
+		QuestionEntity questionRep = Mockito.mock(QuestionEntity.class);
+		QuestionEntity question = Mockito.mock(QuestionEntity.class);
+		Iterable<ResultQcmEntity> iter = Arrays.asList(resultats);
+		Iterable<ResultQcmEntity> answers = Arrays.asList(resultats);
+		Mockito.doReturn(answer).when(resultats).getAnswer();
+		Mockito.doReturn(question).when(answer).getQuestion();
+		Mockito.doReturn(5L).when(question).getId();
+		Mockito.doReturn(Arrays.asList(resultats)).when(repository).findByStudent_Id(Mockito.anyLong());
+		
+		Mockito.doReturn(Mockito.mock(StudentEntity.class)).when(studentRepository).findOne(2L);
+		Mockito.doReturn(answerRep).when(answerRepository).findOne(Mockito.anyLong());
+		Mockito.doReturn(questionRep).when(answerRep).getQuestion();
+		Mockito.doReturn(5L).when(questionRep).getId();
+		
+		List<ResultQcmModel> results = service.saveResultQcm(Arrays.asList(1L, 3L), 2L);
+	}
+	
 	@Test
 	public void testSaveResultQcmResultOKScore0() throws GamificationServiceException {
 		ResultQcmEntity resultats = Mockito.mock(ResultQcmEntity.class);
+		AnswerEntity answer = Mockito.mock(AnswerEntity.class);
+		AnswerEntity answerRep = Mockito.mock(AnswerEntity.class);
+		QuestionEntity questionRep = Mockito.mock(QuestionEntity.class);
+		QuestionEntity question = Mockito.mock(QuestionEntity.class);
 		Iterable<ResultQcmEntity> iter = Arrays.asList(resultats);
+		Iterable<ResultQcmEntity> answers = Arrays.asList(resultats);
+		Mockito.doReturn(answer).when(resultats).getAnswer();
+		Mockito.doReturn(question).when(answer).getQuestion();
+		Mockito.doReturn(5L).when(question).getId();
+		Mockito.doReturn(Arrays.asList(resultats)).when(repository).findByStudent_Id(Mockito.anyLong());
+		
 		Mockito.doReturn(Mockito.mock(StudentEntity.class)).when(studentRepository).findOne(2L);
-		Mockito.doReturn(Mockito.mock(AnswerEntity.class)).when(answerRepository).findOne(Mockito.anyLong());
+		Mockito.doReturn(answerRep).when(answerRepository).findOne(Mockito.anyLong());
+		Mockito.doReturn(questionRep).when(answerRep).getQuestion();
+		Mockito.doReturn(2L).when(questionRep).getId();
+		
 		Mockito.doReturn(iter).when(repository).save(Mockito.anyCollection());
 		Mockito.doReturn(Mockito.mock(ResultQcmModel.class)).when(mapper).map(resultats, ResultQcmModel.class);
 		
@@ -124,6 +181,7 @@ public class ResultQcmServiceImplTest {
 		assertNotNull(results);
 		Mockito.verify(repository).save(Mockito.anyCollection());
 	}
+	
 	
 	@Test
 	public void testSaveResultQcmResultOKScore2() throws GamificationServiceException {
