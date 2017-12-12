@@ -1,6 +1,7 @@
 package fr.iagl.gamification.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Model représentant un élève
@@ -15,9 +16,9 @@ public class StudentModel {
 	private Long id;
 	
 	/**
-	 * Token unique de l'utilisateur
+	 * Identifiant unique de l'élève
 	 */
-	private String studentToken;
+	private String uuid;
 	
 	/**
 	 * Prénom
@@ -48,22 +49,6 @@ public class StudentModel {
 	 * Avatar
 	 */
 	private AvatarModel avatar;
-
-	/**
-	 * Getter de l'attribut {@link StudentModel#studentToken}
-	 * @return studentToken
-	 */
-	public String getStudentToken() {
-		return studentToken;
-	}
-
-	/**
-	 * Setter de l'attribut {@link StudentModel#studentToken}
-	 * @param studentToken l'attribut {@link StudentModel#studentToken} à setter
-	 */
-	public void setStudentToken(String studentToken) {
-		this.studentToken = studentToken;
-	}
 	
 	/**
 	 * Getter de l'attribut {@link StudentModel#points}
@@ -175,6 +160,22 @@ public class StudentModel {
 	 */
 	public void setAvatar(AvatarModel avatar) {
 		this.avatar = avatar;
+	}
+
+	/**
+	 * Getter de l'attribut {@link StudentModel#uuid}
+	 * @return uuid
+	 */
+	public String getUuid() {
+		return uuid;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentModel#uuid}
+	 * @param uuid l'attribut {@link StudentModel#uuid} à setter
+	 */
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	
 	
