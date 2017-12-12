@@ -46,7 +46,7 @@ public class StudentEntity implements Serializable {
 	 * Cette donnée est générée par la base de donnée et ne peut être mise à jour
 	 */
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "uuid", nullable = false, unique = true, insertable = false, updatable = false)
+	@Column(name = "uuid", nullable = false, unique = true, updatable = false)
 	private String uuid;
 	
 	/**
