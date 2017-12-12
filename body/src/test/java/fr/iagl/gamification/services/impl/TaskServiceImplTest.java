@@ -144,7 +144,7 @@ public class TaskServiceImplTest {
 		akkaTaskServiceImpl.setMap(map);
 		akkaTaskServiceImpl.treatTask(task);
 
-		Mockito.verify(map, Mockito.never()).get(Mockito.any());
+		Mockito.verify(map2, Mockito.never()).get(Mockito.any());
 	}
 
 	@Test
