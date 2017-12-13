@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 
 import fr.iagl.gamification.model.TaskModel;
 import fr.iagl.gamification.services.RunnableHashMapService;
-import fr.iagl.gamification.services.TaskService;
 import fr.iagl.gamification.utils.ActionDatabase;
 import fr.iagl.gamification.utils.TableDatabase;
 
@@ -52,7 +51,7 @@ public class TaskServiceImplTest {
 		Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> map = Mockito.mock(Map.class);
 		Map<ActionDatabase, RunnableHashMapService> map2 = Mockito.mock(Map.class);
 		JSONObject json = Mockito.mock(JSONObject.class);
-		Mockito.doReturn("message").when(json).getString("table");
+		Mockito.doReturn("point").when(json).getString("table");
 		Mockito.doReturn("baaaad").when(json).getString("type");
 		TaskModel task = Mockito.mock(TaskModel.class);
 		Mockito.doReturn(json).when(task).getNotification();
@@ -112,7 +111,7 @@ public class TaskServiceImplTest {
 		Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> map = Mockito.mock(Map.class);
 		Map<ActionDatabase, RunnableHashMapService> map2 = Mockito.mock(Map.class);
 		JSONObject json = Mockito.mock(JSONObject.class);
-		Mockito.doReturn("message").when(json).getString("table");
+		Mockito.doReturn("point").when(json).getString("table");
 		Mockito.doReturn("INSERT").when(json).getString("type");
 		TaskModel task = Mockito.mock(TaskModel.class);
 		Mockito.doReturn(json).when(task).getNotification();
@@ -132,20 +131,20 @@ public class TaskServiceImplTest {
 		Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> map = Mockito.mock(Map.class);
 		Map<ActionDatabase, RunnableHashMapService> map2 = Mockito.mock(Map.class);
 		JSONObject json = Mockito.mock(JSONObject.class);
-		Mockito.doReturn("message").when(json).getString("table");
+		Mockito.doReturn("point").when(json).getString("table");
 		Mockito.doReturn("INSERT").when(json).getString("type");
 		TaskModel task = Mockito.mock(TaskModel.class);
 		Mockito.doReturn(json).when(task).getNotification();
 
 		Mockito.doReturn(map2).when(map).get(Mockito.any());
 
-		Mockito.doReturn(true).when(map).containsKey("MESSAGE");
-		Mockito.doReturn(false).when(map2).containsKey("INSERT");
+		Mockito.doReturn(true).when(map).containsKey(Mockito.any());
+		Mockito.doReturn(false).when(map2).containsKey(Mockito.any());
 
 		akkaTaskServiceImpl.setMap(map);
 		akkaTaskServiceImpl.treatTask(task);
 
-		Mockito.verify(map, Mockito.never()).get(Mockito.any());
+		Mockito.verify(map2, Mockito.never()).get(Mockito.any());
 	}
 
 	@Test
@@ -153,15 +152,15 @@ public class TaskServiceImplTest {
 		Map<TableDatabase, Map<ActionDatabase, RunnableHashMapService>> map = Mockito.mock(Map.class);
 		Map<ActionDatabase, RunnableHashMapService> map2 = Mockito.mock(Map.class);
 		JSONObject json = Mockito.mock(JSONObject.class);
-		Mockito.doReturn("message").when(json).getString("table");
+		Mockito.doReturn("point").when(json).getString("table");
 		Mockito.doReturn("INSERT").when(json).getString("type");
 		TaskModel task = Mockito.mock(TaskModel.class);
 		Mockito.doReturn(json).when(task).getNotification();
 
 		Mockito.doReturn(map2).when(map).get(Mockito.any());
 
-		Mockito.doReturn(false).when(map).containsKey("MESSAGE");
-		Mockito.doReturn(true).when(map2).containsKey("INSERT");
+		Mockito.doReturn(false).when(map).containsKey(Mockito.any());
+		Mockito.doReturn(true).when(map2).containsKey(Mockito.any());
 
 		akkaTaskServiceImpl.setMap(map);
 		akkaTaskServiceImpl.treatTask(task);

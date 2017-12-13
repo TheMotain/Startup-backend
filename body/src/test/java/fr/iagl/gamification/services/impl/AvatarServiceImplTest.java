@@ -107,6 +107,18 @@ public class AvatarServiceImplTest {
 	}
 	
 	@Test
+	public void testUpdateAvatarReturnAvatarModelUpdatedFromResultRepository() throws GamificationServiceException {
+		AvatarEntity entity = Mockito.mock(AvatarEntity.class);
+		AvatarModel model = Mockito.mock(AvatarModel.class);
+		Mockito.when(avatarRepository.save((AvatarEntity)Mockito.anyObject())).thenReturn(entity);
+		Mockito.when(mapper.map(entity, AvatarModel.class)).thenReturn(model);
+		Mockito.when(studentRepository.findOne(Mockito.anyLong())).thenReturn(Mockito.mock(StudentEntity.class));
+		Mockito.when(avatarRepository.findOne(Mockito.anyLong())).thenReturn(Mockito.mock(AvatarEntity.class));
+		Assert.assertEquals(model, service.updateAvatar(0L,Mockito.anyString()));
+		Mockito.verify(mapper, Mockito.times(1)).map(Mockito.any(AvatarEntity.class), Mockito.eq(AvatarModel.class));
+	}
+	
+	@Test
 	public void testCreateDefaultAvatarCallSave() {
 		service.createDefaultAvatar(Mockito.any(StudentEntity.class));
 		Mockito.verify(avatarRepository, Mockito.times(1)).save(Mockito.any(AvatarEntity.class));
