@@ -3,29 +3,17 @@
 <mappings xsi:noNamespaceSchemaLocation="model-mapping.xsd"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<mapping name="PointMapping">
-		<jsonAttribute jsonType="number" objectType="string">
-			<jsonName></jsonName>
+		<jsonAttribute jsonType="number" objectType="number">
+			<jsonName>Student</jsonName>
+			<mappingObject>id</mappingObject>
+		</jsonAttribute>
+		<jsonAttribute jsonType="number" objectType="number">
+			<jsonName>bonus</jsonName>
 			<mappingObject></mappingObject>
 		</jsonAttribute>
-		<jsonAttribute jsonType="array" objectType="array">
-			<jsonName></jsonName>
-			<jsonArray></jsonArray>
-		</jsonAttribute>
-		<jsonAttribute jsonType="object">
-			<jsonName></jsonName>
-			<jsonObject>
-				<jsonAttribute jsonType="array">
-					<jsonName></jsonName>
-					<jsonArray>
-						<jsonObject>
-							<jsonAttribute jsonType="string" objectType="number">
-								<jsonName></jsonName>
-								<mappingObject></mappingObject>
-							</jsonAttribute>
-						</jsonObject>
-					</jsonArray>
-				</jsonAttribute>
-			</jsonObject>
+		<jsonAttribute jsonType="number" objectType="number">
+			<jsonName>malus</jsonName>
+			<mappingObject>malus</mappingObject>
 		</jsonAttribute>
 	</mapping>
 </mappings>
