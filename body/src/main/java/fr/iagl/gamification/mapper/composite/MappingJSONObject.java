@@ -1,10 +1,28 @@
 package fr.iagl.gamification.mapper.composite;
 
-public class MappingJSONObject implements MappingJSONFormatter {
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Formatter contenant une map d'objets / attributs / listes
+ * @author dalencourt
+ *
+ */
+public class MappingJSONObject implements MappingJSONFormatter {
+	/**
+	 * Contient les élément de l'objet à générer
+	 */
+	private Map<String, MappingJSONFormatter> objects;
+	
+	/**
+	 * Constructeur
+	 */
+	public MappingJSONObject() {
+		objects = new HashMap<>();
+	}
+	
 	@Override
 	public boolean createFormatter(MappingJSONFormatter formatter) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

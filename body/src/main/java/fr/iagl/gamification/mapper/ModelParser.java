@@ -16,6 +16,9 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import fr.iagl.gamification.mapper.composite.MappingJSONFormatter;
+import fr.iagl.gamification.mapper.composite.MappingJSONObject;
+
 /**
  * Charge l'ensemble des mappings
  * 
@@ -43,22 +46,28 @@ public class ModelParser extends DefaultHandler {
 	/**
 	 * Liste des mappers à réaliser
 	 */
-	private Map<MappingEnum, ?> mappers;
-
+	private Map<MappingEnum, MappingJSONFormatter> mappers;
+	
 	/**
 	 * Mapper en lecture
 	 */
-	private String mapperInReading;
+	private String readingMapper;
+	
+	private MappingJSONFormatter editingFormatter;
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		switch(ModelMappingXMLKeyEnum.evaluate(localName)) {
 		case ROOT : break;
 		case MAPPING :
-			mapperInReading = attributes.getValue("name");
+			readingMapper = attributes.getValue("name");
+			editingFormatter = new MappingJSONObject();
+			mappers.put(MappingEnum.evaluate(readingMapper), editingFormatter);
 			break;
 		case JSON_ATTRIBUTE :
-			throw new NotImplementedException("SAX parser need to implement JSON_ATTRIBUTE element");
+			MappingJSONAttribute attribute = new MappingJSONAttribute();
+//			editingFormatter.
+			break;
 		case JSON_OBJECT :
 			throw new NotImplementedException("SAX parser need to implement JSON_OBJECT element");
 		case JSON_TYPE :
@@ -89,7 +98,7 @@ public class ModelParser extends DefaultHandler {
 					" Or ModelMappingSchema not found at path : " + modelMappingSchema.getPath());
 		}
 		mappers = new HashMap<>();
-		mapperInReading = null;
+		readingMapper = null;
 		LOGGER.info("Start parsing file");
 		try {
 			XMLReader saxReader = XMLReaderFactory.createXMLReader();
@@ -106,7 +115,7 @@ public class ModelParser extends DefaultHandler {
 	 * 
 	 * @return le mapping à réaliser
 	 */
-	public Object getMapper(MappingEnum mapping) {
+	public MappingJSONFormatter getMapper(MappingEnum mapping) {
 		return mappers.get(mapping);
 	}
 
