@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="mappings">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="mapping" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="mapping">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element ref="jsonAttribute" />
+					<xs:element ref="jsonObject" />
+					<xs:element ref="jsonArray" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="jsonAttribute">
+		<xs:complexType>
+			<xs:sequence maxOccurs="1" minOccurs="1">
+				<xs:element name="jsonName" type="xs:string" />
+				<xs:choice>
+					<xs:element ref="jsonObject"/>
+					<xs:element ref="jsonArray"/>
+					<xs:element name="mappingObject" type="xs:string" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="jsonType" type="typesEnumeration" use="required"/>
+			<xs:attribute name="objectType" type="typesEnumeration" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="jsonObject">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="jsonAttribute"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="jsonArray">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="jsonObject"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="typesEnumeration">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="number" />
+			<xs:enumeration value="string" />
+			<xs:enumeration value="object" />
+			<xs:enumeration value="array" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

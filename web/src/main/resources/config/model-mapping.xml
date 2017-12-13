@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mappings xsi:noNamespaceSchemaLocation="model-mapping.xsd"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<mapping name="PointMapping">
+		<jsonAttribute jsonType="number" objectType="string">
+			<jsonName></jsonName>
+			<mappingObject></mappingObject>
+		</jsonAttribute>
+		<jsonAttribute jsonType="array" objectType="array">
+			<jsonName></jsonName>
+			<jsonArray></jsonArray>
+		</jsonAttribute>
+		<jsonAttribute jsonType="object">
+			<jsonName></jsonName>
+			<jsonObject>
+				<jsonAttribute jsonType="array">
+					<jsonName></jsonName>
+					<jsonArray>
+						<jsonObject>
+							<jsonAttribute jsonType="string" objectType="number">
+								<jsonName></jsonName>
+								<mappingObject></mappingObject>
+							</jsonAttribute>
+						</jsonObject>
+					</jsonArray>
+				</jsonAttribute>
+			</jsonObject>
+		</jsonAttribute>
+	</mapping>
+</mappings>
