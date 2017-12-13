@@ -1,7 +1,6 @@
 package fr.iagl.gamification.model;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Model représentant un élève
