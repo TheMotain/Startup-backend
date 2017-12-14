@@ -1,5 +1,7 @@
 package fr.iagl.gamification.mapper.composite;
 
+import fr.iagl.gamification.mapper.MappingJSONFormatter;
+
 public class MappingJSONArray implements MappingJSONFormatter{
 
 	@Override

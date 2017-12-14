@@ -16,7 +16,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import fr.iagl.gamification.mapper.composite.MappingJSONFormatter;
+import fr.iagl.gamification.mapper.composite.MappingJSONAttribute;
 import fr.iagl.gamification.mapper.composite.MappingJSONObject;
 
 /**

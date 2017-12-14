@@ -1,4 +1,4 @@
-package fr.iagl.gamification.mapper.composite;
+package fr.iagl.gamification.mapper;
 
 /**
  * Design pattern Composite

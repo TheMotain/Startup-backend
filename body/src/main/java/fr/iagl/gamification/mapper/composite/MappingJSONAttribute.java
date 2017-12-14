@@ -1,6 +1,6 @@
-package fr.iagl.gamification.mapper;
+package fr.iagl.gamification.mapper.composite;
 
-import fr.iagl.gamification.mapper.composite.MappingJSONFormatter;
+import fr.iagl.gamification.mapper.MappingJSONFormatter;
 
 public class MappingJSONAttribute implements MappingJSONFormatter{
 

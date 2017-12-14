@@ -3,6 +3,8 @@ package fr.iagl.gamification.mapper.composite;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.iagl.gamification.mapper.MappingJSONFormatter;
+
 /**
  * Formatter contenant une map d'objets / attributs / listes
  * @author dalencourt
