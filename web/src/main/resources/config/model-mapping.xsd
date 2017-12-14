@@ -30,13 +30,13 @@
 	<xs:element name="jsonAttribute">
 		<xs:complexType>
 			<xs:sequence maxOccurs="1" minOccurs="1">
-				<xs:element name="jsonName" type="xs:string" />
 				<xs:choice>
 					<xs:element ref="jsonObject"/>
 					<xs:element ref="jsonArray"/>
 					<xs:element name="mappingObject" type="xs:string" />
 				</xs:choice>
 			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
 			<xs:attribute name="jsonType" type="typesEnumeration" use="required"/>
 			<xs:attribute name="objectType" type="typesEnumeration" use="optional"/>
 		</xs:complexType>
@@ -60,10 +60,12 @@
 
 	<xs:simpleType name="typesEnumeration">
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="number" />
-			<xs:enumeration value="string" />
-			<xs:enumeration value="object" />
-			<xs:enumeration value="array" />
+			<xs:enumeration value="NUMBER" />
+			<xs:enumeration value="INTEGER"/>
+			<xs:enumeration value="DOUBLE"/>
+			<xs:enumeration value="STRING" />
+			<xs:enumeration value="OBJECT" />
+			<xs:enumeration value="ARRAY" />
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>
