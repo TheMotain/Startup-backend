@@ -18,8 +18,8 @@ import fr.iagl.gamification.model.StudentModel;
 public class CustomStudentPointsFieldsConverter implements CustomConverter {
 
 	/**
-	 * Surcharge de la méthode {@link CustomConverter#convert(Object, Object, Class, Class)}<br/>
-	 * Ne mappe pas l'attribut Student contenu dans l'attribut point<br/>
+	 * Surcharge de la méthode {@link CustomConverter#convert(Object, Object, Class, Class)}<br>
+	 * Ne mappe pas l'attribut Student contenu dans l'attribut point<br>
 	 * Si l'attribut point est null :
 	 * <ul>
 	 * <li>Model -> Entity : le PointEntity n'est pas mappé</li>
