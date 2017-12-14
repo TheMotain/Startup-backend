@@ -24,8 +24,12 @@ public class MappingJSONObject implements MappingJSONFormatter {
 	}
 	
 	@Override
-	public boolean createFormatter(MappingJSONFormatter formatter) {
-		return false;
+	public boolean createFormatter(String key, MappingJSONFormatter formatter) {
+		if(objects.containsKey(key)) {
+			return false;
+		}
+		objects.put(key, formatter);
+		return true;
 	}
 
 }
