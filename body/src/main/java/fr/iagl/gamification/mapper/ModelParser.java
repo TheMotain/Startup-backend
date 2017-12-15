@@ -83,8 +83,11 @@ public class ModelParser extends DefaultHandler {
 			mappers.put(MappingEnum.evaluate(readingMapper), editingFormatter);
 			break;
 		case JSON_ATTRIBUTE:
+			if(editingFormatter == null){
+				throw new SAXException("XML file is invalid try to create a json attribute out of mapper")
+			}
 			if(editingFormatter instanceof MappingJSONAttribute) {
-				throw new SAXException("XML file is invalide try to create a json attribute inside one other");
+				throw new SAXException("XML file is invalid try to create a json attribute inside one other");
 			}
 			MappingJSONAttribute currentAttribute = new MappingJSONAttribute(
 					new Tuple<>(JSONTypeEnum.valueOf(attributes.getValue(ModelMappingXMLKeyEnum.JSON_TYPE.key)),
@@ -96,8 +99,14 @@ public class ModelParser extends DefaultHandler {
 			editingFormatter = currentAttribute;
 			break;
 		case JSON_OBJECT:
+			if(editingFormatter == null){
+				throw new SAXException("XML file is invalid try to create a json object out of mapper")
+			}
 			throw new NotImplementedException("SAX parser need to implement JSON_TYPE element");
 		case MAPPING_OBJECT:
+			if(editingFormatter == null){
+				throw new SAXException("XML file is invalid try to create a json array out of mapper")
+			}
 			throw new NotImplementedException("SAX parser need to implement MAPPING_OBJECT element");
 		default:
 			throw new SAXException("Unknow element name : " + localName);
