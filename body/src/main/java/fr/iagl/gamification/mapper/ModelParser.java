@@ -8,21 +8,20 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.ModelMap;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import fr.iagl.gamification.mapper.composite.MappingJSONArray;
 import fr.iagl.gamification.mapper.composite.MappingJSONAttribute;
-import fr.iagl.gamification.mapper.composite.MappingJSONObject;
 import fr.iagl.gamification.mapper.composite.MappingJSONAttribute.JSONTypeEnum;
+import fr.iagl.gamification.mapper.composite.MappingJSONObject;
 import fr.iagl.gamification.utils.Tuple;
 
 /**
@@ -40,14 +39,14 @@ public class ModelParser extends DefaultHandler {
 	private static final Logger LOGGER = Logger.getLogger(ModelParser.class);
 
 	/**
-	 * Chemin vers le schéma du ModelMappingFile
-	 */
-	private static final String CLASSPATH_CONFIG_MODEL_MAPPING_XSD = "config/model-mapping.xsd";
-
-	/**
 	 * Chemin vers le fichier ModelMappingFile
 	 */
 	private static final String CLASSPATH_CONFIG_MODEL_MAPPING_XML = "config/model-mapping.xml";
+	
+	/**
+	 * Chaine de caractères pour le séparateur de chemin d'objet java
+	 */
+	private static final String OBJECT_PATH_SEPARATOR = ".";
 
 	/**
 	 * Liste des mappers à réaliser
@@ -69,6 +68,12 @@ public class ModelParser extends DefaultHandler {
 	 */
 	private List<MappingJSONFormatter> formatterStack;
 
+	/**
+	 * Permet de savoir si un mapping java est en lecture.<br>
+	 * Cela permet de récuperer la valeur entre les balises.
+	 */
+	private boolean readingMappingObject;
+	
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		switch (ModelMappingXMLKeyEnum.evaluate(localName)) {
@@ -84,35 +89,58 @@ public class ModelParser extends DefaultHandler {
 			break;
 		case JSON_ATTRIBUTE:
 			if(editingFormatter == null){
-				throw new SAXException("XML file is invalid try to create a json attribute out of mapper")
+				throw new SAXException("XML file is invalid try to create a json attribute out of mapper");
 			}
 			if(editingFormatter instanceof MappingJSONAttribute) {
 				throw new SAXException("XML file is invalid try to create a json attribute inside one other");
 			}
-			MappingJSONAttribute currentAttribute = new MappingJSONAttribute(
+			stackFormatter(attributes, new MappingJSONAttribute(
 					new Tuple<>(JSONTypeEnum.valueOf(attributes.getValue(ModelMappingXMLKeyEnum.JSON_TYPE.key)),
 							StringUtils.isNotBlank(attributes.getValue(ModelMappingXMLKeyEnum.OJECT_TYPE.key))
 									? JSONTypeEnum.valueOf(ModelMappingXMLKeyEnum.OJECT_TYPE.key)
-									: null));
-			editingFormatter.createFormatter(attributes.getValue(ModelMappingXMLKeyEnum.NAME.key), currentAttribute);
-			formatterStack.add(0, editingFormatter);
-			editingFormatter = currentAttribute;
+									: null)));
 			break;
 		case JSON_OBJECT:
 			if(editingFormatter == null){
-				throw new SAXException("XML file is invalid try to create a json object out of mapper")
+				throw new SAXException("XML file is invalid try to create a json object out of mapper");
 			}
-			throw new NotImplementedException("SAX parser need to implement JSON_TYPE element");
+			stackFormatter(attributes, new MappingJSONObject());
+		case JSON_ARRAY:
+			if(editingFormatter == null) {
+				throw new SAXException("XML file is invalid try to create a json array out of mapper");
+			}
+			stackFormatter(attributes, new MappingJSONArray<>());
+			break;
 		case MAPPING_OBJECT:
 			if(editingFormatter == null){
-				throw new SAXException("XML file is invalid try to create a json array out of mapper")
+				throw new SAXException("XML file is invalid try to create a json array out of mapper");
 			}
-			throw new NotImplementedException("SAX parser need to implement MAPPING_OBJECT element");
+			if(!(editingFormatter instanceof MappingJSONAttribute)) {
+				throw new SAXException("XML file is invalid try to create a object mapper out of a json attribute");
+			}
+			if(readingMappingObject) {
+				throw new SAXException("XML file is invalid try to create a object mapper inside an other");
+			}
+			readingMappingObject = true;
+			break;
 		default:
 			throw new SAXException("Unknow element name : " + localName);
 		}
 	}
 
+	/**
+	 * Permet de creer et d'empiler dans la stack un niveau d'arborescence un nouveau JSONFormatter
+	 * @param attributes liste des attribut de la balise en cours de lecture
+	 * @param formatter Formatter à creer
+	 * @throws SAXException Est remonté si tentative de créer un objet avec une clé dupliquée
+	 */
+	private void stackFormatter(Attributes attributes, MappingJSONFormatter formatter) throws SAXException {
+		if(!editingFormatter.createFormatter(attributes.getValue(ModelMappingXMLKeyEnum.NAME.key), formatter)) {
+			throw new SAXException("XML file is invalid try to create a json object with duplicated keys");
+		}
+		formatterStack.add(0, editingFormatter);
+	}
+	
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		switch (ModelMappingXMLKeyEnum.evaluate(localName)) {
@@ -125,14 +153,14 @@ public class ModelParser extends DefaultHandler {
 			if(!formatterStack.isEmpty()) {
 				throw new SAXException("XML file is invalid one Attribute is not closed");
 			}
-			if(!(editingFormatter instanceof ModelJSONObject)){
-				throw new SAXException("XML file is invalid try to close a none mapper element")
+			if(!(editingFormatter instanceof MappingJSONObject)){
+				throw new SAXException("XML file is invalid try to close a none mapper element");
 			}
 			editingFormatter = null;
 			break;
 		case JSON_ATTRIBUTE:
 			if(formatterStack.isEmpty()) {
-				throw new SAXException("XML file is invalid try to close a attribute out of mapper");
+				throw new SAXException("XML file is invalid try to close an attribute out of mapper");
 			}
 			if(!(editingFormatter instanceof MappingJSONAttribute)) {
 				throw new SAXException("XML file is invalid try to close a none json attribute");
@@ -140,14 +168,44 @@ public class ModelParser extends DefaultHandler {
 			editingFormatter = formatterStack.remove(0);
 			break;
 		case JSON_OBJECT:
-			throw new NotImplementedException("SAX parser need to implement JSON_TYPE element");
+			if(formatterStack.isEmpty()) {
+				throw new SAXException("XML file is invalid try to close an object out of mapper");
+			}
+			if(!(editingFormatter instanceof MappingJSONObject)) {
+				throw new SAXException("XML file is invalid try to close a none json object");
+			}
+			editingFormatter = formatterStack.remove(0);
+			break;
+		case JSON_ARRAY :
+			if(formatterStack.isEmpty()) {
+				throw new SAXException("XML file is invalid try to close an array out of mapper");
+			}
+			if(!(editingFormatter instanceof MappingJSONArray)) {
+				throw new SAXException("XML file is invalid try to close a none json array");
+			}
+			editingFormatter = formatterStack.remove(0);
+			break;
 		case MAPPING_OBJECT:
-			throw new NotImplementedException("SAX parser need to implement MAPPING_OBJECT element");
+			if(!readingMappingObject) {
+				throw new SAXException("XML file is invalid try to clone a none mapping object element");
+			}
+			readingMappingObject = false;
+			break;
 		default:
 			throw new SAXException("Unknow element name : " + localName);
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.xml.sax.helpers.DefaultHandler#characters(char[], int, int)
+	 */
+	@Override
+	public void characters(char[] ch, int start, int length) throws SAXException {
+		if(readingMappingObject) {
+			((MappingJSONAttribute)editingFormatter).setObjectPath(new String(ch, start, length).split(OBJECT_PATH_SEPARATOR));
+		}
+	}
+	
 	/**
 	 * Initialise l'esemble des mappings chargé
 	 * 
@@ -157,16 +215,15 @@ public class ModelParser extends DefaultHandler {
 	@PostConstruct
 	private void init() {
 		LOGGER.info("Start Initialisation ModelParser");
-		ClassPathResource modelMappingSchema = new ClassPathResource(CLASSPATH_CONFIG_MODEL_MAPPING_XSD);
 		ClassPathResource modelMappingFile = new ClassPathResource(CLASSPATH_CONFIG_MODEL_MAPPING_XML);
-		if (!modelMappingFile.exists() || !modelMappingSchema.exists()) {
-			throw new RuntimeException("ModelMappingFile not found at path : " + modelMappingFile.getPath()
-					+ " Or ModelMappingSchema not found at path : " + modelMappingSchema.getPath());
+		if (!modelMappingFile.exists()) {
+			throw new RuntimeException("ModelMappingFile not found at path : " + modelMappingFile.getPath());
 		}
 		mappers = new HashMap<>();
 		formatterStack = new ArrayList<>();
 		readingMapper = null;
 		editingFormatter = null;
+		readingMappingObject = false;
 		LOGGER.info("Start parsing file");
 		try {
 			XMLReader saxReader = XMLReaderFactory.createXMLReader();
