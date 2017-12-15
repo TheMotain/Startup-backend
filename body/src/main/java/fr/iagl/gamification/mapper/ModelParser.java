@@ -96,8 +96,8 @@ public class ModelParser extends DefaultHandler {
 			}
 			stackFormatter(attributes, new MappingJSONAttribute(
 					new Tuple<>(JSONTypeEnum.valueOf(attributes.getValue(ModelMappingXMLKeyEnum.JSON_TYPE.key)),
-							StringUtils.isNotBlank(attributes.getValue(ModelMappingXMLKeyEnum.OJECT_TYPE.key))
-									? JSONTypeEnum.valueOf(ModelMappingXMLKeyEnum.OJECT_TYPE.key)
+							StringUtils.isNotBlank(attributes.getValue(ModelMappingXMLKeyEnum.OBJECT_TYPE.key))
+									? JSONTypeEnum.valueOf(attributes.getValue(ModelMappingXMLKeyEnum.OBJECT_TYPE.key))
 									: null)));
 			break;
 		case JSON_OBJECT:
@@ -135,10 +135,14 @@ public class ModelParser extends DefaultHandler {
 	 * @throws SAXException Est remonté si tentative de créer un objet avec une clé dupliquée
 	 */
 	private void stackFormatter(Attributes attributes, MappingJSONFormatter formatter) throws SAXException {
+		if(StringUtils.isEmpty(attributes.getValue(ModelMappingXMLKeyEnum.NAME.key))){
+			throw new SAXException("XML file is invalid json key for attribute / object / array is empty");
+		}
 		if(!editingFormatter.createFormatter(attributes.getValue(ModelMappingXMLKeyEnum.NAME.key), formatter)) {
 			throw new SAXException("XML file is invalid try to create a json object with duplicated keys");
 		}
 		formatterStack.add(0, editingFormatter);
+		editingFormatter = formatter;
 	}
 	
 	@Override
@@ -156,6 +160,7 @@ public class ModelParser extends DefaultHandler {
 			if(!(editingFormatter instanceof MappingJSONObject)){
 				throw new SAXException("XML file is invalid try to close a none mapper element");
 			}
+			readingMapper = null;
 			editingFormatter = null;
 			break;
 		case JSON_ATTRIBUTE:
@@ -202,6 +207,10 @@ public class ModelParser extends DefaultHandler {
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		if(readingMappingObject) {
+			String value = new String(ch,start,length);
+			if(StringUtils.isEmpty(value)) {
+				throw new SAXException("XML file is invalid need to fill the value of one mapping object element");
+			}
 			((MappingJSONAttribute)editingFormatter).setObjectPath(new String(ch, start, length).split(OBJECT_PATH_SEPARATOR));
 		}
 	}
@@ -260,7 +269,7 @@ public class ModelParser extends DefaultHandler {
 		MAPPING_OBJECT("mappingObject"), 
 		JSON_TYPE("jsonType"), 
 		NAME_ATTRIBUTE("name"), 
-		OJECT_TYPE("objectType"), 
+		OBJECT_TYPE("objectType"), 
 		TYPE_NUMBER("number"), 
 		TYPE_STRING("string"), 
 		TYPE_OBJECT("object"), 
