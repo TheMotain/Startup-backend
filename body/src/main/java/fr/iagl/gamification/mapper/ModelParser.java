@@ -116,6 +116,9 @@ public class ModelParser extends DefaultHandler {
 			if(!formatterStack.isEmpty()) {
 				throw new SAXException("XML file is invalid one Attribute is not closed");
 			}
+			if(!(editingFormatter instanceof ModelJSONObject)){
+				throw new SAXException("XML file is invalid try to close a none mapper element")
+			}
 			editingFormatter = null;
 			break;
 		case JSON_ATTRIBUTE:
