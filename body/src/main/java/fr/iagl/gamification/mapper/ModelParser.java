@@ -186,10 +186,20 @@ public class ModelParser extends DefaultHandler {
 	 *
 	 */
 	protected enum ModelMappingXMLKeyEnum {
-		ROOT("mappings"), MAPPING("mapping"), JSON_ATTRIBUTE("jsonAttribute"), JSON_OBJECT("jsonObject"), JSON_ARRAY(
-				"jsonArray"), MAPPING_OBJECT("mappingObject"), JSON_TYPE("jsonType"), NAME_ATTRIBUTE(
-						"name"), OJECT_TYPE("objectType"), TYPE_NUMBER("number"), TYPE_STRING(
-								"string"), TYPE_OBJECT("object"), TYPE_ARRAY("array"), NAME("name");
+		ROOT("mappings"), 
+		MAPPING("mapping"), 
+		JSON_ATTRIBUTE("jsonAttribute"), 
+		JSON_OBJECT("jsonObject"), 
+		JSON_ARRAY("jsonArray"), 
+		MAPPING_OBJECT("mappingObject"), 
+		JSON_TYPE("jsonType"), 
+		NAME_ATTRIBUTE("name"), 
+		OJECT_TYPE("objectType"), 
+		TYPE_NUMBER("number"), 
+		TYPE_STRING("string"), 
+		TYPE_OBJECT("object"), 
+		TYPE_ARRAY("array"), 
+		NAME("name");
 
 		/**
 		 * Valeur xml
