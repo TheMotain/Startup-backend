@@ -19,16 +19,9 @@ public class MappingJSONAttribute implements MappingJSONFormatter{
 	private String jsonKey;
 	
 	/**
-	 * Non prit compte si type json ARRAY ou OBJECT<br>
 	 * Succession des chemins pour accéder à l'objet final
 	 */
 	private String[] objectPath;
-	
-	/**
-	 * Non prit en  si type json différent de ARRAY ou OBJECT<br>
-	 * Contient en attribut un mapper complexe 
-	 */
-	private MappingJSONFormatter complexAttribute;
 	
 	/**
 	 * Tuple contenant en premier le type JSON de destination en deuxième le type Object source
@@ -53,6 +46,46 @@ public class MappingJSONAttribute implements MappingJSONFormatter{
 	public boolean createFormatter(String key, MappingJSONFormatter formatter) {
 		jsonKey = key;
 		return true;
+	}
+
+	/**
+	 * Getter de l'attribut {@link MappingJSONAttribute#objectPath}
+	 * @return objectPath
+	 */
+	public String[] getObjectPath() {
+		return objectPath;
+	}
+
+	/**
+	 * Setter de l'attribut {@link MappingJSONAttribute#objectPath}
+	 * @param objectPath l'attribut {@link MappingJSONAttribute#objectPath} à setter
+	 */
+	public void setObjectPath(String[] objectPath) {
+		this.objectPath = objectPath;
+	}
+
+	/**
+	 * Getter de l'attribut {@link MappingJSONAttribute#typeJsonObject}
+	 * @return typeJsonObject
+	 */
+	public Tuple<JSONTypeEnum, Class<?>> getTypeJsonObject() {
+		return typeJsonObject;
+	}
+
+	/**
+	 * Setter de l'attribut {@link MappingJSONAttribute#typeJsonObject}
+	 * @param typeJsonObject l'attribut {@link MappingJSONAttribute#typeJsonObject} à setter
+	 */
+	public void setTypeJsonObject(Tuple<JSONTypeEnum, Class<?>> typeJsonObject) {
+		this.typeJsonObject = typeJsonObject;
+	}
+
+	/**
+	 * Getter de l'attribut {@link MappingJSONAttribute#jsonKey}
+	 * @return jsonKey
+	 */
+	public String getJsonKey() {
+		return jsonKey;
 	}
 	
 	/**
