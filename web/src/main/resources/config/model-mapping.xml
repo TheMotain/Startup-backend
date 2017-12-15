@@ -12,5 +12,13 @@
 		<jsonAttribute name="malus" jsonType="NUMBER" objectType="INTEGER">
 			<mappingObject>malus</mappingObject>
 		</jsonAttribute>
+		<jsonObject name="Test">
+			<jsonArray name="toto">
+			</jsonArray>
+			<jsonAttribute name="aze" jsonType="NUMBER"><mappingObject></mappingObject></jsonAttribute>
+			<jsonArray name="toto">
+			</jsonArray>
+			
+		</jsonObject>
 	</mapping>
 </mappings>
