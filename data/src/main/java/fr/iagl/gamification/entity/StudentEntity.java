@@ -3,6 +3,7 @@ package fr.iagl.gamification.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -38,6 +40,14 @@ public class StudentEntity implements Serializable {
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	/**
+	 * Token unique de l'utilateur
+	 * Cette donnée est générée par la base de donnée et ne peut être mise à jour
+	 */
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "uuid", nullable = false, unique = true, updatable = false)
+	private String uuid;
 	
 	/**
 	 * Prénom
@@ -80,7 +90,12 @@ public class StudentEntity implements Serializable {
     
     @OneToMany(mappedBy = "student")
 	private List<ResultQcmEntity> resultsQcm;
-
+    
+    @PrePersist
+    public void prePersist() {
+    	this.uuid = UUID.randomUUID().toString();
+    }
+    
 	/**
 	 * Getter de l'attribut {@link StudentEntity#id}
 	 * @return id
@@ -192,6 +207,20 @@ public class StudentEntity implements Serializable {
 	public void setAvatar(AvatarEntity avatar) {
 		this.avatar = avatar;
 	}
-	
-	
+
+	/**
+	 * Getter de l'attribut {@link StudentEntity#uuid}
+	 * @return uuid
+	 */
+	public String getUuid() {
+		return uuid;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentEntity#uuid}
+	 * @param uuid l'attribut {@link StudentEntity#uuid} à setter
+	 */
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}	
 }

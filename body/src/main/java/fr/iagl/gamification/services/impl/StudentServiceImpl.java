@@ -91,16 +91,6 @@ public class StudentServiceImpl implements StudentService {
 		entity.setClassroom(classEntity);
 		return entityToModel(entity);
 	}
-	
-	/**
-	 * Map l'entité sous le format modèle
-	 * 
-	 * @param entity entité de l'étudiant
-	 * @return le model de l'étudiant
-	 */
-	private StudentModel entityToModel(StudentEntity entity) {
-		return mapper.map(studentRepository.save(entity), StudentModel.class);
-	}
 
 	@Override
 	public StudentModel deleteStudentFromClass(long idStudent) throws GamificationServiceException{
@@ -112,6 +102,28 @@ public class StudentServiceImpl implements StudentService {
 		studentEntity.setClassroom(null);
 		
 		return mapper.map(studentRepository.save(studentEntity),StudentModel.class);
+	}
+
+	@Override
+	public StudentModel getStudentById(Long idStudent) throws GamificationServiceException {
+		if (idStudent == null) {
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NULL));
+		}
+		StudentEntity student = studentRepository.findOne(idStudent);
+		if (student == null) {
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT));
+		}
+		return mapper.map(student, StudentModel.class);
+	}
+	
+	/**
+	 * Map l'entité sous le format modèle
+	 * 
+	 * @param entity entité de l'étudiant
+	 * @return le model de l'étudiant
+	 */
+	private StudentModel entityToModel(StudentEntity entity) {
+		return mapper.map(studentRepository.save(entity), StudentModel.class);
 	}
 
 }

@@ -46,5 +46,13 @@ public interface StudentService {
 	 * @throws GamificationServiceException lorsque l'élève / la classe n'existe pas
 	 */
 	public StudentModel addClassToStudent(long idStudent, long idClass) throws GamificationServiceException;
+
+	/**
+	 * Récupérer un élève grâce à son identifiant
+	 * 
+	 * @param idStudent identifiant de l'élève
+	 * @return l'élève
+	 */
+	public StudentModel getStudentById(Long idStudent) throws GamificationServiceException;
 	
 }

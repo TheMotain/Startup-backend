@@ -6,6 +6,7 @@ public enum ChannelEnum {
   NOTIFICATION_RESULT_QCM ("notification", "result_qcm");
   
   public static final String ROOT_CHANNEL = "/channel";
+  public static final String NOTIFICATION = "notification";
   
   private String domain;
   

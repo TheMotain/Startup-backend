@@ -15,6 +15,11 @@ public class StudentModel {
 	private Long id;
 	
 	/**
+	 * Identifiant unique de l'élève
+	 */
+	private String uuid;
+	
+	/**
 	 * Prénom
 	 */
 	private String firstName;
@@ -43,7 +48,7 @@ public class StudentModel {
 	 * Avatar
 	 */
 	private AvatarModel avatar;
-
+	
 	/**
 	 * Getter de l'attribut {@link StudentModel#points}
 	 * @return points
@@ -154,6 +159,22 @@ public class StudentModel {
 	 */
 	public void setAvatar(AvatarModel avatar) {
 		this.avatar = avatar;
+	}
+
+	/**
+	 * Getter de l'attribut {@link StudentModel#uuid}
+	 * @return uuid
+	 */
+	public String getUuid() {
+		return uuid;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentModel#uuid}
+	 * @param uuid l'attribut {@link StudentModel#uuid} à setter
+	 */
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	
 	
