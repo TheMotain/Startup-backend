@@ -36,7 +36,7 @@ public class MappingJSONObject implements MappingJSONFormatter {
 	 * @see fr.iagl.gamification.mapper.MappingJSONFormatter#format(java.lang.Object)
 	 */
 	@Override
-	public <E> Map<String, Object> format(E input) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	public <E> Map<String, Object> format(E input) {
 		Map<String, Object> output = new HashMap<>();
 		// TODO object type
 		for(Map.Entry<String, MappingJSONFormatter> formatter : objects.entrySet()) {

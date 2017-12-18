@@ -90,13 +90,18 @@ public class MappingJSONAttribute implements MappingJSONFormatter{
 	}
 	
 	@Override
-	public <E> Object format(E input) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-		Field currField = input.getClass().getDeclaredField(objectPath[0]);
+	public <E> Object format(E input) {
+		Field currField;
+		try {
+			currField = input.getClass().getDeclaredField(objectPath[0]);
+			return currField.get(input);
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			throw new RuntimeException("XML file is invalid error in object mapping");
+		}
 //		for(int i = 1; i < objectPath.length; i++) {
 //			currField.get(input);
 //		}
 		// TODO gestion des types
-		return currField.get(input);
 	}
 	
 	/**

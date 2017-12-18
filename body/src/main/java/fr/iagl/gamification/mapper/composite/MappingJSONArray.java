@@ -42,7 +42,7 @@ public class MappingJSONArray<E extends MappingJSONAttribute> implements Mapping
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <E> List<Map<String,Object>> format(E input) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	public <E> List<Map<String,Object>> format(E input){
 		List<Map<String,Object>> output = new ArrayList<>();
 		// TODO list object type
 		for(MappingJSONFormatter formatter : list) {

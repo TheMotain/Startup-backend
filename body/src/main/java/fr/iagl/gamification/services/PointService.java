@@ -1,6 +1,7 @@
 package fr.iagl.gamification.services;
 
 import java.util.List;
+import java.util.Map;
 
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.PointModel;
@@ -19,7 +20,7 @@ public interface PointService {
 	 * @return Le model contenant le détail des points
 	 * @throws GamificationServiceException Est relevé si l'étudiant n'existe pas
 	 */
-	public PointModel getPoint(long studentID) throws GamificationServiceException;
+	public Map<String, Object> getPoint(long studentID) throws GamificationServiceException;
 	
 	/**
 	 * Mettre à jour un bonus ou un malus à un élève

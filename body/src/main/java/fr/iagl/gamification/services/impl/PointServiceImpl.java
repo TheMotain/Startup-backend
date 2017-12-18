@@ -3,6 +3,7 @@ package fr.iagl.gamification.services.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.entity.PointEntity;
 import fr.iagl.gamification.entity.StudentEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
+import fr.iagl.gamification.mapper.MappingEnum;
+import fr.iagl.gamification.mapper.ModelParser;
 import fr.iagl.gamification.model.PointModel;
 import fr.iagl.gamification.repository.PointRepository;
 import fr.iagl.gamification.repository.StudentRepository;
@@ -71,13 +74,15 @@ public class PointServiceImpl implements PointService{
 		return output;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public PointModel getPoint(long studentID) throws GamificationServiceException {
+	public Map<String,Object> getPoint(long studentID) throws GamificationServiceException {
 		PointEntity entity = pointRepository.findByStudent_Id(studentID);
 		if(null == entity) {
 			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT));
 		}
-		return mapper.map(entity, PointModel.class);
+//		return mapper.map(entity, PointModel.class);
+		return (Map<String, Object>) ModelParser.getMapper(MappingEnum.POINTMODEL).format(entity);
 	}
 
 }

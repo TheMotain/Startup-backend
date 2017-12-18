@@ -46,7 +46,7 @@ public class ModelParser extends DefaultHandler {
 	/**
 	 * Chaine de caractères pour le séparateur de chemin d'objet java
 	 */
-	private static final String OBJECT_PATH_SEPARATOR = ".";
+	private static final String OBJECT_PATH_SEPARATOR = "\\.";
 
 	/**
 	 * Liste des mappers à réaliser
@@ -211,7 +211,7 @@ public class ModelParser extends DefaultHandler {
 			if(StringUtils.isEmpty(value)) {
 				throw new SAXException("XML file is invalid need to fill the value of one mapping object element");
 			}
-			((MappingJSONAttribute)editingFormatter).setObjectPath(new String(ch, start, length).split(OBJECT_PATH_SEPARATOR));
+			((MappingJSONAttribute)editingFormatter).setObjectPath(value.split(OBJECT_PATH_SEPARATOR));
 		}
 	}
 	

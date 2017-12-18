@@ -1,5 +1,6 @@
 package fr.iagl.gamification.exceptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
