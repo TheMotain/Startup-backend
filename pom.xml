@@ -42,7 +42,6 @@
 		<mockito.version>1.9.5</mockito.version>
 		<springfox-swagger.version>2.7.0</springfox-swagger.version>
 		<dozer.version>5.5.1</dozer.version>
-		<aspectj9.version>1.9.0.RC2</aspectj9.version>
 	</properties>
 
 	<dependencyManagement>
@@ -159,25 +158,6 @@
 					<path>/${build.filename}</path>
 					<update>true</update>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>aspectj-maven-plugin</artifactId>
-				<version>${java.version}</version>
-				<configuration>
-					<complianceLevel>${java.version}</complianceLevel>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<goals>
-							<goal>compile</goal>
-							<goal>test-compile</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
