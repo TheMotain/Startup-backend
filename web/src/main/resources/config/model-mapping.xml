@@ -7,7 +7,7 @@
 			<mappingObject>id</mappingObject>
 		</jsonAttribute>
 		<jsonAttribute name="bonus" jsonType="NUMBER" objectType="INTEGER">
-			<mappingObject></mappingObject>
+			<mappingObject>bonus</mappingObject>
 		</jsonAttribute>
 		<jsonAttribute name="malus" jsonType="NUMBER" objectType="INTEGER">
 			<mappingObject>malus</mappingObject>

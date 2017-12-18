@@ -1,5 +1,6 @@
 package fr.iagl.gamification.mapper.composite;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import fr.iagl.gamification.mapper.MappingJSONFormatter;
@@ -26,14 +27,14 @@ public class MappingJSONAttribute implements MappingJSONFormatter{
 	/**
 	 * Tuple contenant en premier le type JSON de destination en deuxième le type Object source
 	 */
-	private Tuple<JSONTypeEnum,Class<?>> typeJsonObject;
+	private Tuple<Class<?>,Class<?>> typeJsonObject;
 	
 	/**
 	 * Constructeur
 	 * @param complextype l'attribut est un attribut complex ou non
 	 */
 	public MappingJSONAttribute(Tuple<JSONTypeEnum, JSONTypeEnum> tuple) {
-		this.typeJsonObject = typeJsonObject;
+		typeJsonObject = new Tuple<Class<?>, Class<?>>(tuple.valueA.typeJava, tuple.valueB.typeJava);
 	}
 	
 	/**
@@ -66,9 +67,9 @@ public class MappingJSONAttribute implements MappingJSONFormatter{
 
 	/**
 	 * Getter de l'attribut {@link MappingJSONAttribute#typeJsonObject}
-	 * @return typeJsonObject
+	 * @return typeJsonObject mapping entre le type json et le type java
 	 */
-	public Tuple<JSONTypeEnum, Class<?>> getTypeJsonObject() {
+	public Tuple<Class<?>, Class<?>> getTypeJsonObject() {
 		return typeJsonObject;
 	}
 
@@ -76,16 +77,26 @@ public class MappingJSONAttribute implements MappingJSONFormatter{
 	 * Setter de l'attribut {@link MappingJSONAttribute#typeJsonObject}
 	 * @param typeJsonObject l'attribut {@link MappingJSONAttribute#typeJsonObject} à setter
 	 */
-	public void setTypeJsonObject(Tuple<JSONTypeEnum, Class<?>> typeJsonObject) {
+	public void setTypeJsonObject(Tuple<Class<?>, Class<?>> typeJsonObject) {
 		this.typeJsonObject = typeJsonObject;
 	}
 
 	/**
 	 * Getter de l'attribut {@link MappingJSONAttribute#jsonKey}
-	 * @return jsonKey
+	 * @return jsonKey clé json de l'attribut courrant
 	 */
 	public String getJsonKey() {
 		return jsonKey;
+	}
+	
+	@Override
+	public <E> Object format(E input) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		Field currField = input.getClass().getDeclaredField(objectPath[0]);
+//		for(int i = 1; i < objectPath.length; i++) {
+//			currField.get(input);
+//		}
+		// TODO gestion des types
+		return currField.get(input);
 	}
 	
 	/**

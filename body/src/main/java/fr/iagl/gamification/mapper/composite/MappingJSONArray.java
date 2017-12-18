@@ -1,7 +1,9 @@
 package fr.iagl.gamification.mapper.composite;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.iagl.gamification.mapper.MappingJSONFormatter;
 
@@ -17,7 +19,7 @@ public class MappingJSONArray<E extends MappingJSONAttribute> implements Mapping
 	 * <b/>
 	 * La liste est typée et ne peut contenir qu'un seul type déléments
 	 */
-	private List<E> list;
+	private List<MappingJSONFormatter> list;
 
 	/**
 	 * Constructeur
@@ -34,7 +36,19 @@ public class MappingJSONArray<E extends MappingJSONAttribute> implements Mapping
 	 */
 	@Override
 	public boolean createFormatter(String key, MappingJSONFormatter formatter) {
-		return false;
+		list.add(formatter);
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <E> List<Map<String,Object>> format(E input) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		List<Map<String,Object>> output = new ArrayList<>();
+		// TODO list object type
+		for(MappingJSONFormatter formatter : list) {
+			output.add((Map<String, Object>) formatter.format(input));
+		}
+		return output;
 	}
 
 }
