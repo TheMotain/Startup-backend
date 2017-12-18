@@ -21,6 +21,8 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import fr.iagl.gamification.mapper.composite.MappingJSONArray;
 import fr.iagl.gamification.mapper.composite.MappingJSONAttribute;
 import fr.iagl.gamification.mapper.composite.MappingJSONAttribute.JSONTypeEnum;
+import fr.iagl.gamification.model.MappingModel;
+import fr.iagl.gamification.model.PointModel;
 import fr.iagl.gamification.mapper.composite.MappingJSONObject;
 import fr.iagl.gamification.utils.Tuple;
 
@@ -243,6 +245,8 @@ public class ModelParser extends DefaultHandler {
 					genericException);
 		}
 		LOGGER.info("End Initialisation ModelParser");
+		MappingModel m = new MappingModel();
+		LOGGER.info(m.map(MappingEnum.POINTMODEL).i);
 	}
 
 	/**
