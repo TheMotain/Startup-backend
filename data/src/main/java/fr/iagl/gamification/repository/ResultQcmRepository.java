@@ -30,4 +30,6 @@ public interface ResultQcmRepository extends CrudRepository<ResultQcmEntity, Lon
 	 * @return le resultat du qcm
 	 */
 	public ResultQcmEntity findByAnswer_IdAndStudent_Id(Long answerId, Long studentId);
+
+	public List<ResultQcmEntity> findByStudent_Id(Long idStudent);
 }

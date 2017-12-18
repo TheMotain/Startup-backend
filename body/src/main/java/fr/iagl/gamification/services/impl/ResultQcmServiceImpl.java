@@ -76,14 +76,13 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 		}
 		Long score = 0L;
 		List<ResultQcmEntity> lstToAdd = new ArrayList<>();
+		
+		List<Long> questions = questionsRepondues(idStudent);
+		
 		for (Long idAnswer : lst) {
-			if (repository.findByAnswer_IdAndStudent_Id(idAnswer, idStudent) != null) {
-				throw new GamificationServiceException(Arrays.asList("L'élève [" + idStudent + "] a déjà répondu à cette question [" + idAnswer + "]"));
-			}
 			AnswerEntity answer = answerRepository.findOne(idAnswer);
-			if (answer == null) {
-				throw new GamificationServiceException(Arrays.asList("La réponse ["+ idAnswer +"] n'existe pas en base de données"));
-			}
+			
+			gestionErreur(idStudent, idAnswer, questions, answer);
 			ResultQcmEntity entity = new ResultQcmEntity();
 			entity.setAnswer(answer);
 			entity.setStudent(student);
@@ -95,6 +94,57 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 		
 		Iterable<ResultQcmEntity> result = repository.save(lstToAdd);
 		
+		saveScore(idStudent, student, score);
+		
+		List<ResultQcmModel> resultModel = new ArrayList<>();
+		result.iterator().forEachRemaining(x -> resultModel.add(mapper.map(x, ResultQcmModel.class)));
+		return resultModel;
+	}
+
+	/**
+	 * Récupération de l'ensemble des questions déjà répondues par l'élève
+	 * 
+	 * @param idStudent identifiant de l'élève
+	 * @return la liste des identifiants des questions
+	 */
+	private List<Long> questionsRepondues(Long idStudent) {
+		List<ResultQcmEntity> answers = repository.findByStudent_Id(idStudent);
+		List<Long> questions = new ArrayList<>();
+		answers.iterator().forEachRemaining(a -> {
+			if (a.getAnswer() != null && a.getAnswer().getQuestion() != null) {
+				questions.add(a.getAnswer().getQuestion().getId());
+			}
+		});
+		return questions;
+	}
+
+	/**
+	 * Génère une exception si le choix n'existe pas en base de donnée ou si l'élève a déjà répondu à la question
+	 * 
+	 * @param idStudent identifiant de l'élève
+	 * @param idAnswer identifiant du choix
+	 * @param questions liste des identifiants des questions
+	 * @param answer choix
+	 * @throws GamificationServiceException si le choix n'existe pas en base de donnée ou si l'élève a déjà répondu à la question
+	 */
+	private void gestionErreur(Long idStudent, Long idAnswer, List<Long> questions, AnswerEntity answer)
+			throws GamificationServiceException {
+		if (answer == null) {
+			throw new GamificationServiceException(Arrays.asList("La réponse ["+ idAnswer +"] n'existe pas en base de données"));
+		}
+		if (questions.contains(answer.getQuestion().getId())) {
+			throw new GamificationServiceException(Arrays.asList("L'élève [" + idStudent + "] a déjà répondu à cette question [" + answer.getQuestion().getId() + "]"));
+		}
+	}
+
+	/**
+	 * Enregistre le score de l'étudiant ayant bien répondu
+	 * 
+	 * @param idStudent l'identifiant de l'étudiant
+	 * @param student élève
+	 * @param score score du qcm
+	 */
+	private void saveScore(Long idStudent, StudentEntity student, Long score) {
 		if (score != 0) {
 			PointEntity points = pointRepository.findByStudent_Id(idStudent);
 			if (points == null) {
@@ -104,10 +154,6 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 			points.setBonus(points.getBonus() + score);
 			pointRepository.save(points);
 		}
-		
-		List<ResultQcmModel> resultModel = new ArrayList<>();
-		result.iterator().forEachRemaining(x -> resultModel.add(mapper.map(x, ResultQcmModel.class)));
-		return resultModel;
 	}
 
 }

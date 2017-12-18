@@ -24,10 +24,10 @@ public interface ResultQcmService {
 	/**
 	 * Enregistre les résultats de l'enfant
 	 * 
-	 * @param lst
-	 * @param idStudent
-	 * @return
-	 * @throws GamificationServiceException
+	 * @param lst la liste des identifiants des élèves
+	 * @param idStudent l'identifiant de l'élève
+	 * @return la liste des résultats enregistrés
+	 * @throws GamificationServiceException  si le choix n'existe pas en base de donnée ou si l'élève a déjà répondu à la question
 	 */
 	public List<ResultQcmModel> saveResultQcm(List<Long> lst, Long idStudent) throws GamificationServiceException;
 
