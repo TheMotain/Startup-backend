@@ -1,5 +1,8 @@
 package fr.iagl.gamification.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Design pattern Composite
  * <br>
@@ -19,4 +22,11 @@ public interface MappingJSONFormatter {
 	 * @return true ou false si le formateur peut être créé
 	 */
 	public boolean createFormatter(String key, MappingJSONFormatter formatter);
+
+	/**
+	 * Applique le formatter à l'input
+	 * @param input objet à formatter
+	 * @return json formatté
+	 */
+	public <E> Map<String,Object> format(E input);
 }

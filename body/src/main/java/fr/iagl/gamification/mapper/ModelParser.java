@@ -51,7 +51,7 @@ public class ModelParser extends DefaultHandler {
 	/**
 	 * Liste des mappers à réaliser
 	 */
-	private Map<MappingEnum, MappingJSONFormatter> mappers;
+	private static Map<MappingEnum, MappingJSONFormatter> mappers;
 
 	/**
 	 * Mapper en lecture
@@ -250,7 +250,7 @@ public class ModelParser extends DefaultHandler {
 	 * 
 	 * @return le mapping à réaliser
 	 */
-	public MappingJSONFormatter getMapper(MappingEnum mapping) {
+	public static MappingJSONFormatter getMapper(MappingEnum mapping) {
 		return mappers.get(mapping);
 	}
 
