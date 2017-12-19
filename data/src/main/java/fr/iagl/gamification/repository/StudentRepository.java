@@ -11,5 +11,12 @@ import fr.iagl.gamification.entity.StudentEntity;
  *
  */
 public interface StudentRepository extends CrudRepository<StudentEntity, Long> {
+
+	/**
+	 * Récupère un utilisateur par son uuid
+	 * @param uuid Identifiant unique de connexion
+	 * @return Etudiant correspondant ou null
+	 */
+	StudentEntity findByUuid(String uuid);
 	
 }
