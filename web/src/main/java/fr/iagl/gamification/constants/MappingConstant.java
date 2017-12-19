@@ -56,6 +56,11 @@ public class MappingConstant {
 	 * URL pour les manipulations d'avatar
 	 */
 	public static final String AVATAR_CRUD = "${url.avatar.crud}";
+
+	/**
+	 * URL de connexion d'un étudiant
+	 */
+	public static final String STUDENT_PATH_CONNECT = "${url.student.connect}";
 	
 	/**
 	 * Classe non instanciable

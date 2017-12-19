@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.validation.Valid;
+import javax.ws.rs.PathParam;
 
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
@@ -13,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
@@ -69,6 +72,22 @@ public class StudentController implements AbstractController {
 			result = new ArrayList<>();
 		}
 		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	/**
+	 * Récupère l'utilisateur correspondant à l'uuid passé en paramètre
+	 * @param uuid identifiant unique utilisateur
+	 * @return L'étudiant si il existe null si non
+	 */
+	@RequestMapping(value = MappingConstant.STUDENT_PATH_CONNECT, method = RequestMethod.GET)
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = StudentModel.class, message = "Utilisateur connecté"),
+			@ApiResponse(code = HttpsURLConnection.HTTP_UNAUTHORIZED, response = StudentModel.class, message = "Utilisateur non autorisé / connu")})
+	public ResponseEntity<StudentModel> connectStudent(@PathVariable ("uuid") String uuid){
+		StudentModel result = studentService.getStudentByUuid(uuid);
+		if(null == result) {
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		}
+		return new ResponseEntity<StudentModel>(result, HttpStatus.OK);
 	}
 
 	/**
