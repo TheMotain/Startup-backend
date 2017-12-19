@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.validation.Valid;
-import javax.ws.rs.PathParam;
 
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.iagl.gamification.constants.CodeError;
@@ -87,7 +85,7 @@ public class StudentController implements AbstractController {
 		if(null == result) {
 			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 		}
-		return new ResponseEntity<StudentModel>(result, HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	/**
