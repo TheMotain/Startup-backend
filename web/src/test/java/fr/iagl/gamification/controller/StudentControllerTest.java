@@ -246,6 +246,28 @@ public class StudentControllerTest extends SpringIntegrationTest {
 		ResponseEntity output = controller.addClassToStudent(linkForm, bindingResult);
 		Mockito.verify(studentService, Mockito.times(1)).addClassToStudent(1L, 2L);
 		Assert.assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
+	}
 
+	@Test
+	public void testConnectStudentCallService() {
+		controller.connectStudent(Mockito.anyString());
+		Mockito.verify(studentService, Mockito.times(1)).getStudentByUuid(Mockito.anyString());
+	}
+	
+	@Test
+	public void testConnectStudentValidReturnStudentAndOKCode() {
+		StudentModel model = Mockito.mock(StudentModel.class);
+		Mockito.when(studentService.getStudentByUuid(Mockito.anyString())).thenReturn(model);
+		ResponseEntity<StudentModel> result = controller.connectStudent(Mockito.anyString());
+		Assert.assertEquals(model, result.getBody());
+		Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
+	}
+	
+	@Test
+	public void testConnectStudentInvalidReturnNullAndUNAUTHORIZEDCode() {
+		Mockito.when(studentService.getStudentByUuid(Mockito.anyString())).thenReturn(null);
+		ResponseEntity<StudentModel> result = controller.connectStudent(Mockito.anyString());
+		Assert.assertNull(result.getBody());
+		Assert.assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
 	}
 }

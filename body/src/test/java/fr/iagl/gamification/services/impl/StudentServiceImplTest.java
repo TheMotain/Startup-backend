@@ -260,4 +260,23 @@ public class StudentServiceImplTest {
 		assertEquals(ret, model);
 	}
 	
+	@Test
+	public void testGetStudentByUuidCallService() {
+		service.getStudentByUuid(Mockito.anyString());
+		Mockito.verify(studentRepository, Mockito.times(1)).findByUuid(Mockito.anyString());
+	}
+	
+	@Test
+	public void testGetStudentByUuidReturnNullWhenStudentNotFound() {
+		Mockito.when(studentRepository.findByUuid(Mockito.anyString())).thenReturn(null);
+		Assert.assertNull(service.getStudentByUuid(Mockito.anyString()));
+	}
+	
+	@Test
+	public void testGetStudentByUuidCallMapper() {
+		StudentEntity entity = Mockito.mock(StudentEntity.class);
+		Mockito.when(studentRepository.findByUuid(Mockito.anyString())).thenReturn(entity);
+		service.getStudentByUuid(Mockito.anyString());
+		Mockito.verify(mapper, Mockito.times(1)).map(Mockito.any(), Mockito.eq(StudentModel.class));
+	}
 }
