@@ -126,4 +126,12 @@ public class StudentServiceImpl implements StudentService {
 		return mapper.map(studentRepository.save(entity), StudentModel.class);
 	}
 
+	@Override
+	public StudentModel getStudentByUuid(String uuid) {
+		StudentEntity entity = studentRepository.findByUuid(uuid);
+		if(null == entity) {
+			return null;
+		}
+		return mapper.map(entity, StudentModel.class);
+	}
 }

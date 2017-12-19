@@ -54,5 +54,12 @@ public interface StudentService {
 	 * @return l'élève
 	 */
 	public StudentModel getStudentById(Long idStudent) throws GamificationServiceException;
+
+	/**
+	 * Récupère un utilisateur en fonction de son uuid
+	 * @param uuid Identifiant unique utilisateur
+	 * @return l'élève ou null
+	 */
+	public StudentModel getStudentByUuid(String uuid);
 	
 }
