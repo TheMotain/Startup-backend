@@ -31,6 +31,11 @@ public class UserEntity implements Serializable{
 	@Column(name ="id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	/**
+	 * Token unique pour l'utillisateur
+	 */
+	private String uuid;
 
 	/**
 	 * Prénom
@@ -58,7 +63,7 @@ public class UserEntity implements Serializable{
 
 	/**
 	 * Getter de l'attribut {@link UserEntity#id}
-	 * @return id l'attribut {@link UserEntity#id}
+	 * @return id
 	 */
 	public Long getId() {
 		return id;
@@ -72,69 +77,71 @@ public class UserEntity implements Serializable{
 		this.id = id;
 	}
 
-	/** 
-	 * Getter de l'attirubt {@link UserEntity#firstName}
-	 * @return firstName l'attribut {@link UserEntity#firstName}
+	/**
+	 * Getter de l'attribut {@link UserEntity#firstName}
+	 * @return firstName
 	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
 	/**
-	 * Setter de l'attibut {@link UserEntity#firstName}
+	 * Setter de l'attribut {@link UserEntity#firstName}
 	 * @param firstName l'attribut {@link UserEntity#firstName} à setter
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	/** 
-	 * Getter de l'attirubt {@link UserEntity#lastName}
-	 * @return lastName l'attribut {@link UserEntity#lastName}
+	/**
+	 * Getter de l'attribut {@link UserEntity#lastName}
+	 * @return lastName
 	 */
 	public String getLastName() {
 		return lastName;
 	}
 
 	/**
-	 * Setter de l'attibut {@link UserEntity#lastName}
+	 * Setter de l'attribut {@link UserEntity#lastName}
 	 * @param lastName l'attribut {@link UserEntity#lastName} à setter
-	 */	
+	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-	/** 
-	 * Getter de l'attirubt {@link UserEntity#email}
-	 * @return email l'attribut {@link UserEntity#email}
+	/**
+	 * Getter de l'attribut {@link UserEntity#email}
+	 * @return email
 	 */
 	public String getEmail() {
 		return email;
 	}
 
 	/**
-	 * Setter de l'attibut {@link UserEntity#email}
+	 * Setter de l'attribut {@link UserEntity#email}
 	 * @param email l'attribut {@link UserEntity#email} à setter
-	 */	
+	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	/** 
-	 * Getter de l'attirubt {@link UserEntity#password}
-	 * @return password l'attribut {@link UserEntity#password}
+	/**
+	 * Getter de l'attribut {@link UserEntity#password}
+	 * @return password
 	 */
 	public String getPassword() {
 		return password;
 	}
 
 	/**
-	 * Setter de l'attibut {@link UserEntity#password}
+	 * Setter de l'attribut {@link UserEntity#password}
 	 * @param password l'attribut {@link UserEntity#password} à setter
-	 */	
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+
 	
 	
 	
