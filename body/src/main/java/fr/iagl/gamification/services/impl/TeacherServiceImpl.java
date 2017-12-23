@@ -1,9 +1,12 @@
 package fr.iagl.gamification.services.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +20,7 @@ import fr.iagl.gamification.model.TeacherModel;
 import fr.iagl.gamification.repository.RoleUserRepository;
 import fr.iagl.gamification.repository.UserRepository;
 import fr.iagl.gamification.services.TeacherService;
-import fr.iagl.gamification.utils.CryptPassword;
+import fr.iagl.gamification.utils.CryptPasswordService;
 
 /**
  * Service pour traiter les utilisateur ayant un rôle de professeur
@@ -29,6 +32,12 @@ import fr.iagl.gamification.utils.CryptPassword;
 public class TeacherServiceImpl implements TeacherService{
 
 	/**
+	 * Logger
+	 */
+	private static final Logger LOG = Logger.getLogger(TeacherServiceImpl.class);
+	
+	
+	/**
 	 * repository de l'utilisateur
 	 */
 	@Autowired
@@ -39,6 +48,12 @@ public class TeacherServiceImpl implements TeacherService{
 	 */
 	@Autowired
 	private RoleUserRepository roleUserRepository;
+	
+	/**
+	 * service qui crypte les mots de passe
+	 */
+	@Autowired
+	private CryptPasswordService cryptPassword;
 	
 	/**
 	 * Mapper Model <-> Entité
@@ -56,9 +71,16 @@ public class TeacherServiceImpl implements TeacherService{
 		
 		UserEntity entity = mapper.map(teacher, UserEntity.class);
 		entity.setRole(role);
-		entity.setPassword(CryptPassword.encryptPassword(teacher));
-		entity = userRepository.save(entity);
-		return mapper.map(entity, TeacherModel.class);
+		
+		try {
+			entity.setPassword(cryptPassword.encryptPassword(teacher));
+			entity = userRepository.save(entity);
+			return mapper.map(entity, TeacherModel.class);
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			LOG.warn("cryptage impossible");
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_CRYPTAGE_PASSWORD));
+		}
+		
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package fr.iagl.gamification.services.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,8 +19,10 @@ import fr.iagl.gamification.constants.ServiceConstants;
 import fr.iagl.gamification.entity.UserEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.TeacherModel;
+import fr.iagl.gamification.model.UserModel;
 import fr.iagl.gamification.repository.RoleUserRepository;
 import fr.iagl.gamification.repository.UserRepository;
+import fr.iagl.gamification.utils.CryptPasswordService;
 
 public class TeacherServiceImplTest{
 
@@ -30,6 +34,9 @@ public class TeacherServiceImplTest{
 	
 	@Mock
 	private RoleUserRepository roleRepository;
+	
+	@Mock
+	private CryptPasswordService cryptPassword;
 	
 	@Mock
 	private Mapper mapper;
@@ -48,6 +55,28 @@ public class TeacherServiceImplTest{
 		
 		service.createTeacher(teacher);
 		Mockito.verify(repository).save(entity);
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testTeacherNotExistAndNotCreatedBecausePasswordNotCrypted() throws GamificationServiceException, NoSuchAlgorithmException, UnsupportedEncodingException {
+		TeacherModel teacher = Mockito.mock(TeacherModel.class);
+		UserEntity entity = Mockito.mock(UserEntity.class);
+		Mockito.doReturn("mail@gmail.com").when(teacher).getEmail();
+		Mockito.doReturn(entity).when(mapper).map(teacher, UserEntity.class);
+		
+		Mockito.doThrow(NoSuchAlgorithmException.class).when(cryptPassword).encryptPassword(Mockito.any(TeacherModel.class));
+		service.createTeacher(teacher);
+	}
+	
+	@Test(expected=GamificationServiceException.class)
+	public void testTeacherNotExistAndNotCreatedBecausePasswordNotCryptedOtherException() throws GamificationServiceException, NoSuchAlgorithmException, UnsupportedEncodingException {
+		TeacherModel teacher = Mockito.mock(TeacherModel.class);
+		UserEntity entity = Mockito.mock(UserEntity.class);
+		Mockito.doReturn("mail@gmail.com").when(teacher).getEmail();
+		Mockito.doReturn(entity).when(mapper).map(teacher, UserEntity.class);
+		
+		Mockito.doThrow(UnsupportedEncodingException.class).when(cryptPassword).encryptPassword(Mockito.any(TeacherModel.class));
+		service.createTeacher(teacher);
 	}
 	
 	@Test(expected=GamificationServiceException.class)
