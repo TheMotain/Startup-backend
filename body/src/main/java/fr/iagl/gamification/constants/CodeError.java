@@ -35,6 +35,7 @@ public class CodeError {
 	public static final String ERROR_NULL_EMAIL = "Veuillez remplir le mail";
 	public static final String ERROR_NULL_PASSWORD = "Veuillez remplir le mot de passe";
 	public static final String ERROR_EMAIL_ALREADY_EXISTS = "Le mail existe déjà";
+	public static final String ERROR_CRYPTAGE_PASSWORD = "Le cryptage du mot de passe ne s'est pas effectué correctement";
 
 	
 	/**

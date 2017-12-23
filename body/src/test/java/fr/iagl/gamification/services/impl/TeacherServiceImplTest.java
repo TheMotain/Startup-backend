@@ -55,7 +55,7 @@ public class TeacherServiceImplTest{
 		TeacherModel teacher = Mockito.mock(TeacherModel.class);
 		UserEntity user = Mockito.mock(UserEntity.class);
 		Mockito.doReturn("mail@gmail.com").when(teacher).getEmail();
-		Mockito.doReturn(user).when(repository).findByEmail(Mockito.anyString());
+		Mockito.doReturn(user).when(repository).findByEmailAndRole_Role(Mockito.anyString(), Mockito.anyString());
 		service.createTeacher(teacher);
 	}
 

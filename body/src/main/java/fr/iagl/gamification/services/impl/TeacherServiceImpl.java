@@ -19,12 +19,24 @@ import fr.iagl.gamification.repository.UserRepository;
 import fr.iagl.gamification.services.TeacherService;
 import fr.iagl.gamification.utils.CryptPassword;
 
+/**
+ * Service pour traiter les utilisateur ayant un rôle de professeur
+ *
+ * @author Hélène MEYER
+ *
+ */
 @Service
 public class TeacherServiceImpl implements TeacherService{
 
+	/**
+	 * repository de l'utilisateur
+	 */
 	@Autowired
 	private UserRepository userRepository;
 	
+	/**
+	 * repository des roles de l'utilisateur
+	 */
 	@Autowired
 	private RoleUserRepository roleUserRepository;
 	
@@ -36,7 +48,7 @@ public class TeacherServiceImpl implements TeacherService{
 	
 	@Override
 	public TeacherModel createTeacher(TeacherModel teacher) throws GamificationServiceException {
-		UserEntity user = userRepository.findByEmail(teacher.getEmail());
+		UserEntity user = userRepository.findByEmailAndRole_Role(teacher.getEmail(), ServiceConstants.CODE_TEACHER);
 		if (user != null) {
 			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_EMAIL_ALREADY_EXISTS));
 		}

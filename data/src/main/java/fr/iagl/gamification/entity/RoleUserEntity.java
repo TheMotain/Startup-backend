@@ -11,6 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Enregistre l'ensemble des rôles d'un utilisateur
+ *
+ * @author Hélène MEYER
+ *
+ */
 @Entity
 @Table(name = "role_user")
 public class RoleUserEntity implements Serializable  {

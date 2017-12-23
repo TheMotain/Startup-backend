@@ -28,6 +28,12 @@ import fr.iagl.gamification.validator.TeacherForm;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+/**
+ * Contrôleur de la gestion du professeur
+ *
+ * @author Hélène MEYER
+ *
+ */
 @RestController
 @PropertySource("classpath:config/url.properties")
 public class TeacherController implements AbstractController {
@@ -38,7 +44,7 @@ public class TeacherController implements AbstractController {
 	private static final Logger LOG = Logger.getLogger(TeacherController.class);
 	
 	/**
-	 * Service pour la classe
+	 * Service pour le professeur
 	 */
 	@Autowired
 	private TeacherService teacherService;
@@ -49,6 +55,11 @@ public class TeacherController implements AbstractController {
 	@Autowired
 	private Mapper mapper;
 	
+	/**
+	 * Récupère tous les professeurs
+	 * 
+	 * @return tous les professeurs
+	 */
 	@RequestMapping(value = MappingConstant.TEACHER_PATH_ROOT, method = RequestMethod.GET)
 	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = TeacherModel.class, responseContainer = "list", message = "Liste des professeurs")
 	public ResponseEntity<List<TeacherModel>> getAllTeacher() {
@@ -57,6 +68,13 @@ public class TeacherController implements AbstractController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	/**
+	 * Enregistre un nouveau professeur
+	 * 
+	 * @param teacherForm le formulaire du professeur
+	 * @param bindingResult pour vérifier les éléments entrants
+	 * @return le nouveau professeur créé
+	 */
 	@RequestMapping(value = MappingConstant.TEACHER_PATH_ROOT, method = RequestMethod.POST)
 	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = TeacherModel.class, message = "Le professeur créé"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs au niveau du formulaire / Le mail existe déjà")})
