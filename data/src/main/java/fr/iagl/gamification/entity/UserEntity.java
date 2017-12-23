@@ -41,6 +41,12 @@ public class UserEntity implements Serializable{
 	 */
 	@Column(name ="uuid", nullable = false)
 	private String uuid;
+	
+	/**
+	 * Prénom
+	 */
+	@Column( name ="firstName" , nullable = true , columnDefinition = "text")
+	private String firstName;
 
 	/**
 	 * Nom
