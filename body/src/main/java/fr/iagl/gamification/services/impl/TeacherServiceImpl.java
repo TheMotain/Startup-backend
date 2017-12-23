@@ -78,7 +78,7 @@ public class TeacherServiceImpl implements TeacherService{
 			return mapper.map(entity, TeacherModel.class);
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			LOG.warn("cryptage impossible");
-			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_CRYPTAGE_PASSWORD));
+			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_CRYPTAGE_MDP));
 		}
 		
 	}

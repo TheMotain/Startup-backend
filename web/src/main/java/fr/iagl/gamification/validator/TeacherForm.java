@@ -35,8 +35,8 @@ public class TeacherForm implements AbstractForm {
 	 * Mot de passe
 	 */
 	@ApiModelProperty(required=true, allowEmptyValue=false)
-	@Pattern(regexp = "^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'?!?;:=/+*x]*$", message = CodeError.ERROR_PASSWORD_NOT_CONFORM)
-	@NotNull(message = CodeError.ERROR_NULL_PASSWORD)
+	@Pattern(regexp = "^[àáâãäåçèéêëìíîïðòóôõöùúûüýÿa-zA-Z0-9- _'?!?;:=/+*x]*$", message = CodeError.ERROR_MDP_NOT_CONFORM)
+	@NotNull(message = CodeError.ERROR_NULL_MDP)
 	private String password;
 
 	/**
