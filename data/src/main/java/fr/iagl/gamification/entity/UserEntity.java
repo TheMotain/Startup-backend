@@ -45,7 +45,7 @@ public class UserEntity implements Serializable{
 	/**
 	 * Prénom
 	 */
-	@Column( name ="firstName" , nullable = true , columnDefinition = "text")
+	@Column( name ="firstname" , nullable = true , columnDefinition = "text")
 	private String firstName;
 
 	/**

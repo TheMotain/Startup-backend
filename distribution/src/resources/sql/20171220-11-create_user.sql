@@ -9,7 +9,7 @@ create table users(
 	id serial primary key,
 	uuid TEXT NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
 	name text not null,
-	firstName text,
+	firstname text,
 	email text not null,
 	password text not null,
 	role integer not null,
