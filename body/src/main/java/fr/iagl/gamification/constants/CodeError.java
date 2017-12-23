@@ -28,6 +28,13 @@ public class CodeError {
 	public static final String ERROR_STRING_PATTERN_QCM_INSTRUCTION = "Les instructions du QCM ne doit contenir que des caratères alphanumériques";
 	public static final String ERROR_STRING_PATTERN_QCM_QUERY = "L'intitulé de la question du QCM ne doit contenir que des caratères alphanumériques";
 	public static final String ERROR_STRING_PATTERN_QCM_CHOICE = "Le choix du QCM ne doit contenir que des caratères alphanumériques";
+	public static final String ERROR_NULL_NAME = "Veuillez remplir le nom";
+	public static final String ERROR_NAME_NOT_CONFORM = "Le nom n'est pas conforme";
+	public static final String ERROR_MAIL_NOT_CONFORM = "Le mail n'est pas conforme";
+	public static final String ERROR_PASSWORD_NOT_CONFORM = "Le mot de passe n'est pas conforme";
+	public static final String ERROR_NULL_EMAIL = "Veuillez remplir le mail";
+	public static final String ERROR_NULL_PASSWORD = "Veuillez remplir le mot de passe";
+	public static final String ERROR_EMAIL_ALREADY_EXISTS = "Le mail existe déjà";
 
 	
 	/**

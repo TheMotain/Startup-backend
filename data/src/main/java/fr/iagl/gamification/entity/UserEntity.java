@@ -1,12 +1,16 @@
 package fr.iagl.gamification.entity;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 /**
@@ -16,7 +20,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class UserEntity implements Serializable{
 
 	/**
@@ -35,22 +39,17 @@ public class UserEntity implements Serializable{
 	/**
 	 * Token unique pour l'utillisateur
 	 */
+	@Column(name ="uuid", nullable = false)
 	private String uuid;
 
 	/**
-	 * Prénom
-	 */
-	@Column( name ="firstname" , nullable = false , columnDefinition = "text")
-	private String firstName;
-	
-	/**
 	 * Nom
 	 */
-	@Column( name ="lastname" , nullable = false , columnDefinition = "text")
-	private String lastName;
+	@Column( name ="name" , nullable = false , columnDefinition = "text")
+	private String name;
 	
 	/**
-	 * email
+	 * Email
 	 */
 	@Column( name ="email" , nullable = false , columnDefinition = "text")
 	private String email;
@@ -61,6 +60,18 @@ public class UserEntity implements Serializable{
 	@Column( name ="password" , nullable = false , columnDefinition = "text")
 	private String password;
 
+	/**
+	 * rôle de l'utilisateur
+	 */
+	@ManyToOne
+	@JoinColumn(name="role", nullable=false)
+	private RoleUserEntity role;
+	
+	@PrePersist
+    public void prePersist() {
+    	this.uuid = UUID.randomUUID().toString();
+    }
+	
 	/**
 	 * Getter de l'attribut {@link UserEntity#id}
 	 * @return id
@@ -81,32 +92,16 @@ public class UserEntity implements Serializable{
 	 * Getter de l'attribut {@link UserEntity#firstName}
 	 * @return firstName
 	 */
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
 	/**
 	 * Setter de l'attribut {@link UserEntity#firstName}
 	 * @param firstName l'attribut {@link UserEntity#firstName} à setter
 	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * Getter de l'attribut {@link UserEntity#lastName}
-	 * @return lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
-
-	/**
-	 * Setter de l'attribut {@link UserEntity#lastName}
-	 * @param lastName l'attribut {@link UserEntity#lastName} à setter
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -141,8 +136,37 @@ public class UserEntity implements Serializable{
 		this.password = password;
 	}
 
+	/**
+	 * Getter de l'attribut {@link UserEntity#uuid}
+	 * @return uuid
+	 */
+	public String getUuid() {
+		return uuid;
+	}
 
-	
-	
+	/**
+	 * Setter de l'attribut {@link UserEntity#uuid}
+	 * @param uuid l'attribut {@link UserEntity#uuid} à setter
+	 */
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	/**
+	 * Getter de l'attribut {@link UserEntity#role}
+	 * @return role
+	 */
+	public RoleUserEntity getRole() {
+		return role;
+	}
+
+	/**
+	 * Setter de l'attribut {@link UserEntity#role}
+	 * @param role l'attribut {@link UserEntity#role} à setter
+	 */
+	public void setRole(RoleUserEntity role) {
+		this.role = role;
+	}
+
 	
 }
