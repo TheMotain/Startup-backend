@@ -19,7 +19,12 @@ import fr.iagl.gamification.model.UserModel;
  *
  */
 public class CryptPassword {
-
+	/**
+	 * constructeur privé
+	 * @throws NoSuchAlgorithmException 
+	 */
+	private CryptPassword() {}
+	
 	/**
 	 * Logger
 	 */
@@ -41,7 +46,7 @@ public class CryptPassword {
 	        String toEncript = user.getPassword() + user.getEmail();
 	        crypt.update(toEncript.getBytes("UTF-8"));
 	        sha1 = byteToHex(crypt.digest());
-	    } catch(NoSuchAlgorithmException | UnsupportedEncodingException e) {
+	    } catch(UnsupportedEncodingException | NoSuchAlgorithmException e) {
 	        LOG.warn("erreur encriptage mdp");
 	        throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_CRYPTAGE_PASSWORD));
 	    } 
