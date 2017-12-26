@@ -93,7 +93,8 @@ public class TeacherServiceImpl implements TeacherService{
 	@Override
 	public boolean teacherExists(String email, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		String passEncode = passwordEncoder.encryptPassword(new TeacherModel(email, password));
-		return userRepository.existsByRole_RoleAndEmailAndPassword(ServiceConstants.CODE_TEACHER, email, passEncode);
+		UserEntity user = userRepository.findByRole_RoleAndEmailAndPassword(ServiceConstants.CODE_TEACHER, email, passEncode);
+		return user != null;
 	}
 
 	@Override

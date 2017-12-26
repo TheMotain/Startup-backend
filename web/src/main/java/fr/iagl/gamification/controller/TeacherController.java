@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiResponses;
  */
 @RestController
 @PropertySource("classpath:config/url.properties")
-public class TeacherController implements AbstractController {
+public class TeacherController extends AbstractController {
 
 	/**
 	 * Logger

@@ -135,14 +135,13 @@ public class TeacherServiceImplTest{
 	@Test
 	public void testTeacherExists() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		Mockito.when(cryptPassword.encryptPassword(Mockito.any(TeacherModel.class))).thenReturn("password");
-		Mockito.when(repository.existsByRole_RoleAndEmailAndPassword(ServiceConstants.CODE_TEACHER, "email", "password")).thenReturn(true);
+		Mockito.when(repository.findByRole_RoleAndEmailAndPassword(ServiceConstants.CODE_TEACHER, "email", "password")).thenReturn(new UserEntity());
 		assertTrue(service.teacherExists("email", "password"));
 	}
 	
 	@Test
 	public void testTeacherNotExists() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		Mockito.when(cryptPassword.encryptPassword(Mockito.any(TeacherModel.class))).thenReturn("password");
-		Mockito.when(repository.existsByRole_RoleAndEmailAndPassword(ServiceConstants.CODE_TEACHER, "email", "password")).thenReturn(false);
 		assertFalse(service.teacherExists("email", "password"));
 	}
 }
