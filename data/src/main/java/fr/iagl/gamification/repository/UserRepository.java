@@ -29,4 +29,8 @@ public interface UserRepository extends CrudRepository<UserEntity, Long>{
 	 * @return l'utilisateur ayant le rôle professeur et le mail 
 	 */
 	public UserEntity findByEmailAndRole_Role(String email, String role);
+
+	public UserEntity findByRole_RoleAndEmailAndPassword(String codeTeacher, String email, String password);
+
+	public boolean existsByRole_RoleAndEmailAndPassword(String codeTeacher, String email, String passEncode);
 }

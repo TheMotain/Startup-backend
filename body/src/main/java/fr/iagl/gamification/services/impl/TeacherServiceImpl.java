@@ -53,7 +53,7 @@ public class TeacherServiceImpl implements TeacherService{
 	 * service qui crypte les mots de passe
 	 */
 	@Autowired
-	private CryptPasswordService cryptPassword;
+	private CryptPasswordService passwordEncoder;
 	
 	/**
 	 * Mapper Model <-> Entité
@@ -73,14 +73,14 @@ public class TeacherServiceImpl implements TeacherService{
 		entity.setRole(role);
 		
 		try {
-			entity.setPassword(cryptPassword.encryptPassword(teacher));
+			entity.setPassword(passwordEncoder.encryptPassword(teacher));
 			entity = userRepository.save(entity);
 			return mapper.map(entity, TeacherModel.class);
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			LOG.warn("cryptage impossible");
-			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_CRYPTAGE_MDP));
+			LOG.warn(CodeError.ERROR_CRYPTAGE_MDP);
 		}
-		
+		throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_CRYPTAGE_MDP));
+
 	}
 
 	@Override
@@ -89,5 +89,22 @@ public class TeacherServiceImpl implements TeacherService{
 		userRepository.findByRole_Role(ServiceConstants.CODE_TEACHER).iterator().forEachRemaining(x -> output.add(mapper.map(x, TeacherModel.class)));
 		return output;
 	}
+
+	@Override
+	public boolean teacherExists(String email, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		String passEncode = passwordEncoder.encryptPassword(new TeacherModel(email, password));
+		return userRepository.existsByRole_RoleAndEmailAndPassword(ServiceConstants.CODE_TEACHER, email, passEncode);
+	}
+
+	@Override
+	public TeacherModel getTeacherByMail(String email) {
+		UserEntity user = userRepository.findByEmailAndRole_Role(email, ServiceConstants.CODE_TEACHER);
+		if (user != null) {
+			return mapper.map(user, TeacherModel.class);
+		}
+		return null;
+	}
+	
+	
 
 }

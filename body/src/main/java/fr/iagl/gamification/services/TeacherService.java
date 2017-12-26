@@ -1,5 +1,7 @@
 package fr.iagl.gamification.services;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import fr.iagl.gamification.exceptions.GamificationServiceException;
@@ -28,4 +30,8 @@ public interface TeacherService {
 	 * @return la liste de tous les professeurs
 	 */
 	public List<TeacherModel> getAllTeacher();
+
+	public boolean teacherExists(String email, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException;
+	
+	public TeacherModel getTeacherByMail(String email);
 }
