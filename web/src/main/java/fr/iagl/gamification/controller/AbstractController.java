@@ -18,9 +18,17 @@ import fr.iagl.gamification.services.TeacherService;
 @PropertySource("classpath:config/url.properties")
 public abstract class AbstractController {
 	
+	/**
+	 * service des professeurs
+	 */
 	@Autowired
 	protected TeacherService teacherService;
 
+	/**
+	 * Récupération du nom de l'utilisateur connecté
+	 * 
+	 * @return le nom de l'utilisateur
+	 */
 	protected String getPrincipal(){
 		String userName = null;
 		if (SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -36,6 +44,11 @@ public abstract class AbstractController {
 		return userName;
 	}
 	
+	/**
+	 * Récupération du professeur connecté
+	 * 
+	 * @return le professeur
+	 */
 	protected TeacherModel getTeacher(){
 		return teacherService.getTeacherByMail(getPrincipal());
 	}

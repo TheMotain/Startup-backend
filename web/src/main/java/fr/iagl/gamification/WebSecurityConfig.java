@@ -8,16 +8,30 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+/**
+ * Configuration pour la connexion
+ *
+ * @author Hélène MEYER
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	/**
+	 * authentification personnalisé
+	 */
 	@Autowired
     private CustomAuthenticationProvider authProvider;
 	
+	/**
+	 * Configure l'authentification personnalisé
+	 * 
+	 * @param auth 
+	 */
 	@Autowired
-	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+	public void configAuthentication(AuthenticationManagerBuilder auth) {
 		auth.authenticationProvider(authProvider);
 	}
 	

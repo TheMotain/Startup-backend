@@ -15,12 +15,24 @@ import org.springframework.stereotype.Component;
 
 import fr.iagl.gamification.services.TeacherService;
 
+/**
+ * Authentification personnalisée
+ *
+ * @author Hélène MEYER
+ *
+ */
 @Component
 public class CustomAuthenticationProvider
   implements AuthenticationProvider {
 	
+	/**
+	 * Logger
+	 */
 	private static final Logger LOG = Logger.getLogger(CustomAuthenticationProvider.class);
 	
+	/**
+	 * service du professeur
+	 */
 	@Autowired
 	private TeacherService teacherService;
  
