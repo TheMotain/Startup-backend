@@ -31,7 +31,22 @@ public interface TeacherService {
 	 */
 	public List<TeacherModel> getAllTeacher();
 
+	/**
+	 * Retourne vrai si le professeur existe
+	 * 
+	 * @param email le mail de l'utilisateur
+	 * @param password le mot de passe non encrypté de l'utilisateur
+	 * @return vrai si le professeur existe sinon faux
+	 * @throws NoSuchAlgorithmException s'il y a un problème de cryptage
+	 * @throws UnsupportedEncodingException d'il y a un problème de cryptage
+	 */
 	public boolean teacherExists(String email, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException;
 	
+	/**
+	 * Récupère le professeur grâce à son mail et retourne null s'il n'existe pas
+	 * 
+	 * @param email du professeur
+	 * @return le professeur
+	 */
 	public TeacherModel getTeacherByMail(String email);
 }

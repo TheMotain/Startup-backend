@@ -36,6 +36,7 @@ public class CodeError {
 	public static final String ERROR_NULL_MDP = "Veuillez remplir le mot de passe";
 	public static final String ERROR_EMAIL_ALREADY_EXISTS = "Le mail existe déjà";
 	public static final String ERROR_CRYPTAGE_MDP = "Le cryptage du mot de passe ne s'est pas effectué correctement";
+	public static final String ERROR_TEACHER_NOT_FOUND = "Le professeur n'est pas trouvé";
 
 	
 	/**

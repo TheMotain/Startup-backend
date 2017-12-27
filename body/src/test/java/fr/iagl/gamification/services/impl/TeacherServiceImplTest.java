@@ -20,7 +20,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import fr.iagl.gamification.constants.ServiceConstants;
+import fr.iagl.gamification.constants.ServiceConstant;
 import fr.iagl.gamification.entity.UserEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.TeacherModel;
@@ -95,9 +95,9 @@ public class TeacherServiceImplTest{
 
 	@Test
 	public void testGetAllTeacherCallFindAllFromRepository(){
-		Mockito.when(repository.findByRole_Role(ServiceConstants.CODE_TEACHER)).thenReturn(new ArrayList<UserEntity>());
+		Mockito.when(repository.findByRole_Role(ServiceConstant.CODE_TEACHER)).thenReturn(new ArrayList<UserEntity>());
 		service.getAllTeacher();
-		Mockito.verify(repository, Mockito.times(1)).findByRole_Role(ServiceConstants.CODE_TEACHER);
+		Mockito.verify(repository, Mockito.times(1)).findByRole_Role(ServiceConstant.CODE_TEACHER);
 	}
 	
 	@Test
@@ -111,7 +111,7 @@ public class TeacherServiceImplTest{
 		Mockito.when(mapper.map(ste1, TeacherModel.class)).thenReturn(stm1);
 		Mockito.when(mapper.map(ste2, TeacherModel.class)).thenReturn(stm2);
 		Mockito.when(mapper.map(ste3, TeacherModel.class)).thenReturn(stm3);
-		Mockito.when(repository.findByRole_Role(ServiceConstants.CODE_TEACHER)).thenReturn(Arrays.asList(new UserEntity[]{ste1,ste2,ste3}));
+		Mockito.when(repository.findByRole_Role(ServiceConstant.CODE_TEACHER)).thenReturn(Arrays.asList(new UserEntity[]{ste1,ste2,ste3}));
 		List<TeacherModel> result = service.getAllTeacher();
 		Assert.assertEquals(3, result.size());
 		Assert.assertTrue(result.contains(stm1));
@@ -122,7 +122,7 @@ public class TeacherServiceImplTest{
 	@Test
 	public void testTeacherByValidEmail() {
 		UserEntity user = Mockito.mock(UserEntity.class);
-		Mockito.when(repository.findByEmailAndRole_Role("email", ServiceConstants.CODE_TEACHER)).thenReturn(user);
+		Mockito.when(repository.findByEmailAndRole_Role("email", ServiceConstant.CODE_TEACHER)).thenReturn(user);
 		Mockito.when(mapper.map(user, TeacherModel.class)).thenReturn(Mockito.mock(TeacherModel.class));
 		assertNotNull(service.getTeacherByMail("email"));
 	}
@@ -135,7 +135,7 @@ public class TeacherServiceImplTest{
 	@Test
 	public void testTeacherExists() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		Mockito.when(cryptPassword.encryptPassword(Mockito.any(TeacherModel.class))).thenReturn("password");
-		Mockito.when(repository.findByRole_RoleAndEmailAndPassword(ServiceConstants.CODE_TEACHER, "email", "password")).thenReturn(new UserEntity());
+		Mockito.when(repository.findByRole_RoleAndEmailAndPassword(ServiceConstant.CODE_TEACHER, "email", "password")).thenReturn(new UserEntity());
 		assertTrue(service.teacherExists("email", "password"));
 	}
 	

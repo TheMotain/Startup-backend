@@ -23,6 +23,9 @@ public abstract class AbstractController {
 
 	protected String getPrincipal(){
 		String userName = null;
+		if (SecurityContextHolder.getContext().getAuthentication() == null) {
+			return null;
+		}
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		if (principal instanceof UserDetails) {

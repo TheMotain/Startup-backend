@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.iagl.gamification.constants.CodeError;
-import fr.iagl.gamification.constants.ServiceConstants;
+import fr.iagl.gamification.constants.ServiceConstant;
 import fr.iagl.gamification.entity.RoleUserEntity;
 import fr.iagl.gamification.entity.UserEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
@@ -63,11 +63,11 @@ public class TeacherServiceImpl implements TeacherService{
 	
 	@Override
 	public TeacherModel createTeacher(TeacherModel teacher) throws GamificationServiceException {
-		UserEntity user = userRepository.findByEmailAndRole_Role(teacher.getEmail(), ServiceConstants.CODE_TEACHER);
+		UserEntity user = userRepository.findByEmailAndRole_Role(teacher.getEmail(), ServiceConstant.CODE_TEACHER);
 		if (user != null) {
 			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_EMAIL_ALREADY_EXISTS));
 		}
-		RoleUserEntity role = roleUserRepository.findByRole(ServiceConstants.CODE_TEACHER);
+		RoleUserEntity role = roleUserRepository.findByRole(ServiceConstant.CODE_TEACHER);
 		
 		UserEntity entity = mapper.map(teacher, UserEntity.class);
 		entity.setRole(role);
@@ -86,20 +86,20 @@ public class TeacherServiceImpl implements TeacherService{
 	@Override
 	public List<TeacherModel> getAllTeacher() {
 		List<TeacherModel> output = new ArrayList<>();
-		userRepository.findByRole_Role(ServiceConstants.CODE_TEACHER).iterator().forEachRemaining(x -> output.add(mapper.map(x, TeacherModel.class)));
+		userRepository.findByRole_Role(ServiceConstant.CODE_TEACHER).iterator().forEachRemaining(x -> output.add(mapper.map(x, TeacherModel.class)));
 		return output;
 	}
 
 	@Override
 	public boolean teacherExists(String email, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		String passEncode = passwordEncoder.encryptPassword(new TeacherModel(email, password));
-		UserEntity user = userRepository.findByRole_RoleAndEmailAndPassword(ServiceConstants.CODE_TEACHER, email, passEncode);
+		UserEntity user = userRepository.findByRole_RoleAndEmailAndPassword(ServiceConstant.CODE_TEACHER, email, passEncode);
 		return user != null;
 	}
 
 	@Override
 	public TeacherModel getTeacherByMail(String email) {
-		UserEntity user = userRepository.findByEmailAndRole_Role(email, ServiceConstants.CODE_TEACHER);
+		UserEntity user = userRepository.findByEmailAndRole_Role(email, ServiceConstant.CODE_TEACHER);
 		if (user != null) {
 			return mapper.map(user, TeacherModel.class);
 		}

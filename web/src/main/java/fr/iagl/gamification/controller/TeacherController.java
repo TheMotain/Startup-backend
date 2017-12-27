@@ -22,7 +22,6 @@ import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.TeacherModel;
-import fr.iagl.gamification.services.TeacherService;
 import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.TeacherForm;
 import io.swagger.annotations.ApiResponse;
@@ -42,12 +41,6 @@ public class TeacherController extends AbstractController {
 	 * Logger
 	 */
 	private static final Logger LOG = Logger.getLogger(TeacherController.class);
-	
-	/**
-	 * Service pour le professeur
-	 */
-	@Autowired
-	private TeacherService teacherService;
 	
 	/**
 	 * Mapper
