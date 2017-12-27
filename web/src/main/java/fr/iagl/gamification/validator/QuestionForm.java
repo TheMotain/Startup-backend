@@ -39,14 +39,6 @@ public class QuestionForm implements AbstractForm {
 	@ApiModelProperty(required=true, allowEmptyValue=false)
 	@NotNull
 	private List<AnswerForm> choices;
-	
-	/**
-	 * nombre de points à gagner
-	 */
-	@ApiModelProperty(required=true, allowEmptyValue=true)
-	@NotNull
-	@Min(0)
-	private int nbPoints;
 
 	/**
 	 * Getter de l'attribut {@link QcmForm.QuestionForm#id}
@@ -78,22 +70,6 @@ public class QuestionForm implements AbstractForm {
 	 */
 	public void setChoices(List<AnswerForm> choices) {
 		this.choices = choices;
-	}
-
-	/**
-	 * Getter de l'attribut {@link QcmForm.QuestionForm#nbPoints}
-	 * @return nbPoints
-	 */
-	public int getNbPoints() {
-		return nbPoints;
-	}
-
-	/**
-	 * Setter de l'attribut {@link QcmForm.QuestionForm#nbPoints}
-	 * @param nbPoints l'attribut {@link QcmForm.QuestionForm#nbPoints} à setter
-	 */
-	public void setNbPoints(int nbPoints) {
-		this.nbPoints = nbPoints;
 	}
 
 	/**

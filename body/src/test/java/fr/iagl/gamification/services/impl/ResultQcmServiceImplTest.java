@@ -195,7 +195,6 @@ public class ResultQcmServiceImplTest {
 		Mockito.doReturn(Mockito.mock(ResultQcmModel.class)).when(mapper).map(resultats, ResultQcmModel.class);
 		Mockito.doReturn(true).when(answer).isGood();
 		Mockito.doReturn(question).when(answer).getQuestion();
-		Mockito.doReturn(2).when(question).getNbPoints();
 		Mockito.doReturn(Mockito.mock(PointEntity.class)).when(pointRepository).findByStudent_Id(2L);
 		List<ResultQcmModel> results = service.saveResultQcm(Arrays.asList(1L, 3L), 2L);
 		assertNotNull(results);
@@ -215,7 +214,6 @@ public class ResultQcmServiceImplTest {
 		Mockito.doReturn(Mockito.mock(ResultQcmModel.class)).when(mapper).map(resultats, ResultQcmModel.class);
 		Mockito.doReturn(true).when(answer).isGood();
 		Mockito.doReturn(question).when(answer).getQuestion();
-		Mockito.doReturn(2).when(question).getNbPoints();
 		List<ResultQcmModel> results = service.saveResultQcm(Arrays.asList(1L, 3L), 2L);
 		assertNotNull(results);
 		Mockito.verify(repository).save(Mockito.anyCollection());

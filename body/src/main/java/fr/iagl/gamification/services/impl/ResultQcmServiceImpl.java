@@ -30,6 +30,8 @@ import fr.iagl.gamification.services.ResultQcmService;
 @Service
 public class ResultQcmServiceImpl implements ResultQcmService{
 
+	private static final int POINTS_PAR_QUESTION = 5;
+
 	/**
 	 * repository de la table result_qcm
 	 */
@@ -87,7 +89,7 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 			entity.setAnswer(answer);
 			entity.setStudent(student);
 			if (answer.isGood()) {
-				score += answer.getQuestion().getNbPoints();
+				score += POINTS_PAR_QUESTION;
 			}
 			lstToAdd.add(entity);
 		}
