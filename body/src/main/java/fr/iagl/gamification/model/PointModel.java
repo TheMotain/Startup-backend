@@ -22,7 +22,7 @@ public class PointModel {
 	/**
 	 * argent de l'élève
 	 */
-	private long argent;
+	private float argent;
 	
 	/**
 	 * élève
@@ -99,7 +99,7 @@ public class PointModel {
 	 * Getter de l'attribut {@link PointModel#argent}
 	 * @return argent
 	 */
-	public long getArgent() {
+	public float getArgent() {
 		return argent;
 	}
 
@@ -107,7 +107,7 @@ public class PointModel {
 	 * Setter de l'attribut {@link PointModel#argent}
 	 * @param argent l'attribut {@link PointModel#argent} à setter
 	 */
-	public void setArgent(long argent) {
+	public void setArgent(float argent) {
 		this.argent = argent;
 	}
 	

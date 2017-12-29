@@ -1,2 +1,2 @@
 ALTER TABLE point
-ADD COLUMN argent bigint;
+ADD COLUMN argent numeric(12,2);

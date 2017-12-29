@@ -41,7 +41,7 @@ public class PointEntity implements Serializable {
 	 * Argent de l'élève
 	 */
 	@Column(name = "argent")
-	private long argent;
+	private float argent;
 	
 	/**
 	 * Elève
@@ -108,7 +108,7 @@ public class PointEntity implements Serializable {
 	 * Getter de l'attribut {@link PointEntity#argent}
 	 * @return argent
 	 */
-	public long getArgent() {
+	public float getArgent() {
 		return argent;
 	}
 
@@ -116,7 +116,7 @@ public class PointEntity implements Serializable {
 	 * Setter de l'attribut {@link PointEntity#argent}
 	 * @param argent l'attribut {@link PointEntity#argent} à setter
 	 */
-	public void setArgent(long argent) {
+	public void setArgent(float argent) {
 		this.argent = argent;
 	}
 	
