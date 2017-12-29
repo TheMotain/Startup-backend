@@ -20,6 +20,11 @@ public class PointModel {
 	private long malus;
 	
 	/**
+	 * argent de l'élève
+	 */
+	private long argent;
+	
+	/**
 	 * élève
 	 */
 	private StudentModel student;
@@ -89,5 +94,22 @@ public class PointModel {
 	public void setStudent(StudentModel student) {
 		this.student = student;
 	}
+
+	/**
+	 * Getter de l'attribut {@link PointModel#argent}
+	 * @return argent
+	 */
+	public long getArgent() {
+		return argent;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointModel#argent}
+	 * @param argent l'attribut {@link PointModel#argent} à setter
+	 */
+	public void setArgent(long argent) {
+		this.argent = argent;
+	}
+	
 	
 }

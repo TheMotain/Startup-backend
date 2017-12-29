@@ -38,6 +38,12 @@ public class PointEntity implements Serializable {
 	private long malus;
 	
 	/**
+	 * Argent de l'élève
+	 */
+	@Column(name = "argent")
+	private long argent;
+	
+	/**
 	 * Elève
 	 */
 	@Id @Column(name="pupil") Long id;
@@ -96,6 +102,22 @@ public class PointEntity implements Serializable {
 	 */
 	public void setStudent(StudentEntity student) {
 		this.student = student;
+	}
+
+	/**
+	 * Getter de l'attribut {@link PointEntity#argent}
+	 * @return argent
+	 */
+	public long getArgent() {
+		return argent;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointEntity#argent}
+	 * @param argent l'attribut {@link PointEntity#argent} à setter
+	 */
+	public void setArgent(long argent) {
+		this.argent = argent;
 	}
 	
 }
