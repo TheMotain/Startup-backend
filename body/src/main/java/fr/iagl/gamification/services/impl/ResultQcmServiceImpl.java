@@ -30,6 +30,8 @@ import fr.iagl.gamification.services.ResultQcmService;
 @Service
 public class ResultQcmServiceImpl implements ResultQcmService{
 
+	private static final double ARGENT_A_GAGNER_BONNE_REPONSE = 0.5;
+
 	/**
 	 * repository de la table result_qcm
 	 */
@@ -75,6 +77,7 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 			throw new GamificationServiceException(Arrays.asList("Eleve non trouvé ["+ idStudent + "]"));
 		}
 		Long score = 0L;
+		float argent = 0;
 		List<ResultQcmEntity> lstToAdd = new ArrayList<>();
 		
 		List<Long> questions = questionsRepondues(idStudent);
@@ -88,13 +91,14 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 			entity.setStudent(student);
 			if (answer.isGood()) {
 				score += answer.getQuestion().getNbPoints();
+				argent += ARGENT_A_GAGNER_BONNE_REPONSE;
 			}
 			lstToAdd.add(entity);
 		}
 		
 		Iterable<ResultQcmEntity> result = repository.save(lstToAdd);
 		
-		saveScore(idStudent, student, score);
+		saveScore(idStudent, student, score, argent);
 		
 		List<ResultQcmModel> resultModel = new ArrayList<>();
 		result.iterator().forEachRemaining(x -> resultModel.add(mapper.map(x, ResultQcmModel.class)));
@@ -143,8 +147,9 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 	 * @param idStudent l'identifiant de l'étudiant
 	 * @param student élève
 	 * @param score score du qcm
+	 * @param argent argent de l'élève
 	 */
-	private void saveScore(Long idStudent, StudentEntity student, Long score) {
+	private void saveScore(Long idStudent, StudentEntity student, Long score, float argent) {
 		if (score != 0) {
 			PointEntity points = pointRepository.findByStudent_Id(idStudent);
 			if (points == null) {
@@ -152,6 +157,7 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 				points.setStudent(student);
 			}
 			points.setBonus(points.getBonus() + score);
+			points.setArgent(points.getArgent() + argent);
 			pointRepository.save(points);
 		}
 	}
