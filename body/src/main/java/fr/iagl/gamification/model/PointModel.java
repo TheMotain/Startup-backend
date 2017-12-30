@@ -45,6 +45,7 @@ public class PointModel {
 	public PointModel(JSONObject json) {
 		bonus = json.getLong("bonus");
 		malus = json.getLong("malus");
+		argent = BigDecimal.valueOf(json.getDouble("argent"));
 		student = new StudentModel();
 		student.setId(json.getLong("pupil"));
 	}
