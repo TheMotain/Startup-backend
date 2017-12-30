@@ -1,5 +1,7 @@
 package fr.iagl.gamification.converter;
 
+import java.math.BigDecimal;
+
 import org.dozer.MappingException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,6 +22,7 @@ public class CustomStudentPointsFieldsConverterTest {
 		Assert.assertNotNull(entity);
 		Assert.assertEquals(0, entity.getBonus());
 		Assert.assertEquals(0, entity.getMalus());
+		Assert.assertEquals(new BigDecimal(0), entity.getArgent());
 		Assert.assertNull(entity.getStudent());
 	}
 	
@@ -46,9 +49,11 @@ public class CustomStudentPointsFieldsConverterTest {
 		PointModel model = new PointModel();
 		model.setBonus(1);
 		model.setMalus(2);
+		model.setArgent(new BigDecimal(2));
 		PointEntity entity = (PointEntity) new CustomStudentPointsFieldsConverter().convert(null, model, null, model.getClass());
 		Assert.assertEquals(model.getBonus(), entity.getBonus());
 		Assert.assertEquals(model.getMalus(), entity.getMalus());
+		Assert.assertEquals(model.getArgent(), entity.getArgent());
 	}
 	
 	@Test
@@ -56,8 +61,10 @@ public class CustomStudentPointsFieldsConverterTest {
 		PointEntity entity = new PointEntity();
 		entity.setBonus(1);
 		entity.setMalus(2);
+		entity.setArgent(new BigDecimal(2));
 		PointModel model = (PointModel) new CustomStudentPointsFieldsConverter().convert(null, entity, null, entity.getClass());
 		Assert.assertEquals(model.getBonus(), entity.getBonus());
 		Assert.assertEquals(model.getMalus(), entity.getMalus());
+		Assert.assertEquals(model.getArgent(), entity.getArgent());
 	}
 }

@@ -1,5 +1,6 @@
 package fr.iagl.gamification.services.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,8 @@ import fr.iagl.gamification.services.ResultQcmService;
 @Service
 public class ResultQcmServiceImpl implements ResultQcmService{
 
-	private static final double ARGENT_A_GAGNER_BONNE_REPONSE = 0.5;
+	private static final BigDecimal ARGENT_A_GAGNER_BONNE_REPONSE = BigDecimal.valueOf(0.5);
+	private static final int POINTS_PAR_QUESTION = 5;
 
 	/**
 	 * repository de la table result_qcm
@@ -77,10 +79,11 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 			throw new GamificationServiceException(Arrays.asList("Eleve non trouvé ["+ idStudent + "]"));
 		}
 		Long score = 0L;
-		float argent = 0;
+		BigDecimal argent = new BigDecimal(0);
 		List<ResultQcmEntity> lstToAdd = new ArrayList<>();
 		
 		List<Long> questions = questionsRepondues(idStudent);
+		BigDecimal argentAgagner = new BigDecimal(0);
 		
 		for (Long idAnswer : lst) {
 			AnswerEntity answer = answerRepository.findOne(idAnswer);
@@ -89,16 +92,16 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 			ResultQcmEntity entity = new ResultQcmEntity();
 			entity.setAnswer(answer);
 			entity.setStudent(student);
+			
 			if (answer.isGood()) {
-				score += answer.getQuestion().getNbPoints();
-				argent += ARGENT_A_GAGNER_BONNE_REPONSE;
+				argentAgagner = argent.add(ARGENT_A_GAGNER_BONNE_REPONSE);
+				score += POINTS_PAR_QUESTION;
 			}
 			lstToAdd.add(entity);
 		}
 		
 		Iterable<ResultQcmEntity> result = repository.save(lstToAdd);
-		
-		saveScore(idStudent, student, score, argent);
+		saveScore(idStudent, student, score, argentAgagner);
 		
 		List<ResultQcmModel> resultModel = new ArrayList<>();
 		result.iterator().forEachRemaining(x -> resultModel.add(mapper.map(x, ResultQcmModel.class)));
@@ -149,15 +152,21 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 	 * @param score score du qcm
 	 * @param argent argent de l'élève
 	 */
-	private void saveScore(Long idStudent, StudentEntity student, Long score, float argent) {
+	private void saveScore(Long idStudent, StudentEntity student, Long score, BigDecimal argent) {
 		if (score != 0) {
 			PointEntity points = pointRepository.findByStudent_Id(idStudent);
 			if (points == null) {
 				points = new PointEntity();
 				points.setStudent(student);
 			}
+
+			if (points.getArgent() != null) {
+				points.setArgent(points.getArgent().add(argent));
+			} else {
+				points.setArgent(argent);
+			}
 			points.setBonus(points.getBonus() + score);
-			points.setArgent(points.getArgent() + argent);
+			
 			pointRepository.save(points);
 		}
 	}

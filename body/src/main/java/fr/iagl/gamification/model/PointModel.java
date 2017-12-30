@@ -1,5 +1,7 @@
 package fr.iagl.gamification.model;
 
+import java.math.BigDecimal;
+
 import org.json.JSONObject;
 
 /**
@@ -22,7 +24,7 @@ public class PointModel {
 	/**
 	 * argent de l'élève
 	 */
-	private float argent;
+	private BigDecimal argent;
 	
 	/**
 	 * élève
@@ -99,7 +101,7 @@ public class PointModel {
 	 * Getter de l'attribut {@link PointModel#argent}
 	 * @return argent
 	 */
-	public float getArgent() {
+	public BigDecimal getArgent() {
 		return argent;
 	}
 
@@ -107,7 +109,7 @@ public class PointModel {
 	 * Setter de l'attribut {@link PointModel#argent}
 	 * @param argent l'attribut {@link PointModel#argent} à setter
 	 */
-	public void setArgent(float argent) {
+	public void setArgent(BigDecimal argent) {
 		this.argent = argent;
 	}
 	

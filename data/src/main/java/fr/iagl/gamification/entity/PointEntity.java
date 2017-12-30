@@ -1,6 +1,7 @@
 package fr.iagl.gamification.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,7 +42,7 @@ public class PointEntity implements Serializable {
 	 * Argent de l'élève
 	 */
 	@Column(name = "argent")
-	private float argent;
+	private BigDecimal argent;
 	
 	/**
 	 * Elève
@@ -108,7 +109,7 @@ public class PointEntity implements Serializable {
 	 * Getter de l'attribut {@link PointEntity#argent}
 	 * @return argent
 	 */
-	public float getArgent() {
+	public BigDecimal getArgent() {
 		return argent;
 	}
 
@@ -116,7 +117,7 @@ public class PointEntity implements Serializable {
 	 * Setter de l'attribut {@link PointEntity#argent}
 	 * @param argent l'attribut {@link PointEntity#argent} à setter
 	 */
-	public void setArgent(float argent) {
+	public void setArgent(BigDecimal argent) {
 		this.argent = argent;
 	}
 	
