@@ -1,5 +1,7 @@
 package fr.iagl.gamification.model;
 
+import javax.persistence.Column;
+
 import org.json.JSONObject;
 
 /**
@@ -23,6 +25,10 @@ public class PointModel {
 	 * élève
 	 */
 	private StudentModel student;
+	
+	private int level;
+	
+	private Long pointsToNextLevel;
 
 	/**
 	 * Constructeur standard
@@ -38,8 +44,42 @@ public class PointModel {
 	public PointModel(JSONObject json) {
 		bonus = json.getLong("bonus");
 		malus = json.getLong("malus");
+		level = json.getInt("level");
+		pointsToNextLevel = json.getLong("point_to_next_level");
 		student = new StudentModel();
 		student.setId(json.getLong("pupil"));
+	}
+	
+	/**
+	 * Getter de l'attribut {@link PointModel#level}
+	 * @return level
+	 */
+	public int getLevel() {
+		return level;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointModel#level}
+	 * @param level l'attribut {@link PointModel#level} à setter
+	 */
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	/**
+	 * Getter de l'attribut {@link PointModel#pointsToNextLevel}
+	 * @return pointsToNextLevel
+	 */
+	public Long getPointsToNextLevel() {
+		return pointsToNextLevel;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointModel#pointsToNextLevel}
+	 * @param pointsToNextLevel l'attribut {@link PointModel#pointsToNextLevel} à setter
+	 */
+	public void setPointsToNextLevel(Long pointsToNextLevel) {
+		this.pointsToNextLevel = pointsToNextLevel;
 	}
 
 	/**
