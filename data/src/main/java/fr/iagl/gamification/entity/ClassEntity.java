@@ -47,6 +47,13 @@ public class ClassEntity implements Serializable {
 	@OneToMany(mappedBy = "classroom")
 	private List<StudentEntity> students;
 	
+	
+	/**
+	 * Récupération des professeurs de cette classe
+	 */
+	@OneToMany(mappedBy = "classroom")
+	//private List<UserEntity> professeurs;
+	
 	/**
 	 * Constructeur vide
 	 */
