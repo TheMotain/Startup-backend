@@ -8,5 +8,21 @@ package fr.iagl.gamification.model;
  */
 public class TeacherModel extends UserModel{
 
+	public TeacherModel() {}
+	
+	public TeacherModel(Long id, String uuid, String name, String email, String password){
+		this.id= id;
+		this.uuid = uuid;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+	}
+	
+	public TeacherModel(String email, String password) {
+		super();
+		this.email = email;
+		this.password = password;
+	}
+
 	
 }

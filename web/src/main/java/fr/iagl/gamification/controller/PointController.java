@@ -39,7 +39,7 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 @RestController
-public class PointController implements AbstractController{
+public class PointController extends AbstractController{
 
 	/**
 	 * Logger

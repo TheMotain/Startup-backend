@@ -1,5 +1,10 @@
 package fr.iagl.gamification.services.impl;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -15,7 +20,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import fr.iagl.gamification.constants.ServiceConstants;
+import fr.iagl.gamification.constants.ServiceConstant;
 import fr.iagl.gamification.entity.UserEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.TeacherModel;
@@ -47,7 +52,7 @@ public class TeacherServiceImplTest{
 	}
 	
 	@Test
-	public void testTeacherNotExistAndCreated() throws GamificationServiceException {
+	public void testTeacherNotExistAndCreated() throws GamificationServiceException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		TeacherModel teacher = Mockito.mock(TeacherModel.class);
 		UserEntity entity = Mockito.mock(UserEntity.class);
 		Mockito.doReturn("mail@gmail.com").when(teacher).getEmail();
@@ -80,7 +85,7 @@ public class TeacherServiceImplTest{
 	}
 	
 	@Test(expected=GamificationServiceException.class)
-	public void testTeacherExistAndNotCreated() throws GamificationServiceException {
+	public void testTeacherExistAndNotCreated() throws GamificationServiceException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		TeacherModel teacher = Mockito.mock(TeacherModel.class);
 		UserEntity user = Mockito.mock(UserEntity.class);
 		Mockito.doReturn("mail@gmail.com").when(teacher).getEmail();
@@ -90,9 +95,9 @@ public class TeacherServiceImplTest{
 
 	@Test
 	public void testGetAllTeacherCallFindAllFromRepository(){
-		Mockito.when(repository.findByRole_Role(ServiceConstants.CODE_TEACHER)).thenReturn(new ArrayList<UserEntity>());
+		Mockito.when(repository.findByRole_Role(ServiceConstant.CODE_TEACHER)).thenReturn(new ArrayList<UserEntity>());
 		service.getAllTeacher();
-		Mockito.verify(repository, Mockito.times(1)).findByRole_Role(ServiceConstants.CODE_TEACHER);
+		Mockito.verify(repository, Mockito.times(1)).findByRole_Role(ServiceConstant.CODE_TEACHER);
 	}
 	
 	@Test
@@ -106,11 +111,37 @@ public class TeacherServiceImplTest{
 		Mockito.when(mapper.map(ste1, TeacherModel.class)).thenReturn(stm1);
 		Mockito.when(mapper.map(ste2, TeacherModel.class)).thenReturn(stm2);
 		Mockito.when(mapper.map(ste3, TeacherModel.class)).thenReturn(stm3);
-		Mockito.when(repository.findByRole_Role(ServiceConstants.CODE_TEACHER)).thenReturn(Arrays.asList(new UserEntity[]{ste1,ste2,ste3}));
+		Mockito.when(repository.findByRole_Role(ServiceConstant.CODE_TEACHER)).thenReturn(Arrays.asList(new UserEntity[]{ste1,ste2,ste3}));
 		List<TeacherModel> result = service.getAllTeacher();
 		Assert.assertEquals(3, result.size());
 		Assert.assertTrue(result.contains(stm1));
 		Assert.assertTrue(result.contains(stm2));
 		Assert.assertTrue(result.contains(stm3));
+	}
+	
+	@Test
+	public void testTeacherByValidEmail() {
+		UserEntity user = Mockito.mock(UserEntity.class);
+		Mockito.when(repository.findByEmailAndRole_Role("email", ServiceConstant.CODE_TEACHER)).thenReturn(user);
+		Mockito.when(mapper.map(user, TeacherModel.class)).thenReturn(Mockito.mock(TeacherModel.class));
+		assertNotNull(service.getTeacherByMail("email"));
+	}
+	
+	@Test
+	public void testTeacherByUnfoundTeacher() {
+		assertNull(service.getTeacherByMail("email"));
+	}
+	
+	@Test
+	public void testTeacherExists() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		Mockito.when(cryptPassword.encryptPassword(Mockito.any(TeacherModel.class))).thenReturn("password");
+		Mockito.when(repository.findByRole_RoleAndEmailAndPassword(ServiceConstant.CODE_TEACHER, "email", "password")).thenReturn(new UserEntity());
+		assertTrue(service.teacherExists("email", "password"));
+	}
+	
+	@Test
+	public void testTeacherNotExists() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		Mockito.when(cryptPassword.encryptPassword(Mockito.any(TeacherModel.class))).thenReturn("password");
+		assertFalse(service.teacherExists("email", "password"));
 	}
 }

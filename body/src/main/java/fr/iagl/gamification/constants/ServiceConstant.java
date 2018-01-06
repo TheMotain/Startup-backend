@@ -6,7 +6,7 @@ package fr.iagl.gamification.constants;
  * @author Hélène MEYER
  *
  */
-public class ServiceConstants {
+public class ServiceConstant {
 	/**
 	 * Constante pour récupérer les utilisateurs ayant un rôle TEACHER
 	 */
@@ -15,5 +15,5 @@ public class ServiceConstants {
 	/**
 	 * La classe ne peut pas être instanciée
 	 */
-	private ServiceConstants(){}
+	private ServiceConstant(){}
 }

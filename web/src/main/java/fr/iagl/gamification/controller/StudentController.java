@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 @RestController
-public class StudentController implements AbstractController {
+public class StudentController extends AbstractController {
 
 	/**
 	 * Logger

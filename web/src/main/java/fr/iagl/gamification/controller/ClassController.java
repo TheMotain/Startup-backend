@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +36,9 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 @RestController
+@EnableWebSecurity
 @PropertySource("classpath:config/url.properties")
-public class ClassController implements AbstractController {
+public class ClassController extends AbstractController {
 	
 	/**
 	 * Logger
@@ -60,6 +62,7 @@ public class ClassController implements AbstractController {
 	 * 
 	 * @return toutes les classes
 	 */
+	
 	@RequestMapping(value = MappingConstant.CLASS_PATH_ROOT, method = RequestMethod.GET)
 	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassModel.class, responseContainer = "list", message = "Liste des classes")
 	public ResponseEntity<List<ClassModel>> getAllClassroom() {

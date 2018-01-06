@@ -17,11 +17,21 @@
 			<artifactId>body</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-test</artifactId>
+    </dependency>
 
 		<dependency>
 			<groupId>fr.iagl.gamification</groupId>
 			<artifactId>realtime</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
 		<dependency>

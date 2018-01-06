@@ -11,27 +11,27 @@ public class UserModel {
 	/**
 	 * id de l'utilisateur
 	 */
-	private Long id;
+	protected Long id;
 	
 	/**
 	 * uuid unique de l'utilisateur
 	 */
-	private String uuid;
+	protected String uuid;
 	
 	/**
 	 * Nom de l'utilisateur
 	 */
-	private String name;
+	protected String name;
 	
 	/**
 	 * email de l'utilisateur
 	 */
-	private String email;
+	protected String email;
 	
 	/**
 	 * mot de passe crypté de l'utilisateur
 	 */
-	private String password;
+	protected String password;
 
 	/**
 	 * Getter de l'attribut {@link UserModel#id}

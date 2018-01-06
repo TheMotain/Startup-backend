@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 @RestController()
-public class AvatarController implements AbstractController{
+public class AvatarController extends AbstractController{
 
 	/**
 	 * Service principal de manipulation des avatars
