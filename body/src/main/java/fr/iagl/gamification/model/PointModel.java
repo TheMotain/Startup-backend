@@ -1,7 +1,5 @@
 package fr.iagl.gamification.model;
 
-import javax.persistence.Column;
-
 import org.json.JSONObject;
 
 /**
