@@ -1,5 +1,7 @@
 package fr.iagl.gamification.converter;
 
+import java.math.BigDecimal;
+
 import org.dozer.CustomConverter;
 import org.dozer.MappingException;
 
@@ -40,6 +42,7 @@ public class CustomStudentPointsFieldsConverter implements CustomConverter {
 			}
 			dest.setBonus(((PointModel) source).getBonus());
 			dest.setMalus(((PointModel) source).getMalus());
+			dest.setArgent(((PointModel) source).getArgent());
 			dest.setLevel(((PointModel) source).getLevel());
 			dest.setPointsToNextLevel(((PointModel) source).getPointsToNextLevel());
 			return dest;
@@ -53,11 +56,13 @@ public class CustomStudentPointsFieldsConverter implements CustomConverter {
 			if (source != null) {
 				dest.setBonus(((PointEntity) source).getBonus());
 				dest.setMalus(((PointEntity) source).getMalus());
+				dest.setArgent(((PointEntity) source).getArgent());
 				dest.setLevel(((PointEntity) source).getLevel());
 				dest.setPointsToNextLevel(((PointEntity) source).getPointsToNextLevel());
 			} else {
 				dest.setBonus(0);
 				dest.setMalus(0);
+				dest.setArgent(new BigDecimal(0));
 				dest.setLevel(1);
 				dest.setPointsToNextLevel(100L);
 			}

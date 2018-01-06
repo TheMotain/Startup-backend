@@ -1,5 +1,7 @@
 package fr.iagl.gamification.model;
 
+import java.math.BigDecimal;
+
 import org.json.JSONObject;
 
 /**
@@ -18,6 +20,11 @@ public class PointModel {
 	 * malus de l'élève
 	 */
 	private long malus;
+	
+	/**
+	 * argent de l'élève
+	 */
+	private BigDecimal argent;
 	
 	/**
 	 * élève
@@ -42,6 +49,7 @@ public class PointModel {
 	public PointModel(JSONObject json) {
 		bonus = json.getLong("bonus");
 		malus = json.getLong("malus");
+		argent = BigDecimal.valueOf(json.getDouble("argent"));
 		level = json.getInt("level");
 		pointsToNextLevel = json.getLong("point_to_next_level");
 		student = new StudentModel();
@@ -127,5 +135,22 @@ public class PointModel {
 	public void setStudent(StudentModel student) {
 		this.student = student;
 	}
+
+	/**
+	 * Getter de l'attribut {@link PointModel#argent}
+	 * @return argent
+	 */
+	public BigDecimal getArgent() {
+		return argent;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointModel#argent}
+	 * @param argent l'attribut {@link PointModel#argent} à setter
+	 */
+	public void setArgent(BigDecimal argent) {
+		this.argent = argent;
+	}
+	
 	
 }
