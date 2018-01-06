@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
- 
+
 import fr.iagl.gamification.model.PointModel;
 import fr.iagl.gamification.services.RunnableHashMapService;
 import fr.iagl.gamification.utils.ChannelEnum;

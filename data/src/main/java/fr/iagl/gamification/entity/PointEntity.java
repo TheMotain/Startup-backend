@@ -41,6 +41,44 @@ public class PointEntity implements Serializable {
 	 * Elève
 	 */
 	@Id @Column(name="pupil") Long id;
+	
+	@Column(name = "level")
+	private int level;
+	
+	@Column(name="point_to_next_level")
+	private Long pointsToNextLevel;
+
+	/**
+	 * Getter de l'attribut {@link PointEntity#level}
+	 * @return level
+	 */
+	public int getLevel() {
+		return level;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointEntity#level}
+	 * @param level l'attribut {@link PointEntity#level} à setter
+	 */
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	/**
+	 * Getter de l'attribut {@link PointEntity#pointsToNextLevel}
+	 * @return pointsToNextLevel
+	 */
+	public Long getPointsToNextLevel() {
+		return pointsToNextLevel;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointEntity#pointsToNextLevel}
+	 * @param pointsToNextLevel l'attribut {@link PointEntity#pointsToNextLevel} à setter
+	 */
+	public void setPointsToNextLevel(Long pointsToNextLevel) {
+		this.pointsToNextLevel = pointsToNextLevel;
+	}
 
 	/**
 	 * Liaison JPA vers l'entité {@link StudentEntity}
