@@ -2,6 +2,7 @@ package fr.iagl.gamification.services.impl;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,7 @@ import fr.iagl.gamification.repository.AnswerRepository;
 import fr.iagl.gamification.repository.PointRepository;
 import fr.iagl.gamification.repository.ResultQcmRepository;
 import fr.iagl.gamification.repository.StudentRepository;
+import fr.iagl.gamification.services.PointService;
 
 public class ResultQcmServiceImplTest {
 
@@ -43,6 +45,9 @@ public class ResultQcmServiceImplTest {
 	
 	@Mock
 	private PointRepository pointRepository;
+	
+	@Mock
+	private PointService pointService;
 	
 	@Mock
 	private Mapper mapper;
@@ -182,6 +187,32 @@ public class ResultQcmServiceImplTest {
 		Mockito.verify(repository).save(Mockito.anyCollection());
 	}
 	
+	public void testSaveResultQcmResultOKArgent0point5() throws GamificationServiceException {
+		ResultQcmEntity resultats = Mockito.mock(ResultQcmEntity.class);
+		AnswerEntity answer = Mockito.mock(AnswerEntity.class);
+		AnswerEntity answerRep = Mockito.mock(AnswerEntity.class);
+		QuestionEntity questionRep = Mockito.mock(QuestionEntity.class);
+		QuestionEntity question = Mockito.mock(QuestionEntity.class);
+		Iterable<ResultQcmEntity> iter = Arrays.asList(resultats);
+		Iterable<ResultQcmEntity> answers = Arrays.asList(resultats);
+		Mockito.doReturn(answer).when(resultats).getAnswer();
+		Mockito.doReturn(question).when(answer).getQuestion();
+		Mockito.doReturn(5L).when(question).getId();
+		Mockito.doReturn(Arrays.asList(resultats)).when(repository).findByStudent_Id(Mockito.anyLong());
+		
+		Mockito.doReturn(Mockito.mock(StudentEntity.class)).when(studentRepository).findOne(2L);
+		Mockito.doReturn(answerRep).when(answerRepository).findOne(Mockito.anyLong());
+		Mockito.doReturn(questionRep).when(answerRep).getQuestion();
+		Mockito.doReturn(2L).when(questionRep).getId();
+		
+		Mockito.doReturn(iter).when(repository).save(Mockito.anyCollection());
+		Mockito.doReturn(Mockito.mock(ResultQcmModel.class)).when(mapper).map(resultats, ResultQcmModel.class);
+		
+		List<ResultQcmModel> results = service.saveResultQcm(Arrays.asList(1L, 3L), 2L);
+		assertNotNull(results);
+		Mockito.verify(repository).save(Mockito.anyCollection());
+	}
+	
 	
 	@Test
 	public void testSaveResultQcmResultOKScore2() throws GamificationServiceException {
@@ -195,8 +226,28 @@ public class ResultQcmServiceImplTest {
 		Mockito.doReturn(Mockito.mock(ResultQcmModel.class)).when(mapper).map(resultats, ResultQcmModel.class);
 		Mockito.doReturn(true).when(answer).isGood();
 		Mockito.doReturn(question).when(answer).getQuestion();
-		Mockito.doReturn(2).when(question).getNbPoints();
 		Mockito.doReturn(Mockito.mock(PointEntity.class)).when(pointRepository).findByStudent_Id(2L);
+		List<ResultQcmModel> results = service.saveResultQcm(Arrays.asList(1L, 3L), 2L);
+		assertNotNull(results);
+		Mockito.verify(repository).save(Mockito.anyCollection());
+		Mockito.verify(pointRepository).save(Mockito.any(PointEntity.class));
+	}
+	
+	@Test
+	public void testSaveResultQcmResultOKScore2Argent0Point5() throws GamificationServiceException {
+		ResultQcmEntity resultats = Mockito.mock(ResultQcmEntity.class);
+		AnswerEntity answer = Mockito.mock(AnswerEntity.class);
+		QuestionEntity question = Mockito.mock(QuestionEntity.class);
+		PointEntity point = Mockito.mock(PointEntity.class);
+		Iterable<ResultQcmEntity> iter = Arrays.asList(resultats);
+		Mockito.doReturn(Mockito.mock(StudentEntity.class)).when(studentRepository).findOne(2L);
+		Mockito.doReturn(answer).when(answerRepository).findOne(Mockito.anyLong());
+		Mockito.doReturn(iter).when(repository).save(Mockito.anyCollection());
+		Mockito.doReturn(Mockito.mock(ResultQcmModel.class)).when(mapper).map(resultats, ResultQcmModel.class);
+		Mockito.doReturn(true).when(answer).isGood();
+		Mockito.doReturn(question).when(answer).getQuestion();
+		Mockito.doReturn(point).when(pointRepository).findByStudent_Id(2L);
+		Mockito.doReturn(new BigDecimal(0)).when(point).getArgent();
 		List<ResultQcmModel> results = service.saveResultQcm(Arrays.asList(1L, 3L), 2L);
 		assertNotNull(results);
 		Mockito.verify(repository).save(Mockito.anyCollection());
@@ -215,7 +266,6 @@ public class ResultQcmServiceImplTest {
 		Mockito.doReturn(Mockito.mock(ResultQcmModel.class)).when(mapper).map(resultats, ResultQcmModel.class);
 		Mockito.doReturn(true).when(answer).isGood();
 		Mockito.doReturn(question).when(answer).getQuestion();
-		Mockito.doReturn(2).when(question).getNbPoints();
 		List<ResultQcmModel> results = service.saveResultQcm(Arrays.asList(1L, 3L), 2L);
 		assertNotNull(results);
 		Mockito.verify(repository).save(Mockito.anyCollection());

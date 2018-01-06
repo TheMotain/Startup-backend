@@ -26,6 +26,10 @@ import fr.iagl.gamification.services.PointService;
 @Service
 public class PointServiceImpl implements PointService{
 
+	private static final Long CONSTANTE_POINTS_NEXT_LEVEL = 25L;
+
+	private static final Long CONTANTE_100 = 100L;
+
 	/**
 	 * Fait les interactions avec la base de données
 	 */
@@ -59,7 +63,7 @@ public class PointServiceImpl implements PointService{
 			points.setBonus(points.getBonus() + pointToUpdate.getBonus());
 			points.setMalus(points.getMalus() + pointToUpdate.getMalus());
 		}
-		
+		updateLevel(points);
 		PointEntity saved = pointRepository.save(points);
 		return mapper.map(saved, PointModel.class);
 	}
@@ -78,6 +82,20 @@ public class PointServiceImpl implements PointService{
 			throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_NOT_EXISTS_STUDENT));
 		}
 		return mapper.map(entity, PointModel.class);
+	}
+
+	@Override
+	public void updateLevel(PointEntity point) {
+		Long pointToNextLevel = point.getPointsToNextLevel();
+		int level = point.getLevel();
+		
+		while(point.getBonus() >= pointToNextLevel){
+			level++;
+			pointToNextLevel += CONTANTE_100 + CONSTANTE_POINTS_NEXT_LEVEL;
+		}
+		
+		point.setLevel(level);
+		point.setPointsToNextLevel(pointToNextLevel);
 	}
 
 }

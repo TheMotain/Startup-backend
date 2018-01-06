@@ -1,6 +1,7 @@
 package fr.iagl.gamification.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,9 +39,53 @@ public class PointEntity implements Serializable {
 	private long malus;
 	
 	/**
+	 * Argent de l'élève
+	 */
+	@Column(name = "argent")
+	private BigDecimal argent;
+	
+	/**
 	 * Elève
 	 */
 	@Id @Column(name="pupil") Long id;
+	
+	@Column(name = "level")
+	private int level;
+	
+	@Column(name="point_to_next_level")
+	private Long pointsToNextLevel;
+
+	/**
+	 * Getter de l'attribut {@link PointEntity#level}
+	 * @return level
+	 */
+	public int getLevel() {
+		return level;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointEntity#level}
+	 * @param level l'attribut {@link PointEntity#level} à setter
+	 */
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	/**
+	 * Getter de l'attribut {@link PointEntity#pointsToNextLevel}
+	 * @return pointsToNextLevel
+	 */
+	public Long getPointsToNextLevel() {
+		return pointsToNextLevel;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointEntity#pointsToNextLevel}
+	 * @param pointsToNextLevel l'attribut {@link PointEntity#pointsToNextLevel} à setter
+	 */
+	public void setPointsToNextLevel(Long pointsToNextLevel) {
+		this.pointsToNextLevel = pointsToNextLevel;
+	}
 
 	/**
 	 * Liaison JPA vers l'entité {@link StudentEntity}
@@ -96,6 +141,22 @@ public class PointEntity implements Serializable {
 	 */
 	public void setStudent(StudentEntity student) {
 		this.student = student;
+	}
+
+	/**
+	 * Getter de l'attribut {@link PointEntity#argent}
+	 * @return argent
+	 */
+	public BigDecimal getArgent() {
+		return argent;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointEntity#argent}
+	 * @param argent l'attribut {@link PointEntity#argent} à setter
+	 */
+	public void setArgent(BigDecimal argent) {
+		this.argent = argent;
 	}
 	
 }

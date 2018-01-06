@@ -1,5 +1,7 @@
 package fr.iagl.gamification.model;
 
+import java.math.BigDecimal;
+
 import org.json.JSONObject;
 
 /**
@@ -20,9 +22,18 @@ public class PointModel {
 	private long malus;
 	
 	/**
+	 * argent de l'élève
+	 */
+	private BigDecimal argent;
+	
+	/**
 	 * élève
 	 */
 	private StudentModel student;
+	
+	private int level;
+	
+	private Long pointsToNextLevel;
 
 	/**
 	 * Constructeur standard
@@ -38,8 +49,43 @@ public class PointModel {
 	public PointModel(JSONObject json) {
 		bonus = json.getLong("bonus");
 		malus = json.getLong("malus");
+		argent = BigDecimal.valueOf(json.getDouble("argent"));
+		level = json.getInt("level");
+		pointsToNextLevel = json.getLong("point_to_next_level");
 		student = new StudentModel();
 		student.setId(json.getLong("pupil"));
+	}
+	
+	/**
+	 * Getter de l'attribut {@link PointModel#level}
+	 * @return level
+	 */
+	public int getLevel() {
+		return level;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointModel#level}
+	 * @param level l'attribut {@link PointModel#level} à setter
+	 */
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	/**
+	 * Getter de l'attribut {@link PointModel#pointsToNextLevel}
+	 * @return pointsToNextLevel
+	 */
+	public Long getPointsToNextLevel() {
+		return pointsToNextLevel;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointModel#pointsToNextLevel}
+	 * @param pointsToNextLevel l'attribut {@link PointModel#pointsToNextLevel} à setter
+	 */
+	public void setPointsToNextLevel(Long pointsToNextLevel) {
+		this.pointsToNextLevel = pointsToNextLevel;
 	}
 
 	/**
@@ -89,5 +135,22 @@ public class PointModel {
 	public void setStudent(StudentModel student) {
 		this.student = student;
 	}
+
+	/**
+	 * Getter de l'attribut {@link PointModel#argent}
+	 * @return argent
+	 */
+	public BigDecimal getArgent() {
+		return argent;
+	}
+
+	/**
+	 * Setter de l'attribut {@link PointModel#argent}
+	 * @param argent l'attribut {@link PointModel#argent} à setter
+	 */
+	public void setArgent(BigDecimal argent) {
+		this.argent = argent;
+	}
+	
 	
 }
