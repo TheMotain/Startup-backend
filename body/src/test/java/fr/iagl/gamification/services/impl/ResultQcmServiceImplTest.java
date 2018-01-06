@@ -27,6 +27,7 @@ import fr.iagl.gamification.repository.AnswerRepository;
 import fr.iagl.gamification.repository.PointRepository;
 import fr.iagl.gamification.repository.ResultQcmRepository;
 import fr.iagl.gamification.repository.StudentRepository;
+import fr.iagl.gamification.services.PointService;
 
 public class ResultQcmServiceImplTest {
 
@@ -44,6 +45,9 @@ public class ResultQcmServiceImplTest {
 	
 	@Mock
 	private PointRepository pointRepository;
+	
+	@Mock
+	private PointService pointService;
 	
 	@Mock
 	private Mapper mapper;

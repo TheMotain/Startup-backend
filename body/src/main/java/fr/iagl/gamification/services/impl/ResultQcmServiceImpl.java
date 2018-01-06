@@ -20,6 +20,7 @@ import fr.iagl.gamification.repository.AnswerRepository;
 import fr.iagl.gamification.repository.PointRepository;
 import fr.iagl.gamification.repository.ResultQcmRepository;
 import fr.iagl.gamification.repository.StudentRepository;
+import fr.iagl.gamification.services.PointService;
 import fr.iagl.gamification.services.ResultQcmService;
 
 /**
@@ -54,6 +55,9 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 	
 	@Autowired
 	private PointRepository pointRepository;
+	
+	@Autowired
+	private PointService pointService;
 	
 	/**
 	 * Mapper Model <-> Entité
@@ -166,7 +170,7 @@ public class ResultQcmServiceImpl implements ResultQcmService{
 				points.setArgent(argent);
 			}
 			points.setBonus(points.getBonus() + score);
-			
+			pointService.updateLevel(points);
 			pointRepository.save(points);
 		}
 	}

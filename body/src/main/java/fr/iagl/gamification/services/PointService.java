@@ -2,6 +2,7 @@ package fr.iagl.gamification.services;
 
 import java.util.List;
 
+import fr.iagl.gamification.entity.PointEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.PointModel;
 
@@ -37,4 +38,6 @@ public interface PointService {
 	 * @return les points de tous les élèves
 	 */
 	public List<PointModel> getPoints();
+
+	public void updateLevel(PointEntity point);
 }
