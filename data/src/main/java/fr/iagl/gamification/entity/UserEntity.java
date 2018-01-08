@@ -1,6 +1,7 @@
 package fr.iagl.gamification.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -77,6 +79,14 @@ public class UserEntity implements Serializable{
     public void prePersist() {
     	this.uuid = UUID.randomUUID().toString();
     }
+	
+	
+	/**
+	 * Récupération des classes pour ce professeur
+	 */
+	@OneToMany(mappedBy = "classroom")
+	private List<ClassEntity> classrooms;
+	
 	
 	/**
 	 * Getter de l'attribut {@link UserEntity#id}
@@ -173,6 +183,24 @@ public class UserEntity implements Serializable{
 	public void setRole(RoleUserEntity role) {
 		this.role = role;
 	}
+
+	/**
+	 * Getter de l'attribut {@link UserEntity#classrooms}
+	 * @return classrooms
+	 */
+	public List<ClassEntity> getClassrooms() {
+		return classrooms;
+	}
+
+	/**
+	 * Setter de l'attribut {@link UserEntity#classrooms}
+	 * @param classrooms l'attribut {@link UserEntity#classrooms} à setter
+	 */
+	public void setClassrooms(List<ClassEntity> classrooms) {
+		this.classrooms = classrooms;
+	}
+	
+	
 
 	
 }

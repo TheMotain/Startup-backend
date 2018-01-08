@@ -10,6 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Entity pour l'association entre les classes et les professeurs
+ * @author Nadia
+ *
+ */
 @Entity
 @Table( name = "responsable")
 public class ResponsableEntity implements Serializable{
@@ -41,7 +46,7 @@ public class ResponsableEntity implements Serializable{
 	 private ClassEntity classeL;
 	 
 	 @ManyToOne( cascade = CascadeType.PERSIST )
-	 @JoinColumn( name = "user_fk", insertable = false, updatable = false )
+	 @JoinColumn( name = "user_fk", insertable = false )
 	 private UserEntity classeM;
 
 }

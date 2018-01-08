@@ -51,7 +51,7 @@ public class ClassEntity implements Serializable {
 	/**
 	 * Récupération des professeurs de cette classe
 	 */
-	@OneToMany(mappedBy = "classroom")
+	@OneToMany(mappedBy = "users")
 	private List<UserEntity> professeurs;
 	
 	/**
@@ -104,4 +104,22 @@ public class ClassEntity implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	/**
+	 * Getter de l'attribut {@link ClassEntity#professeurs}
+	 * @return professeurs
+	 */
+	public List<UserEntity> getProfesseurs() {
+		return professeurs;
+	}
+
+	/**
+	 * Setter de l'attribut {@link ClassEntity#professeurs}
+	 * @param professeurs l'attribut {@link ClassEntity#professeurs} à setter
+	 */
+	public void setProfesseurs(List<UserEntity> professeurs) {
+		this.professeurs = professeurs;
+	}
+	
+	
 }
