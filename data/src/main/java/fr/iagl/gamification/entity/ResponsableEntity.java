@@ -42,6 +42,6 @@ public class ResponsableEntity implements Serializable{
 	 
 	 @ManyToOne( cascade = CascadeType.PERSIST )
 	 @JoinColumn( name = "user_fk", insertable = false, updatable = false )
-	 //private UserEntity classeM;
+	 private UserEntity classeM;
 
 }

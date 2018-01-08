@@ -52,7 +52,7 @@ public class ClassEntity implements Serializable {
 	 * Récupération des professeurs de cette classe
 	 */
 	@OneToMany(mappedBy = "classroom")
-	//private List<UserEntity> professeurs;
+	private List<UserEntity> professeurs;
 	
 	/**
 	 * Constructeur vide

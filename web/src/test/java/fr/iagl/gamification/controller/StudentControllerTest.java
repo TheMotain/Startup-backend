@@ -18,8 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
-import com.google.common.util.concurrent.Service;
-
 import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.StudentModel;

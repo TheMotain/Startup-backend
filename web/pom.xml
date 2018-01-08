@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>fr.iagl.gamification</groupId>
 		<artifactId>startup-backend</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.2-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -17,11 +17,21 @@
 			<artifactId>body</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-test</artifactId>
+    </dependency>
 
 		<dependency>
 			<groupId>fr.iagl.gamification</groupId>
 			<artifactId>realtime</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
 		<dependency>

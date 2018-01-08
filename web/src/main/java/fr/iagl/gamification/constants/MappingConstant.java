@@ -61,6 +61,21 @@ public class MappingConstant {
 	 * URL de connexion d'un étudiant
 	 */
 	public static final String STUDENT_PATH_CONNECT = "${url.student.connect}";
+
+	/**
+	 * Chemin pour la récupération et l'ajout de professeur
+	 */
+	public static final String TEACHER_PATH_ROOT = "${url.teacher}";
+
+	/**
+	 * Chemin pour la connexion du professeur
+	 */
+	public static final String CONNECT_TEACHER_PATH = "${url.teacher.connect}";
+
+	/**
+	 * Chemin pour la déconnexion
+	 */
+	public static final String LOGOUT_PATH = "${url.logout}";
 	
 	/**
 	 * Classe non instanciable

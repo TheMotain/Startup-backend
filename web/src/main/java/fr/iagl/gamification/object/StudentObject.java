@@ -38,6 +38,11 @@ public class StudentObject {
 	 * Points malus;
 	 */
 	private long malus;
+	
+	/**
+	 * argent de l'enfant
+	 */
+	private float argent;
 
 	/**
 	 * Getter de l'attribut {@link StudentObject#id}
@@ -151,4 +156,21 @@ public class StudentObject {
 		this.malus = malus;
 	}
 
+	/**
+	 * Getter de l'attribut {@link StudentObject#argent}
+	 * @return argent
+	 */
+	public float getArgent() {
+		return argent;
+	}
+
+	/**
+	 * Setter de l'attribut {@link StudentObject#argent}
+	 * @param argent l'attribut {@link StudentObject#argent} à setter
+	 */
+	public void setArgent(float argent) {
+		this.argent = argent;
+	}
+
+	
 }
