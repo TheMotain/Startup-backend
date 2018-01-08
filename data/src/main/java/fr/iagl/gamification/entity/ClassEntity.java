@@ -1,6 +1,7 @@
 package fr.iagl.gamification.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -51,8 +53,8 @@ public class ClassEntity implements Serializable {
 	/**
 	 * Récupération des professeurs de cette classe
 	 */
-	@OneToMany(mappedBy = "users")
-	private List<UserEntity> professeurs;
+	@ManyToMany(mappedBy = "users")
+	private List<UserEntity> teachers  = new ArrayList<>();;
 	
 	/**
 	 * Constructeur vide
@@ -106,19 +108,19 @@ public class ClassEntity implements Serializable {
 	}
 
 	/**
-	 * Getter de l'attribut {@link ClassEntity#professeurs}
-	 * @return professeurs
+	 * Getter de l'attribut {@link ClassEntity#teachers}
+	 * @return teachers
 	 */
-	public List<UserEntity> getProfesseurs() {
-		return professeurs;
+	public List<UserEntity> getTeachers() {
+		return teachers;
 	}
 
 	/**
-	 * Setter de l'attribut {@link ClassEntity#professeurs}
-	 * @param professeurs l'attribut {@link ClassEntity#professeurs} à setter
+	 * Setter de l'attribut {@link ClassEntity#teachers}
+	 * @param teachers l'attribut {@link ClassEntity#teachers} à setter
 	 */
-	public void setProfesseurs(List<UserEntity> professeurs) {
-		this.professeurs = professeurs;
+	public void setTeachers(List<UserEntity> teachers) {
+		this.teachers = teachers;
 	}
 	
 	

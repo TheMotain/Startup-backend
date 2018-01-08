@@ -1,15 +1,19 @@
 package fr.iagl.gamification.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -84,8 +88,33 @@ public class UserEntity implements Serializable{
 	/**
 	 * Récupération des classes pour ce professeur
 	 */
-	@OneToMany(mappedBy = "classroom")
-	private List<ClassEntity> classrooms;
+	@ManyToMany(cascade = { 
+	        CascadeType.PERSIST, 
+	        CascadeType.MERGE
+	    })
+	    @JoinTable(name = "reponsable",
+	        joinColumns = @JoinColumn(name = "id"),
+	        inverseJoinColumns = @JoinColumn(name = "id"))
+	
+	private List<ClassEntity> classrooms = new ArrayList<>();
+	
+	/**
+	 * Associer une classe à un professeur
+	 * @param classroom
+	 */
+	public void addClassroom(ClassEntity classroom) {
+		classrooms.add(classroom);
+		classroom.getTeachers().add(this);
+    }
+ 
+	/**
+	 * Dissassocier une classe d'un professeur
+	 * @param classroom
+	 */
+    public void removeClassroom(ClassEntity classroom) {
+    	classrooms.remove(classroom);
+        classroom.getTeachers().remove(this);
+    }
 	
 	
 	/**
