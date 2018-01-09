@@ -82,10 +82,7 @@ public class UserEntity implements Serializable{
 	/**
 	 * Récupération des classes pour ce professeur
 	 */
-	@ManyToMany(cascade = { 
-	        CascadeType.PERSIST, 
-	        CascadeType.MERGE
-	    })
+	@ManyToMany()
 	    @JoinTable(name = "reponsable",
 	        joinColumns = @JoinColumn(name = "user_id"),
 	        inverseJoinColumns = @JoinColumn(name = "classroom_id"))

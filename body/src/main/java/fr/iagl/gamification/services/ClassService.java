@@ -17,10 +17,11 @@ public interface ClassService {
 	 * Creer la classe
 	 * 
 	 * @param classe objet représentant la classe
+	 * @param idTeacher id du professeur
 	 * @return la classe créée
 	 * @throws GamificationServiceException si la classe existe déjà en base de données 
 	 */
-	public ClassModel createClass(ClassModel classe) throws GamificationServiceException;
+	public ClassModel createClass(ClassModel classe, Long idTeacher) throws GamificationServiceException;
 
 	/**
 	 * Récupère l'ensemble des classes

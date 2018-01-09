@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,9 @@ import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.constants.MappingConstant;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.ClassModel;
+import fr.iagl.gamification.model.TeacherModel;
 import fr.iagl.gamification.services.ClassService;
+import fr.iagl.gamification.services.TeacherService;
 import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.ClassForm;
 import io.swagger.annotations.ApiResponse;
@@ -52,6 +55,12 @@ public class ClassController extends AbstractController {
 	private ClassService classService;
 	
 	/**
+	 * Service du professeur
+	 */
+	@Autowired
+	private TeacherService teacherService;
+	
+	/**
 	 * Mapper
 	 */
 	@Autowired
@@ -78,6 +87,7 @@ public class ClassController extends AbstractController {
 	 * @param bindingResult pour valider le formulaire
 	 * @return l'objet crée et statut OK s'il a été ajoute sinon le message d'erreur et le statut BAD_REQUEST
 	 */
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = MappingConstant.CLASS_PATH_ROOT, method = RequestMethod.POST)
 	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassModel.class, message = "La classe créée"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "Liste des erreurs au niveau du formulaire / La classe existe déjà")})
@@ -89,7 +99,8 @@ public class ClassController extends AbstractController {
 		} else {
 			
 			try {
-				ClassModel createdClass = classService.createClass(mapper.map(classForm, ClassModel.class));
+				TeacherModel teacher = getTeacher();
+				ClassModel createdClass = classService.createClass(mapper.map(classForm, ClassModel.class), teacher.getId());
 				if (createdClass != null) {
 					return new ResponseEntity<>(createdClass, HttpStatus.OK);
 				}

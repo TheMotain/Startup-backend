@@ -122,6 +122,17 @@ public class ClassEntity implements Serializable {
 	public void setTeachers(List<UserEntity> teachers) {
 		this.teachers = teachers;
 	}
+
+	/**
+	 * 
+	 * @param user
+	 */
+	public void addTeacher(UserEntity user) {
+		if(teachers == null){
+			List<UserEntity> teachers= new ArrayList<>();
+		}
+		this.teachers.add(user);
+	}
 	
 	
 }

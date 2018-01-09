@@ -41,8 +41,8 @@ public class ClassServiceImplTest{
 		Mockito.doReturn(false).when(repository).existsByName("name");
 		Mockito.doReturn("name").when(classe).getClassName();
 		Mockito.doReturn(entity).when(mapper).map(classe, ClassEntity.class);
-		
-		service.createClass(classe);
+		//TODO
+		service.createClass(classe,0L);
 		Mockito.verify(repository).save(entity);
 	}
 	
@@ -51,7 +51,8 @@ public class ClassServiceImplTest{
 		ClassModel classe = Mockito.mock(ClassModel.class);
 		Mockito.doReturn("name").when(classe).getClassName();
 		Mockito.doReturn(true).when(repository).existsByName("name");
-		service.createClass(classe);
+		//TODO
+		service.createClass(classe,0L);
 	}
 
 	@Test

@@ -48,10 +48,12 @@ public class ClassControllerTest extends SpringIntegrationTest{
 		ClassModel classModel = Mockito.mock(ClassModel.class);
 		BindingResult bindingResult = Mockito.mock(BindingResult.class);
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
-		Mockito.doReturn(classModel).when(service).createClass(Mockito.any(ClassModel.class));
+		//TODO
+		Mockito.doReturn(classModel).when(service).createClass(Mockito.any(ClassModel.class),0L);
 
 		ResponseEntity output = controller.submitClassForm(classForm, bindingResult);
-		Mockito.verify(service, Mockito.times(1)).createClass(Mockito.any());
+		//TODO
+		Mockito.verify(service, Mockito.times(1)).createClass(Mockito.any(),0L);
 		assertEquals(HttpStatus.OK, output.getStatusCode());
 	}
 	
@@ -63,7 +65,8 @@ public class ClassControllerTest extends SpringIntegrationTest{
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
 
 		ResponseEntity output = controller.submitClassForm(classForm, bindingResult);
-		Mockito.verify(service, Mockito.times(1)).createClass(Mockito.any());
+		//TODO
+		Mockito.verify(service, Mockito.times(1)).createClass(Mockito.any(),0L);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
 	}
 
@@ -78,7 +81,8 @@ public class ClassControllerTest extends SpringIntegrationTest{
 		Mockito.doReturn("error message").when(error).getDefaultMessage();
 		
 		ResponseEntity output = controller.submitClassForm(classForm, bindingResult);
-		Mockito.verify(service, Mockito.never()).createClass(classe);
+		//TODO
+		Mockito.verify(service, Mockito.never()).createClass(classe,0L);
 		assertEquals(HttpStatus.BAD_REQUEST, output.getStatusCode());
 	}
 	
@@ -92,7 +96,8 @@ public class ClassControllerTest extends SpringIntegrationTest{
 		Mockito.doReturn(false).when(bindingResult).hasErrors();
 		Mockito.doReturn("error message").when(error).getDefaultMessage();
 		Mockito.doReturn(classe).when(mapper).map(classForm, ClassModel.class);
-		Mockito.doThrow(exception).when(service).createClass(Mockito.any());
+		//TODO
+		Mockito.doThrow(exception).when(service).createClass(Mockito.any(),0L);
 		Mockito.doReturn(Arrays.asList(CodeError.ERROR_EXISTS_CLASS)).when(exception).getErrors();
 		
 		ResponseEntity output = controller.submitClassForm(classForm, bindingResult);

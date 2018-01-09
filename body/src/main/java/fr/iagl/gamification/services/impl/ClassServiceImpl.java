@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import fr.iagl.gamification.constants.CodeError;
 import fr.iagl.gamification.entity.ClassEntity;
+import fr.iagl.gamification.entity.UserEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.repository.ClassRepository;
+import fr.iagl.gamification.repository.UserRepository;
 import fr.iagl.gamification.services.ClassService;
 
 /**
@@ -32,6 +34,10 @@ public class ClassServiceImpl implements ClassService {
 	@Autowired
 	private ClassRepository repository;
 	
+	
+	@Autowired
+	private UserRepository userRepository;
+	
 	/**
 	 * mapper
 	 */
@@ -42,9 +48,16 @@ public class ClassServiceImpl implements ClassService {
 	 * @see fr.iagl.gamification.services.ClassService#createClass(fr.iagl.gamification.model.ClassModel)
 	 */
 	@Override
-	public ClassModel createClass(@QueryParam("classe") ClassModel classe) throws GamificationServiceException {
+	public ClassModel createClass(@QueryParam("classe") ClassModel classe, Long idTeacher) throws GamificationServiceException {
 		if (! repository.existsByName(classe.getClassName())) {
-			ClassEntity entity = repository.save(this.mapper.map(classe, ClassEntity.class));
+			ClassEntity entity = this.mapper.map(classe, ClassEntity.class);
+			
+			UserEntity user = userRepository.findOne(idTeacher);
+			if(user == null){
+				new GamificationServiceException(Arrays.asList(CodeError.ERROR_TEACHER_NOT_FOUND));
+			}
+			entity.addTeacher(user);
+			entity = repository.save(entity);
 			return mapper.map(entity, ClassModel.class);
 		}
 		throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_EXISTS_CLASS));
