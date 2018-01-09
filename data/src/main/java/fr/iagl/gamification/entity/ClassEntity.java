@@ -53,8 +53,8 @@ public class ClassEntity implements Serializable {
 	/**
 	 * Récupération des professeurs de cette classe
 	 */
-	@ManyToMany(mappedBy = "users")
-	private List<UserEntity> teachers  = new ArrayList<>();;
+	@ManyToMany(mappedBy = "classrooms")
+	private List<UserEntity> teachers  = new ArrayList<>();
 	
 	/**
 	 * Constructeur vide

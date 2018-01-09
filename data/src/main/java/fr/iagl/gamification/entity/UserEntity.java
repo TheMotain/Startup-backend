@@ -15,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -79,11 +78,6 @@ public class UserEntity implements Serializable{
 	@JoinColumn(name="role", nullable=false)
 	private RoleUserEntity role;
 	
-	@PrePersist
-    public void prePersist() {
-    	this.uuid = UUID.randomUUID().toString();
-    }
-	
 	
 	/**
 	 * Récupération des classes pour ce professeur
@@ -93,29 +87,15 @@ public class UserEntity implements Serializable{
 	        CascadeType.MERGE
 	    })
 	    @JoinTable(name = "reponsable",
-	        joinColumns = @JoinColumn(name = "id"),
-	        inverseJoinColumns = @JoinColumn(name = "id"))
+	        joinColumns = @JoinColumn(name = "user_id"),
+	        inverseJoinColumns = @JoinColumn(name = "classroom_id"))
 	
 	private List<ClassEntity> classrooms = new ArrayList<>();
 	
-	/**
-	 * Associer une classe à un professeur
-	 * @param classroom
-	 */
-	public void addClassroom(ClassEntity classroom) {
-		classrooms.add(classroom);
-		classroom.getTeachers().add(this);
-    }
- 
-	/**
-	 * Dissassocier une classe d'un professeur
-	 * @param classroom
-	 */
-    public void removeClassroom(ClassEntity classroom) {
-    	classrooms.remove(classroom);
-        classroom.getTeachers().remove(this);
-    }
-	
+	@PrePersist
+    public void prePersist() {
+    	this.uuid = UUID.randomUUID().toString();
+    }	
 	
 	/**
 	 * Getter de l'attribut {@link UserEntity#id}
