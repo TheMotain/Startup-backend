@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -83,7 +82,7 @@ public class UserEntity implements Serializable{
 	 * Récupération des classes pour ce professeur
 	 */
 	@ManyToMany()
-	    @JoinTable(name = "reponsable",
+	    @JoinTable(name = "responsable",
 	        joinColumns = @JoinColumn(name = "user_id"),
 	        inverseJoinColumns = @JoinColumn(name = "classroom_id"))
 	
@@ -204,9 +203,5 @@ public class UserEntity implements Serializable{
 	 */
 	public void setClassrooms(List<ClassEntity> classrooms) {
 		this.classrooms = classrooms;
-	}
-	
-	
-
-	
+	}	
 }

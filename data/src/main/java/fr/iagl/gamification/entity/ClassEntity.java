@@ -128,10 +128,8 @@ public class ClassEntity implements Serializable {
 	 * @param user
 	 */
 	public void addTeacher(UserEntity user) {
-		if(teachers == null){
-			List<UserEntity> teachers= new ArrayList<>();
-		}
 		this.teachers.add(user);
+		user.getClassrooms().add(this);
 	}
 	
 	

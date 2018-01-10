@@ -14,9 +14,12 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import fr.iagl.gamification.entity.ClassEntity;
+import fr.iagl.gamification.entity.UserEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.ClassModel;
+import fr.iagl.gamification.model.UserModel;
 import fr.iagl.gamification.repository.ClassRepository;
+import fr.iagl.gamification.repository.UserRepository;
 
 public class ClassServiceImplTest{
 
@@ -25,6 +28,12 @@ public class ClassServiceImplTest{
 	
 	@Mock
 	private ClassRepository repository;
+	
+	@InjectMocks
+	private TeacherServiceImpl techearService;
+	
+	@Mock
+	private UserRepository userRepository;
 	
 	@Mock
 	private Mapper mapper;
@@ -38,11 +47,16 @@ public class ClassServiceImplTest{
 	public void testClassNotExistAndCreated() throws GamificationServiceException {
 		ClassModel classe = Mockito.mock(ClassModel.class);
 		ClassEntity entity = Mockito.mock(ClassEntity.class);
-		Mockito.doReturn(false).when(repository).existsByName("name");
+		
+		UserModel user = Mockito.mock(UserModel.class);
+		UserEntity userEntity = Mockito.mock(UserEntity.class);
+
+		Mockito.doReturn(false).when(repository).existsByName("name");              
+		Mockito.when(userRepository.findOne(Mockito.anyLong())).thenReturn(userEntity);
+		
 		Mockito.doReturn("name").when(classe).getClassName();
 		Mockito.doReturn(entity).when(mapper).map(classe, ClassEntity.class);
-		//TODO
-		service.createClass(classe,0L);
+		service.createClass(classe,1L);
 		Mockito.verify(repository).save(entity);
 	}
 	
@@ -52,7 +66,7 @@ public class ClassServiceImplTest{
 		Mockito.doReturn("name").when(classe).getClassName();
 		Mockito.doReturn(true).when(repository).existsByName("name");
 		//TODO
-		service.createClass(classe,0L);
+		service.createClass(classe,2L);
 	}
 
 	@Test

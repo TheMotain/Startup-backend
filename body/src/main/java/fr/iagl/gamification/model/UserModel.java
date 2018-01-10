@@ -1,5 +1,7 @@
 package fr.iagl.gamification.model;
 
+import java.util.List;
+
 /**
  * Classe représentant un utilisateur
  *
@@ -33,6 +35,11 @@ public class UserModel {
 	 */
 	protected String password;
 
+	/**
+	 * list des classes du professeur
+	 */
+	protected List<ClassModel> classrooms;
+	
 	/**
 	 * Getter de l'attribut {@link UserModel#id}
 	 * @return id
@@ -112,6 +119,23 @@ public class UserModel {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	/**
+	 * Getter de l'attribut {@link UserModel#classrooms}
+	 * @return classrooms
+	 */
+	public List<ClassModel> getClassrooms() {
+		return classrooms;
+	}
+
+	/**
+	 * Setter de l'attribut {@link UserModel#classrooms}
+	 * @param classrooms l'attribut {@link UserModel#classrooms} à setter
+	 */
+	public void setClassrooms(List<ClassModel> classrooms) {
+		this.classrooms = classrooms;
+	}
+	
 	
 	
 }
