@@ -186,5 +186,11 @@
 				<build.filename>prod</build.filename>
 			</properties>
 		</profile>
+		<profile>
+			<id>docker</id>
+			<properties>
+				<build.filename>docker</build.filename>
+			</properties>
+		</profile>		
 	</profiles>
 </project>
