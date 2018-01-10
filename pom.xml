@@ -3,7 +3,7 @@
 
 	<groupId>fr.iagl.gamification</groupId>
 	<artifactId>startup-backend</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>startup-backend</name>
@@ -28,7 +28,7 @@
 		<url>https://github.com/HeleneMyr/Startup-backend.git</url>
 		<connection>scm:git:https://github.com/HeleneMyr/Startup-backend.git</connection>
 		<developerConnection>scm:git:https://github.com/HeleneMyr/Startup-backend.git</developerConnection>
-		<tag>v1.0.2</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<properties>
