@@ -54,7 +54,7 @@ public class ClassServiceImpl implements ClassService {
 			
 			UserEntity user = userRepository.findOne(idTeacher);
 			if(user == null){
-				new GamificationServiceException(Arrays.asList(CodeError.ERROR_TEACHER_NOT_FOUND));
+				throw new GamificationServiceException(Arrays.asList(CodeError.ERROR_TEACHER_NOT_FOUND));
 			}
 			entity.addTeacher(user);
 			entity = repository.save(entity);
