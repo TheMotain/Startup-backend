@@ -26,7 +26,6 @@ import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.ClassModel;
 import fr.iagl.gamification.model.TeacherModel;
 import fr.iagl.gamification.services.ClassService;
-import fr.iagl.gamification.services.TeacherService;
 import fr.iagl.gamification.utils.RequestTools;
 import fr.iagl.gamification.validator.ClassForm;
 import io.swagger.annotations.ApiResponse;
