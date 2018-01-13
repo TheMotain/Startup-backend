@@ -53,13 +53,7 @@ public class ClassController extends AbstractController {
 	 */
 	@Autowired
 	private ClassService classService;
-	
-	/**
-	 * Service du professeur
-	 */
-	@Autowired
-	private TeacherService teacherService;
-	
+
 	/**
 	 * Mapper
 	 */

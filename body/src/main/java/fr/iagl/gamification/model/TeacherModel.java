@@ -2,8 +2,6 @@ package fr.iagl.gamification.model;
 
 import java.util.List;
 
-import fr.iagl.gamification.entity.ClassEntity;
-
 /**
  * Classe représentant un professeur
  *
