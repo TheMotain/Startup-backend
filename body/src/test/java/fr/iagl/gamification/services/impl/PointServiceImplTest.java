@@ -1,5 +1,6 @@
 package fr.iagl.gamification.services.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -128,6 +129,34 @@ public class PointServiceImplTest {
 		Mockito.verify(points).setBonus(101L);
 		Mockito.verify(points).setMalus(5L);
 		Mockito.verify(points).setLevel(2);
+		Mockito.verify(pointRepository).save(Mockito.any(PointEntity.class));
+		
+	}
+	
+	
+	@Test
+	public void testUpdateLevelUpdateArgent() throws GamificationServiceException{
+		StudentEntity student = Mockito.mock(StudentEntity.class);
+		PointEntity points = Mockito.mock(PointEntity.class);
+		PointModel ptUpdated = Mockito.mock(PointModel.class);
+		PointModel model = Mockito.mock(PointModel.class);
+		Mockito.when(pointRepository.findByStudent_Id(2L)).thenReturn(points);
+		Mockito.when(studentRepository.findOne(Mockito.any())).thenReturn(student);
+		Mockito.when(mapper.map(ptUpdated, PointEntity.class)).thenReturn(points);
+		Mockito.when(mapper.map(points, PointModel.class)).thenReturn(model);
+		Mockito.when(points.getBonus()).thenReturn(1L).thenReturn(101L);
+		Mockito.when(points.getMalus()).thenReturn(0L);
+		Mockito.when(ptUpdated.getBonus()).thenReturn(100L);
+		Mockito.when(ptUpdated.getMalus()).thenReturn(5L);
+		Mockito.when(points.getLevel()).thenReturn(1);
+		Mockito.when(points.getArgent()).thenReturn(new BigDecimal(10));
+		Mockito.when(points.getPointsToNextLevel()).thenReturn(100L);
+		
+		service.updatePoint(ptUpdated, 2L);
+		Mockito.verify(points).setBonus(101L);
+		Mockito.verify(points).setMalus(5L);
+		Mockito.verify(points).setLevel(2);
+		Mockito.verify(points).setArgent(new BigDecimal(25));
 		Mockito.verify(pointRepository).save(Mockito.any(PointEntity.class));
 		
 	}

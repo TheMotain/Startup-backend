@@ -1,5 +1,6 @@
 package fr.iagl.gamification.services.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,9 @@ public class PointServiceImpl implements PointService{
 
 	private static final Long CONSTANTE_POINTS_NEXT_LEVEL = 25L;
 
-	private static final Long CONTANTE_100 = 100L;
+	private static final Long CONSTANTE_100 = 100L;
+	
+	private static final BigDecimal CONSTANTE_ARGENT_NEXT_LEVEL = new BigDecimal(15);
 
 	/**
 	 * Fait les interactions avec la base de données
@@ -58,6 +61,7 @@ public class PointServiceImpl implements PointService{
 	
 		if (points == null) {
 			points = mapper.map(pointToUpdate, PointEntity.class);
+			points.setPointsToNextLevel(CONSTANTE_100);
 			points.setStudent(student);
 		} else {
 			points.setBonus(points.getBonus() + pointToUpdate.getBonus());
@@ -88,10 +92,18 @@ public class PointServiceImpl implements PointService{
 	public void updateLevel(PointEntity point) {
 		Long pointToNextLevel = point.getPointsToNextLevel();
 		int level = point.getLevel();
+		BigDecimal argentActu = point.getArgent();
 		
 		while(point.getBonus() >= pointToNextLevel){
-			level++;
-			pointToNextLevel += CONTANTE_100 + CONSTANTE_POINTS_NEXT_LEVEL;
+			if(argentActu == null){
+				level++;
+				point.setArgent(CONSTANTE_ARGENT_NEXT_LEVEL);
+				pointToNextLevel += CONSTANTE_100 + CONSTANTE_POINTS_NEXT_LEVEL;
+			}else{
+				level++;
+				point.setArgent(argentActu.add(CONSTANTE_ARGENT_NEXT_LEVEL));
+				pointToNextLevel += CONSTANTE_100 + CONSTANTE_POINTS_NEXT_LEVEL;
+			}
 		}
 		
 		point.setLevel(level);
