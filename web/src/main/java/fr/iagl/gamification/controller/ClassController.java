@@ -64,12 +64,12 @@ public class ClassController extends AbstractController {
 	 * 
 	 * @return toutes les classes
 	 */
-	
+	@PreAuthorize("hasRole('TEACHER')") 
 	@RequestMapping(value = MappingConstant.CLASS_PATH_ROOT, method = RequestMethod.GET)
 	@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = ClassModel.class, responseContainer = "list", message = "Liste des classes")
 	public ResponseEntity<List<ClassModel>> getAllClassroom() {
 		LOG.info("Récupération de la liste des classes");
-		List<ClassModel> result = classService.getAllClassroom();
+		List<ClassModel> result = getTeacher().getClassrooms(); 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
