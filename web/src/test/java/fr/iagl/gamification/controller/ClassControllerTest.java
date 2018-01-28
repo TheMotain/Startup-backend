@@ -155,15 +155,20 @@ public class ClassControllerTest extends SpringIntegrationTest{
 	
 	@Test
 	public void testGetAllClassroomCallGetAllFromService() throws GamificationServiceException{
+		TeacherModel teacher = Mockito.mock(TeacherModel.class);
+		Mockito.when(teacherService.getTeacherByMail(Mockito.anyString())).thenReturn(teacher);
 		controller.getAllClassroom();
-		Mockito.verify(service, Mockito.times(1)).getAllClassroom();
+		Mockito.verify(teacherService, Mockito.times(1)).getTeacherByMail(Mockito.anyString());
+		Mockito.verify(teacher, Mockito.times(1)).getClassrooms();
 	}
 	
 	@Test
 	public void testGetAllClassroomReturnResponseEntityContainsServiceResultMultiple(){
 		ClassModel mock = Mockito.mock(ClassModel.class);
 		List<ClassModel> lst = Arrays.asList(mock);
-		Mockito.when(service.getAllClassroom()).thenReturn(lst);
+		TeacherModel teacher = Mockito.mock(TeacherModel.class);
+		Mockito.when(teacherService.getTeacherByMail(Mockito.anyString())).thenReturn(teacher);
+		Mockito.when(teacher.getClassrooms()).thenReturn(lst);
 		ResponseEntity<List<ClassModel>> response = controller.getAllClassroom();
 		Assert.assertEquals(mock, response.getBody().get(0));
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -172,7 +177,9 @@ public class ClassControllerTest extends SpringIntegrationTest{
 	@Test
 	public void testGetAllClassroomReturnResponseEntityContainsServiceResult(){
 		List<ClassModel> mock = new ArrayList<>();
-		Mockito.when(service.getAllClassroom()).thenReturn(mock);
+		TeacherModel teacher = Mockito.mock(TeacherModel.class);
+		Mockito.when(teacherService.getTeacherByMail(Mockito.anyString())).thenReturn(teacher);
+		Mockito.when(teacher.getClassrooms()).thenReturn(mock);
 		ResponseEntity<List<ClassModel>> response = controller.getAllClassroom();
 		Assert.assertEquals(mock, response.getBody());
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
