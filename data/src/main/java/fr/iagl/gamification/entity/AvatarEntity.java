@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 /**
@@ -37,26 +36,16 @@ public class AvatarEntity implements Serializable{
 	/**
 	 * Avatar à afficher
 	 */
-	@Column(name = "avatar_id", nullable = false)
+	@Column(name = "avatar_id", nullable = false, insertable = false)
 	private String avatar;
 	
 	/**
 	 * Liaison JPA vers l'entité {@link StudentEntity}
 	 */
     @MapsId 
-    @OneToOne(mappedBy = "points")
+    @OneToOne
 	@JoinColumn(name = "pupil", nullable = false)
 	private StudentEntity student;
-
-    /**
-     * Actions à réaliser avant persistance des données
-     */
-    @PrePersist
-    private void prePersist() {
-    	if(null == avatar) {
-    		avatar = "default";
-    	}
-    }
     
 	/**
 	 * Getter de l'attribut {@link AvatarEntity#idStudent}

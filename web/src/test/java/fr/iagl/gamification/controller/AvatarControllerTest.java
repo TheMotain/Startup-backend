@@ -1,6 +1,7 @@
 package fr.iagl.gamification.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,8 +16,10 @@ import org.springframework.http.ResponseEntity;
 import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.AvatarModel;
-import fr.iagl.gamification.repository.AvatarRepository;
+import fr.iagl.gamification.model.PriceModel;
 import fr.iagl.gamification.services.AvatarService;
+import fr.iagl.gamification.services.InventaireService;
+import fr.iagl.gamification.services.PriceService;
 
 public class AvatarControllerTest extends SpringIntegrationTest{
 
@@ -25,6 +28,12 @@ public class AvatarControllerTest extends SpringIntegrationTest{
 	
 	@Mock
 	private AvatarService avatarService;
+	
+	@Mock
+	private PriceService priceService;
+	
+	@Mock
+	private InventaireService inventaireService;
 	
 	@Before
 	public void init() {
@@ -96,5 +105,40 @@ public class AvatarControllerTest extends SpringIntegrationTest{
 	public void testUpdateAvatarWithAvatarParamEmptyAfterTrimReturnBadRequest() {
 		ResponseEntity result = controller.updateAvatar(null, "    ");
 		Assert.assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());		
+	}
+	
+	@Test
+	public void testPriceListCallRepository() {
+		controller.priceList();
+		Mockito.verify(priceService,Mockito.times(1)).listAllAvatar();
+	}
+	
+	@Test
+	public void testPriceListReturnResultOfService() {
+		List<PriceModel> in = new ArrayList<>();
+		PriceModel mock = Mockito.mock(PriceModel.class);
+		in.add(mock);
+		in.add(mock);
+		Mockito.when(priceService.listAllAvatar()).thenReturn(in);
+		ResponseEntity<List<PriceModel>> out = controller.priceList();
+		Assert.assertEquals(out.getStatusCode(), HttpStatus.OK);
+		Assert.assertEquals(out.getBody(), in);
+	}
+	
+	@Test
+	public void testGetBougthAvatarReturnResultFromService() throws GamificationServiceException {
+		List<String> in = new ArrayList<>();
+		Mockito.when(inventaireService.getAllBougthAvatar(Mockito.anyLong())).thenReturn(in);
+		ResponseEntity response = controller.getBougthAvatar(10L);
+		Assert.assertEquals(in, response.getBody());
+		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+		Mockito.verify(inventaireService, Mockito.times(1)).getAllBougthAvatar(Mockito.any());
+	}
+	
+	@Test
+	public void testGetBougthAvatarReturnBadRequestWhenServiceThrowException() throws GamificationServiceException {
+		Mockito.when(inventaireService.getAllBougthAvatar(Mockito.anyLong())).thenThrow(new GamificationServiceException(null));
+		ResponseEntity response = controller.getBougthAvatar(10L);
+		Assert.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 	}
 }
