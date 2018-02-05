@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.iagl.gamification.entity.InventaireEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
+import fr.iagl.gamification.model.InventaireModel;
 
 /**
  * Service pour la récupération des éléments de l'inventaire avatar
@@ -34,4 +35,13 @@ public interface InventaireService {
 	 * @return L'inventaire si il existe
 	 */
 	InventaireEntity findAvatarForStudent(String avatar, Long idStudent);
+	
+	/**
+	 * Permet d'acheter un avatar
+	 * @param avatar Avatar à acheter
+	 * @param idStudent Etudiant achetant l'avatar 
+	 * @return Avatar qui a été acheté, null si l'achat est impossible (manque d'argent ou déjà acheté)
+	 * @throws GamificationServiceException si l'avatar / student
+	 */
+	InventaireModel buyAvatar(String avatar, Long idStudent) throws GamificationServiceException;
 }

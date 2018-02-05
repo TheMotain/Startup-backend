@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.iagl.gamification.constants.MappingConstant;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.AvatarModel;
+import fr.iagl.gamification.model.InventaireModel;
 import fr.iagl.gamification.model.PriceModel;
 import fr.iagl.gamification.services.AvatarService;
 import fr.iagl.gamification.services.InventaireService;
@@ -111,7 +112,29 @@ public class AvatarController extends AbstractController{
 			return new ResponseEntity<>(inventaireService.getAllBougthAvatar(id), HttpStatus.OK);
 		}catch(GamificationServiceException gse) {
 			return new ResponseEntity<>(gse.getErrors(), HttpStatus.BAD_REQUEST);
-			
+		}
+	}
+	
+	/**
+	 * Permet l'achat d'un avatar.
+	 * @param id Identifiant de l'étudiant achettant l'avatar
+	 * @param avatar Avatar à acheter
+	 * @return Le nouvel avatar acheté / null si l'avatar est déjà acheté ou si l'utilisateur n'a pas assez d'argent
+	 */
+	@RequestMapping(value = MappingConstant.AVATAR_BUY, method = RequestMethod.PUT)
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = InventaireModel.class, message = "avatar qui a été acheté"),
+			@ApiResponse(code = HttpsURLConnection.HTTP_FORBIDDEN, message = "L'utilisateur a déjà acheté l'avatar ou n'a pas l'argent nécessaire"),
+			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer="list", message = "L'utilisateur ou l'avatar n'existe pas")})
+	public ResponseEntity buyAvatar(@PathVariable("studentID") Long id, @RequestParam("avatar") String avatar) {
+		try {
+			InventaireModel model = inventaireService.buyAvatar(avatar, id);
+			if(model != null) {
+				return new ResponseEntity<>(model, HttpStatus.OK);
+			}else {
+				return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+			}
+		}catch(GamificationServiceException gse) {
+			return new ResponseEntity<>(gse.getErrors(), HttpStatus.BAD_REQUEST);
 		}
 	}
 }
