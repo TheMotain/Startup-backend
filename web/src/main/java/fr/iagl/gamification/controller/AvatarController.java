@@ -1,7 +1,6 @@
 package fr.iagl.gamification.controller;
 
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,6 +21,7 @@ import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.AvatarModel;
 import fr.iagl.gamification.model.PriceModel;
 import fr.iagl.gamification.services.AvatarService;
+import fr.iagl.gamification.services.InventaireService;
 import fr.iagl.gamification.services.PriceService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -45,6 +45,12 @@ public class AvatarController extends AbstractController{
 	 */
 	@Autowired
 	private PriceService priceService;
+	
+	/**
+	 * Service qui permet de gérer l'inventaire d'un élève
+	 */
+	@Autowired
+	private InventaireService inventaireService;
 	
 	/**
 	 * Récupère l'avatar d'un élève
@@ -90,5 +96,22 @@ public class AvatarController extends AbstractController{
 	@ApiResponse(code = HttpURLConnection.HTTP_OK, response=PriceModel.class, responseContainer="list", message="Liste des avatars avec leur prix")
 	public ResponseEntity<List<PriceModel>> priceList(){
 		return new ResponseEntity<>(priceService.listAllAvatar(), HttpStatus.OK);
+	}
+	
+	/**
+	 * Récupère la liste de tous les avatars acheté pour l'élève en paramètres
+	 * @param id identifiant de l'élève
+	 * @return Réponse contenant le résultat ou une erreur
+	 */
+	@RequestMapping(value = MappingConstant.AVATAR_BOUGTH, method = RequestMethod.GET)
+	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = String.class, responseContainer="list", message = "Liste des avatars acheté pour l'utilisateur"),
+			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer = "list", message = "L'utilisateur n'existe pas")})
+	public ResponseEntity getBougthAvatar(@PathVariable("studentID") Long id) {
+		try {
+			return new ResponseEntity<>(inventaireService.getAllBougthAvatar(id), HttpStatus.OK);
+		}catch(GamificationServiceException gse) {
+			return new ResponseEntity<>(gse.getErrors(), HttpStatus.BAD_REQUEST);
+			
+		}
 	}
 }

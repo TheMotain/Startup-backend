@@ -4,8 +4,9 @@ create table avatar_price(
 );
 
 create table bougth_avatar(
-	pupil integer primary key, 
-	avatar_id text, 
+	pupil integer, 
+	avatar_id text,
+	constraint bougth_avatar_pk primary key (pupil, avatar_id),
 	constraint pupil_fk foreign key (pupil) references pupil(id) on delete cascade, 
 	constraint avatar_fk foreign key (avatar_id) references avatar_price(id) on delete cascade
 );
