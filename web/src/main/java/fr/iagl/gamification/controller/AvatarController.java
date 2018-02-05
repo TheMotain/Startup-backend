@@ -1,6 +1,9 @@
 package fr.iagl.gamification.controller;
 
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -17,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.iagl.gamification.constants.MappingConstant;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.AvatarModel;
+import fr.iagl.gamification.model.PriceModel;
 import fr.iagl.gamification.services.AvatarService;
+import fr.iagl.gamification.services.PriceService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -36,6 +41,12 @@ public class AvatarController extends AbstractController{
 	private AvatarService avatarService;
 		
 	/**
+	 * Service qui liste tous les avatar achetables avec le prix
+	 */
+	@Autowired
+	private PriceService priceService;
+	
+	/**
 	 * Récupère l'avatar d'un élève
 	 * @param id Identifiant de l'élève voulant récupérer son avatar
 	 * @return Réponse contenant le résultat
@@ -51,6 +62,12 @@ public class AvatarController extends AbstractController{
 		}
 	}
 	
+	/**
+	 * Modifie l'avatar actuellement sélectionné
+	 * @param id Identifiant de compte élève
+	 * @param avatar avatar à selectionner
+	 * @return Réponse contenant le résultat
+	 */
 	@RequestMapping(value = MappingConstant.AVATAR_CRUD, method = RequestMethod.PUT)
 	@ApiResponses(value = {@ApiResponse(code = HttpsURLConnection.HTTP_OK, response = AvatarModel.class, message = "Nouvel avatar pour l'utilisateur"),
 			@ApiResponse(code = HttpsURLConnection.HTTP_BAD_REQUEST, response = String.class, responseContainer="list", message = "L'utilisateur n'existe pas")})
@@ -63,5 +80,15 @@ public class AvatarController extends AbstractController{
 		}catch(GamificationServiceException gse) {
 			return new ResponseEntity<>(gse.getErrors(), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	/**
+	 * Récupère la liste de tous les avatars achetable avec le prix pour chaque
+	 * @return Réponse contenant le résultat
+	 */
+	@RequestMapping(value = MappingConstant.AVATAR_PRICE, method = RequestMethod.GET)
+	@ApiResponse(code = HttpURLConnection.HTTP_OK, response=PriceModel.class, responseContainer="list", message="Liste des avatars avec leur prix")
+	public ResponseEntity<List<PriceModel>> priceList(){
+		return new ResponseEntity<>(priceService.listAllAvatar(), HttpStatus.OK);
 	}
 }

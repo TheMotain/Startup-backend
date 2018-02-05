@@ -58,6 +58,11 @@ public class MappingConstant {
 	public static final String AVATAR_CRUD = "${url.avatar.crud}";
 
 	/**
+	 * URL pour récupération des avatars avec leur prix
+	 */
+	public static final String AVATAR_PRICE = "${url.avatar.price}";
+
+	/**
 	 * URL de connexion d'un étudiant
 	 */
 	public static final String STUDENT_PATH_CONNECT = "${url.student.connect}";
