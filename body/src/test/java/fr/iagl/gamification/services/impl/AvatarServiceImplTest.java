@@ -14,6 +14,7 @@ import fr.iagl.gamification.entity.StudentEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.AvatarModel;
 import fr.iagl.gamification.repository.AvatarRepository;
+import fr.iagl.gamification.repository.PriceRepository;
 import fr.iagl.gamification.repository.StudentRepository;
 import fr.iagl.gamification.services.AvatarService;
 
@@ -27,6 +28,9 @@ public class AvatarServiceImplTest {
 	
 	@Mock
 	private StudentRepository studentRepository;
+	
+	@Mock
+	private PriceRepository priceRepository;
 	
 	@Mock
 	private DozerBeanMapper mapper;
@@ -131,4 +135,5 @@ public class AvatarServiceImplTest {
 		service.createDefaultAvatar(Mockito.any(StudentEntity.class));
 		Mockito.verify(mapper, Mockito.times(1)).map(entity, AvatarModel.class);
 	}
+	
 }

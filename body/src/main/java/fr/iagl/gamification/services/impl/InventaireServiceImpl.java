@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.iagl.gamification.entity.InventaireEntity;
+import fr.iagl.gamification.entity.PriceEntity;
+import fr.iagl.gamification.entity.pk.InventairePK;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.repository.InventaireRepository;
+import fr.iagl.gamification.repository.PriceRepository;
 import fr.iagl.gamification.repository.StudentRepository;
 import fr.iagl.gamification.services.InventaireService;
 
@@ -26,13 +29,22 @@ import fr.iagl.gamification.services.InventaireService;
 public class InventaireServiceImpl implements InventaireService {
 
 	/**
-	 * Service inventaire
+	 * Repository inventaire
 	 */
 	@Autowired
 	private InventaireRepository inventaireRepository;
 	
+	/**
+	 * Repository Student
+	 */
 	@Autowired
 	private StudentRepository studentRepository;	
+	
+	/**
+	 * Repository Pricing
+	 */
+	@Autowired
+	private PriceRepository priceRepository;
 	
 	@Override
 	public List<String> getAllBougthAvatar(Long id) throws GamificationServiceException {
@@ -47,4 +59,18 @@ public class InventaireServiceImpl implements InventaireService {
 		return output;
 	}
 
+	@Override
+	public InventaireEntity createDefaultAvatar(Long id) {
+		InventaireEntity inventaireEntity = new InventaireEntity();
+		inventaireEntity.getId().setStudentId(id);
+		inventaireEntity.getId().setAvatarRef(priceRepository.findDefaultAvatar());
+		return inventaireRepository.save(inventaireEntity);
+	}
+	
+	@Override
+	public InventaireEntity findAvatarForStudent(String avatar, Long idStudent) {
+		PriceEntity entity = new PriceEntity();
+		entity.setAvatar(avatar);
+		return inventaireRepository.findOne(new InventairePK(idStudent, entity));
+	}
 }

@@ -2,6 +2,7 @@ package fr.iagl.gamification.services;
 
 import java.util.List;
 
+import fr.iagl.gamification.entity.InventaireEntity;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 
 /**
@@ -18,4 +19,19 @@ public interface InventaireService {
 	 * @throws GamificationServiceException Est retournée si l'élève en paramètre n'est pas connu ou null
 	 */
 	List<String> getAllBougthAvatar(Long id) throws GamificationServiceException;
+
+	/**
+	 * Enregistre l'avatar par défaut pour l'utilisateur en paramètre
+	 * @param id Utilisateur pour lequel enregistrer l'avatar
+	 * @return l'avatar créé
+	 */
+	InventaireEntity createDefaultAvatar(Long id);
+
+	/**
+	 * Récupère un inventaire si sa clé student / avatar existe
+	 * @param avatar avatar à rechercher
+	 * @param idStudent student à filtrer
+	 * @return L'inventaire si il existe
+	 */
+	InventaireEntity findAvatarForStudent(String avatar, Long idStudent);
 }
