@@ -56,6 +56,14 @@ public class PointEntity implements Serializable {
 	private Long pointsToNextLevel;
 
 	/**
+	 * Liaison JPA vers l'entité {@link StudentEntity}
+	 */
+    @MapsId 
+    @OneToOne(mappedBy = "points")
+	@JoinColumn(name = "pupil", nullable = false)
+	private StudentEntity student;
+
+	/**
 	 * Getter de l'attribut {@link PointEntity#level}
 	 * @return level
 	 */
@@ -86,14 +94,6 @@ public class PointEntity implements Serializable {
 	public void setPointsToNextLevel(Long pointsToNextLevel) {
 		this.pointsToNextLevel = pointsToNextLevel;
 	}
-
-	/**
-	 * Liaison JPA vers l'entité {@link StudentEntity}
-	 */
-    @MapsId 
-    @OneToOne(mappedBy = "points")
-	@JoinColumn(name = "pupil", nullable = false)
-	private StudentEntity student;
 
 	/**
 	 * Getter de l'attribut {@link PointEntity#bonus}
