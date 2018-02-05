@@ -14,4 +14,4 @@ create table bougth_avatar(
 insert into avatar_price select distinct avatar_id, 0 from avatar;
 insert into bougth_avatar select pupil,avatar_id from avatar;
 
-alter table avatar add constraint avatar_bougth_pupil_fk foreign key (pupil) references bougth_avatar(pupil);
+alter table avatar add constraint bougth_avatar_fk foreign key (pupil,avatar_id) references bougth_avatar(pupil,avatar_id);

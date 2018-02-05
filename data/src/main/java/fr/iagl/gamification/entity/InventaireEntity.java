@@ -7,6 +7,9 @@ import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import fr.iagl.gamification.entity.pk.InventairePK;
@@ -32,6 +35,9 @@ public class InventaireEntity implements Serializable {
 	@EmbeddedId
 	private InventairePK id;
 	
+	@OneToOne
+	@JoinColumn(name = "avatar_id", nullable = false, insertable = false, updatable = false)
+	private AvatarEntity selectAvatar;
 	
 	/**
 	 * Constructeur par defaut

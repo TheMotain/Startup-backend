@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -44,9 +45,20 @@ public class AvatarEntity implements Serializable{
 	 * Liaison JPA vers l'entité {@link StudentEntity}
 	 */
     @MapsId 
-    @OneToOne(mappedBy = "points")
+    @OneToOne
 	@JoinColumn(name = "pupil", nullable = false)
 	private StudentEntity student;
+    
+    /**
+     * Correspondance de l'avatar à un élément de l'inventaire
+     */
+    @MapsId
+    @OneToOne
+    @JoinColumns({
+    	@JoinColumn(name = "pupil", nullable = false),
+    	@JoinColumn(name = "avatar_id", nullable = false)
+    })
+    private InventaireEntity inventaire;
 
     /**
      * Actions à réaliser avant persistance des données
@@ -104,5 +116,21 @@ public class AvatarEntity implements Serializable{
 	 */
 	public void setStudent(StudentEntity student) {
 		this.student = student;
+	}
+
+	/**
+	 * Getter de l'attribut {@link AvatarEntity#inventaire}
+	 * @return inventaire
+	 */
+	public InventaireEntity getInventaire() {
+		return inventaire;
+	}
+
+	/**
+	 * Setter de l'attribut {@link AvatarEntity#inventaire}
+	 * @param inventaire l'attribut {@link AvatarEntity#inventaire} à setter
+	 */
+	public void setInventaire(InventaireEntity inventaire) {
+		this.inventaire = inventaire;
 	}
 }
