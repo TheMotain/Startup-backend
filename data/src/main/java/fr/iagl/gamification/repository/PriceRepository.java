@@ -3,7 +3,7 @@ package fr.iagl.gamification.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import fr.iagl.gamification.entity.Price;
+import fr.iagl.gamification.entity.PriceEntity;
 
 /**
  * Répository de manipulation BDD
@@ -11,6 +11,6 @@ import fr.iagl.gamification.entity.Price;
  *
  */
 @Repository
-public interface PriceRepository extends CrudRepository<Price, String> {
+public interface PriceRepository extends CrudRepository<PriceEntity, String> {
 	
 }

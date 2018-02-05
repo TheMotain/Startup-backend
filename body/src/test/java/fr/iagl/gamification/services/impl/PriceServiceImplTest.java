@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import fr.iagl.gamification.entity.Price;
+import fr.iagl.gamification.entity.PriceEntity;
 import fr.iagl.gamification.model.PriceModel;
 import fr.iagl.gamification.repository.PriceRepository;
 
@@ -41,8 +41,8 @@ public class PriceServiceImplTest {
 	
 	@Test
 	public void testReturnMappedListFromRepositoryResult() {
-		List<Price> input = new ArrayList<>();
-		Price mock = Mockito.mock(Price.class);
+		List<PriceEntity> input = new ArrayList<>();
+		PriceEntity mock = Mockito.mock(PriceEntity.class);
 		input.add(mock);
 		input.add(mock);
 		input.add(mock);
