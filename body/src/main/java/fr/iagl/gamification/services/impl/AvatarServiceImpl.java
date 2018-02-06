@@ -90,7 +90,8 @@ public class AvatarServiceImpl implements AvatarService{
 	public AvatarModel createDefaultAvatar(StudentEntity student) {
 		AvatarEntity result = new AvatarEntity();
 		result.setStudent(student);
-		result.setAvatar(inventaireService.createDefaultAvatar(student.getId()).getId().getAvatarRef().getAvatar());
+		inventaireService.createDefaultAvatar(student.getId());
+		result.setAvatar("avatar1");
 		result = avatarRepository.save(result);
 		return mapper.map(result, AvatarModel.class);
 	}
