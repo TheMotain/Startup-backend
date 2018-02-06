@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 /**
@@ -63,6 +64,11 @@ public class PointEntity implements Serializable {
 	@JoinColumn(name = "pupil", nullable = false)
 	private StudentEntity student;
 
+    @PrePersist
+    public void prePersist() {
+    	argent = new BigDecimal(0);
+    }
+    
 	/**
 	 * Getter de l'attribut {@link PointEntity#level}
 	 * @return level

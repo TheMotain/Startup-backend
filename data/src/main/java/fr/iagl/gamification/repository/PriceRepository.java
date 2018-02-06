@@ -20,7 +20,7 @@ public interface PriceRepository extends CrudRepository<PriceEntity, String> {
 	 * Cet avatar est identifié par l'id default
 	 * @return L'avatar par défaut.
 	 */
-	@Query("SELECT a FROM PriceEntity a WHERE a.id = 'default'")
+	@Query("SELECT a FROM PriceEntity a WHERE a.id = 'avatar1'")
 	PriceEntity findDefaultAvatar();
 	
 }
