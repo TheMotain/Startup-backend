@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import fr.iagl.gamification.SpringIntegrationTest;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.model.AvatarModel;
+import fr.iagl.gamification.model.InventaireModel;
 import fr.iagl.gamification.model.PriceModel;
 import fr.iagl.gamification.services.AvatarService;
 import fr.iagl.gamification.services.InventaireService;
@@ -140,5 +141,26 @@ public class AvatarControllerTest extends SpringIntegrationTest{
 		Mockito.when(inventaireService.getAllBougthAvatar(Mockito.anyLong())).thenThrow(new GamificationServiceException(null));
 		ResponseEntity response = controller.getBougthAvatar(10L);
 		Assert.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+	
+	@Test
+	public void testBuyAvatarReturnOk() throws GamificationServiceException {
+		Mockito.when(inventaireService.buyAvatar(Mockito.anyString(), Mockito.anyLong())).thenReturn(Mockito.mock(InventaireModel.class));
+		ResponseEntity entity = controller.buyAvatar(0L, "avatar");
+		Assert.assertEquals(HttpStatus.OK, entity.getStatusCode());
+	}
+	
+	@Test
+	public void testBuyAvatarReturnForbidden() throws GamificationServiceException {
+		Mockito.when(inventaireService.buyAvatar(Mockito.anyString(), Mockito.anyLong())).thenReturn(null);
+		ResponseEntity entity = controller.buyAvatar(0L, "avatar");
+		Assert.assertEquals(HttpStatus.FORBIDDEN, entity.getStatusCode());
+	}
+	
+	@Test
+	public void testBuyAvatarReturnBadRequest() throws GamificationServiceException {
+		Mockito.when(inventaireService.buyAvatar(Mockito.anyString(), Mockito.anyLong())).thenThrow(GamificationServiceException.class);
+		ResponseEntity entity = controller.buyAvatar(0L, "avatar");
+		Assert.assertEquals(HttpStatus.BAD_REQUEST, entity.getStatusCode());
 	}
 }
