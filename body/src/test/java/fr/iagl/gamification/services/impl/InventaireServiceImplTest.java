@@ -17,6 +17,7 @@ import fr.iagl.gamification.entity.StudentEntity;
 import fr.iagl.gamification.entity.pk.InventairePK;
 import fr.iagl.gamification.exceptions.GamificationServiceException;
 import fr.iagl.gamification.repository.InventaireRepository;
+import fr.iagl.gamification.repository.PriceRepository;
 import fr.iagl.gamification.repository.StudentRepository;
 import fr.iagl.gamification.services.InventaireService;
 
@@ -30,6 +31,9 @@ public class InventaireServiceImplTest {
 	
 	@Mock
 	private StudentRepository studentRepository;
+	
+	@Mock
+	private PriceRepository priceRepository;
 	
 	@Before
 	public void init() {
@@ -75,5 +79,12 @@ public class InventaireServiceImplTest {
 		Mockito.verify(entity, Mockito.times(3)).getId();
 		Mockito.verify(pk, Mockito.times(3)).getAvatarRef();
 		Mockito.verify(avatarRef, Mockito.times(3)).getAvatar();
+	}
+	
+	@Test
+	public void testCreateDefaultAvatar() {
+		inventaireService.createDefaultAvatar(0L);
+		Mockito.verify(priceRepository, Mockito.times(1)).findDefaultAvatar();
+		Mockito.verify(inventaireRepository, Mockito.times(1)).save(Mockito.any(InventaireEntity.class));
 	}
 }
