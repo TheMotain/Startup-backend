@@ -9,7 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import fr.iagl.gamification.entity.InventaireEntity;
-import fr.iagl.gamification.entity.PriceEntity;
 import fr.iagl.gamification.entity.pk.InventairePK;
 
 /**
