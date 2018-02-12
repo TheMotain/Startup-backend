@@ -87,4 +87,10 @@ public class InventaireServiceImplTest {
 		Mockito.verify(priceRepository, Mockito.times(1)).findDefaultAvatar();
 		Mockito.verify(inventaireRepository, Mockito.times(1)).save(Mockito.any(InventaireEntity.class));
 	}
+	
+	@Test
+	public void testFindAvatarForStudent() {
+		inventaireService.findAvatarForStudent("avatar", 0L);
+		Mockito.verify(inventaireRepository, Mockito.times(1)).findOne(Mockito.any());
+	}
 }
