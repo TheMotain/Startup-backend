@@ -93,4 +93,28 @@ public class InventaireServiceImplTest {
 		inventaireService.findAvatarForStudent("avatar", 0L);
 		Mockito.verify(inventaireRepository, Mockito.times(1)).findOne(Mockito.any());
 	}
+	
+	@Test(expected = GamificationServiceException.class)
+	public void testBuyAvatarStudentidNull() throws GamificationServiceException {
+		inventaireService.buyAvatar(null, null);
+	}
+	
+	@Test(expected = GamificationServiceException.class)
+	public void testBuyAvatarStudentNotFound() throws GamificationServiceException {
+		Mockito.when(studentRepository.findOne(Mockito.anyLong())).thenReturn(null);
+		inventaireService.buyAvatar(null, 0L);
+	}
+	
+	@Test(expected = GamificationServiceException.class)
+	public void testBuyAvatarAvatarNull() throws GamificationServiceException {
+		Mockito.when(studentRepository.findOne(Mockito.anyLong())).thenReturn(Mockito.mock(StudentEntity.class));
+		inventaireService.buyAvatar(null, 0L);
+	}
+	
+	@Test(expected = GamificationServiceException.class)
+	public void testBuyAvatarAvatarNotFound() throws GamificationServiceException {
+		Mockito.when(studentRepository.findOne(Mockito.anyLong())).thenReturn(Mockito.mock(StudentEntity.class));
+		Mockito.when(priceRepository.findOne(Mockito.anyString())).thenReturn(null);
+		inventaireService.buyAvatar("avatar", 0L);
+	}
 }
