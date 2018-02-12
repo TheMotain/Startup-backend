@@ -3,7 +3,7 @@
 
 	<groupId>fr.iagl.gamification</groupId>
 	<artifactId>startup-backend</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
+	<version>2.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>startup-backend</name>
